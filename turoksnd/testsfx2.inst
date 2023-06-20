@@ -1,0 +1,36 @@
+
+envelope env1
+{
+    attackTime		= 5000;
+    attackVolume	= 127;
+    decayTime		= 364920;
+    decayVolume		= 127;
+    releaseTime		= 5000;
+    releaseVolume	= 0;
+}
+
+
+sound sound1
+{
+    use ("tim.n64");
+    
+    pan    = 64;
+    volume = 127;
+    envelope = env1;
+}
+
+
+instrument inst1
+{
+    volume = 127;
+    pan    = 64;
+
+    sound  = sound1;
+  
+}
+
+bank Wave1
+{
+    instrument [0] = inst1;
+}
+

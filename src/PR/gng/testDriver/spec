@@ -1,0 +1,157 @@
+#include "gng.h"
+#include "../rdp/dldriver.h"
+
+/*
+ * ROM spec file.  We define two wave objects; the first wave is a small boot
+ * program (loaded at the standard boot location (0x80200050).  The boot wave
+ * then loads the second wave low in rdram memory, so that we can have enough
+ * room for a 2MB frame buffer, allowing us to do 1K x 1K rendering.
+ */
+
+beginseg
+	name "boot"
+	address 0x80200000
+	flags BOOT OBJECT
+	entry boot
+	stack bootStack + STACKSIZE
+	include "bootsegment.o"
+endseg
+
+beginseg
+	name "code"
+	flags OBJECT
+	address 0x80000400
+	include "testDriverCodeSegment.o"
+	include "$(ROOT)/usr/lib/PR/rspboot.o"
+	include "$(ROOT)/usr/lib/PR/gspLine3D.o"
+	include "$(ROOT)/usr/lib/PR/gspLine3D.dram.o"
+	include "$(ROOT)/usr/lib/PR/gspFast3D.o"
+	include "$(ROOT)/usr/lib/PR/gspFast3D.dram.o"
+	include "$(ROOT)/usr/lib/PR/tspManTest1.o"
+	include "$(ROOT)/usr/lib/PR/tspManTest1.dram.o"
+	include "$(ROOT)/usr/lib/PR/aspMain.o"
+endseg
+
+beginseg
+	name "cfb"
+	flags OBJECT
+	address 0x80300000
+	include "cfb.o"
+endseg
+
+beginseg
+	name "user"
+	flags OBJECT
+	address 0x003C0000
+	include "../cpu/user/userseg.o"
+endseg
+
+beginseg
+	name "static"
+	flags OBJECT
+	number STATIC_SEGMENT
+	include "../rdp/rdpStaticSegment.o"
+endseg
+
+beginseg
+        name "static1"
+        flags OBJECT
+        number STATIC_SEGMENT1
+        include "../rdp/rdp6M/rdp6M_static.o"
+endseg
+
+beginseg
+        name "static2"
+        flags OBJECT
+        number STATIC_SEGMENT2
+        include "../rdp/rdp8M/rdp8M_static.o"
+endseg
+
+
+beginseg
+	name "rspcode"
+	flags RAW
+	include "../rsp/rspcode"
+endseg
+
+beginseg
+	name "bank"
+	flags RAW
+	include "../audio/audAssets/gngBank.ctl"
+endseg
+
+beginseg 
+	name "table"
+	flags RAW
+	include "../audio/audAssets/gngBank.tbl"
+endseg
+
+beginseg
+	name "seq1"
+	flags RAW
+	include "../audio/audAssets/noteLeft.seq"
+endseg
+
+beginseg
+	name "seq2"
+	flags RAW
+	include "../audio/audAssets/noteRight.seq"
+endseg
+
+beginseg
+	name "seq3"
+	flags RAW
+	include "../audio/audAssets/gonogo1.seq"
+endseg
+
+beginseg
+	name "subway"
+	flags RAW
+	include "../audio/audAssets/subway.seq"
+endseg
+
+
+beginseg
+	name "PI_num_seq"
+	flags RAW
+	include "../pi/NumberSequence"
+endseg
+
+/* This segment is for playing sound */
+beginseg
+        name "sfxbank"
+        flags RAW
+        include "../audio/audAssets/sfx.ctl"
+endseg
+
+/* This segment is for playing sound too. */
+beginseg 
+        name "sfxtable"
+        flags RAW
+        include "../audio/audAssets/sfx.tbl"
+endseg
+
+beginwave
+	name "boot"
+	include "boot"
+endwave
+
+beginwave
+	name "gng"
+	include "code"
+	include "cfb"
+	include "user"
+	include "static"
+	include "static1"
+	include "static2"
+	include "rspcode"
+	include "bank"
+	include "table"
+	include "seq1"
+	include "seq2"
+	include "seq3"
+	include "subway"
+	include "PI_num_seq"
+	include "sfxbank"
+	include "sfxtable"
+endwave

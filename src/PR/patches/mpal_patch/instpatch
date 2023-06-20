@@ -1,0 +1,87 @@
+#!/bin/csh -f
+#
+# Patch for Release 2.0* and 1.0*.
+# Mon Jul 11 12:00:00 JST 1996
+#
+# This simple script makes the Nintendo64 libultra libraries for MPAL.
+#
+# You can get 3 new libraries (libultra_mpal_rom.a, libultra_mpal_d.a, 
+# libultra_mpal.a) by this patch.
+# If you use these libraries, you can set MPAL mode instead of PAL mode.
+# And this patch updates rcp.h. New rcp.h is effective for NTSC and MPAL 
+# only. So you must not use the new rcp.h for PAL.
+#
+
+# save old header files
+if ( ! -e /usr/include/PR/rcp_pal.h ) then
+  cp -p /usr/include/PR/rcp.h /usr/include/PR/rcp_pal.h
+endif
+
+# replace header files
+cp -p rcp.h /usr/include/PR/rcp.h
+
+# copy normal libraries
+if ( ! -e /usr/lib/libultra_mpal.a ) then
+  cp -p /usr/lib/libultra_rom.a /usr/lib/libultra_mpal_rom.a
+  cp -p /usr/lib/libultra_d.a /usr/lib/libultra_mpal_d.a
+  cp -p /usr/lib/libultra.a /usr/lib/libultra_mpal.a
+endif
+
+# replace files in the library archives:
+ar cru /usr/lib/libultra_mpal_rom.a vitbl.o
+ar cru /usr/lib/libultra_mpal_d.a vitbl.o
+ar cru /usr/lib/libultra_mpal.a vitbl.o
+ar cru /usr/lib/libultra_mpal_rom.a vi.o
+ar cru /usr/lib/libultra_mpal_d.a vi.o
+ar cru /usr/lib/libultra_mpal.a vi.o
+
+ar cru /usr/lib/libultra_mpal_rom.a \
+ vimodepalhaf1.o\
+ vimodepalhan1.o\
+ vimodepalhpf1.o\
+ vimodepalhpf2.o\
+ vimodepalhpn1.o\
+ vimodepalhpn2.o\
+ vimodepallaf1.o\
+ vimodepallaf2.o\
+ vimodepallan1.o\
+ vimodepallan2.o\
+ vimodepallpf1.o\
+ vimodepallpf2.o\
+ vimodepallpn1.o\
+ vimodepallpn2.o
+
+ar cru /usr/lib/libultra_mpal_d.a \
+ vimodepalhaf1.o\
+ vimodepalhan1.o\
+ vimodepalhpf1.o\
+ vimodepalhpf2.o\
+ vimodepalhpn1.o\
+ vimodepalhpn2.o\
+ vimodepallaf1.o\
+ vimodepallaf2.o\
+ vimodepallan1.o\
+ vimodepallan2.o\
+ vimodepallpf1.o\
+ vimodepallpf2.o\
+ vimodepallpn1.o\
+ vimodepallpn2.o
+
+ar cru /usr/lib/libultra_mpal.a \
+ vimodepalhaf1.o\
+ vimodepalhan1.o\
+ vimodepalhpf1.o\
+ vimodepalhpf2.o\
+ vimodepalhpn1.o\
+ vimodepalhpn2.o\
+ vimodepallaf1.o\
+ vimodepallaf2.o\
+ vimodepallan1.o\
+ vimodepallan2.o\
+ vimodepallpf1.o\
+ vimodepallpf2.o\
+ vimodepallpn1.o\
+ vimodepallpn2.o
+
+#
+

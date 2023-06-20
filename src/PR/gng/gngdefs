@@ -1,0 +1,22 @@
+# common definitions for all the GNG makefiles
+#
+# NOTE: -D_FINALROM version is now the default.
+#
+
+LCOPTS = -fullwarn -non_shared -G 0 -woff 516
+LCINCS = -I. -I$(ROOT)/usr/include/PR -I $(ROOT)/usr/include \
+             -I ../testDriver -I../rdp
+
+# turn off PRINTF mismatch warnings
+LCOPTS += -woff 609
+
+# To switch between ROM version and debug version,
+# change these values and then do a make clobber
+
+# ROM version
+LCDEFS += -D_FINALROM -DNDEBUG
+ULTRALIB = ultra_rom
+MAKEROMDEFS = -s 64
+
+# debug version
+#ULTRALIB = ultra_d

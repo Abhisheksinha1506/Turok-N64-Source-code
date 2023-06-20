@@ -1,0 +1,15 @@
+Patch for Release 2.0* and 1.0*.
+Fri Aug 16 15:29:48 PDT 1996
+
+This simple script makes the Nintendo64 libultra libraries for MPAL.
+
+You create 3 new libraries (libultra_mpal_rom.a, libultra_mpal_d.a, 
+libultra_mpal.a) with this patch.
+
+If you use these libraries, you can set MPAL mode instead of PAL mode.
+This patch also updates rcp.h.  The new rcp.h is effective for NTSC and MPAL 
+only.  So you must not use the new rcp.h for PAL.  The old rcp.h is saved
+as rcp_pal.h.
+
+To install this patch, run the script 'instpatch' as root.
+

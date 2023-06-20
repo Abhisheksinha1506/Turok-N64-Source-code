@@ -1,0 +1,148 @@
+keymap key1
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 41;
+    keyMax      = 41;
+    keyBase     = 41;
+    detune      = 0;
+}
+
+envelope env1
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime	       	= 5000000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound sound1
+{
+    use("A110.N64");
+    keymap = key1;
+	pan    = 64;
+    volume = 127;
+    envelope = env1;
+}
+
+
+envelope env2
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 5000000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound sound2
+{
+    use ("A220.N64");
+    keymap = key1;
+	pan    = 64;
+    volume = 127;
+    envelope = env2;
+}
+
+
+envelope env3
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 5000000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound sound3
+{
+    use ("A440.N64");
+    keymap = key1;
+	pan    = 64;
+    volume = 127;
+    envelope = env3;
+}
+
+
+envelope env4
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 5000000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound sound4
+{
+    use ("A880.N64");
+    keymap = key1;
+	pan    = 64;
+    volume = 127;
+    envelope = env4;
+}
+
+
+envelope env5
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 5000000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound sound5
+{
+    use ("A1760.N64");
+    keymap = key1;
+	pan    = 64;
+    volume = 127;
+    envelope = env5;
+}
+
+
+envelope env6
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 5000000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound sound6
+{
+    use ("A3520.N64");
+    keymap = key1;
+	pan    = 64;
+    volume = 127;
+    envelope = env6;
+}
+
+
+instrument inst1
+{
+    volume = 127;
+    pan    = 64;
+	sound  = sound6;
+	sound  = sound5;
+	sound  = sound4;
+	sound  = sound3;
+	sound  = sound2;
+	sound  = sound1;
+}
+
+
+bank Wave1
+{
+    instrument [0] = inst1;
+}
+

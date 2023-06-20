@@ -1,0 +1,118 @@
+#! /usr/IRIXpro/bin/wishx -f
+
+############################ Widget Modifications ###########################
+bind Entry <Right> {tk_rightArrow %W; tk_entrySeeCaret %W}
+bind Entry <Left>  {tk_leftArrow %W; tk_entrySeeCaret %W}
+bind Entry <Return> {focus none}
+
+proc tk_rightArrow w { 
+	set x [expr {[$w index insert] + 1}]
+	$w icursor $x
+}
+proc tk_leftArrow w { 
+	set x [expr {[$w index insert] - 1}]
+	$w icursor $x
+}
+
+############### Open .so files ##################################
+#puts "One"
+set spindso [lindex $argv 0]
+#puts "Two"
+dlopen $spindso init callback_init
+#puts "Three"
+$spindso call SpinTclConnect [lindex $argv 1] [lindex $argv 2]
+#puts "Four"
+
+############################### global vars ###############################
+set loadTile_dirty 0
+set loadTlut_dirty 0
+set loadBlock_dirty 0
+set loadTex_dirty 0
+#----------------------------------------------------------------------------
+#puts "rspMain"
+#gets stdin junk
+source rspMain.tcl
+#puts "ccMain"
+#gets stdin junk
+source ccMain.tcl
+#puts "blMain"
+#gets stdin junk
+source blMain.tcl
+#puts "texMain"
+#gets stdin junk
+source texMain.tcl
+#puts "all sourcing done"
+#gets stdin junk
+
+####################### Cycle Type proc ###############################
+proc CrspCycleType {} {
+        global LrspCycleType rspCycleType
+        global fptr record
+
+        if {$rspCycleType == 0} {
+                set LrspCycleType "1 cycle Mode"
+		.cc.cycle1presetMB configure -state disabled
+		.cc.cycle1ColorAMB configure -state disabled
+		.cc.cycle1ColorBMB configure -state disabled
+		.cc.cycle1ColorCMB configure -state disabled
+		.cc.cycle1ColorDMB configure -state disabled
+		.cc.cycle1AlphaAMB configure -state disabled
+		.cc.cycle1AlphaBMB configure -state disabled
+		.cc.cycle1AlphaCMB configure -state disabled
+		.cc.cycle1AlphaDMB configure -state disabled
+
+                .bl.cycle1presetMB configure -state disabled
+                .bl.cycle1ColorAMB configure -state disabled
+                .bl.cycle1ColorBMB configure -state disabled
+                .bl.cycle1ColorCMB configure -state disabled
+                .bl.cycle1ColorDMB configure -state disabled
+        } else {
+                set LrspCycleType "2 cycle Mode"
+		.cc.cycle1presetMB configure -state normal
+		.cc.cycle1ColorAMB configure -state normal
+		.cc.cycle1ColorBMB configure -state normal
+		.cc.cycle1ColorCMB configure -state normal
+		.cc.cycle1ColorDMB configure -state normal
+		.cc.cycle1AlphaAMB configure -state normal
+		.cc.cycle1AlphaBMB configure -state normal
+		.cc.cycle1AlphaCMB configure -state normal
+		.cc.cycle1AlphaDMB configure -state normal
+
+                .bl.cycle1presetMB configure -state normal
+                .bl.cycle1ColorAMB configure -state normal
+                .bl.cycle1ColorBMB configure -state normal
+                .bl.cycle1ColorCMB configure -state normal
+                .bl.cycle1ColorDMB configure -state normal
+        }
+
+        if {$record == 1} {
+                puts $fptr "set rspCycleType $rspCycleType"
+                puts $fptr "CrspCycleType"
+        }
+	
+	CccCycle0ColorA
+	CccCycle0ColorB
+	CccCycle0ColorC
+	CccCycle0ColorD
+	CccCycle0AlphaA
+	CccCycle0AlphaB
+	CccCycle0AlphaC
+	CccCycle0AlphaD
+
+        callback_rspCycleType
+        callback_send_dl
+}
+
+####################### Call back functions ###############################
+#puts "Init proc"
+#gets stdin junk
+#puts "init rsp"
+source defRSP.tcl
+#puts "init cc"
+source defCc.tcl
+#puts "init bl"
+source defBl.tcl
+#puts "init tex"
+source defTex.tcl
+#init to default values
+#CloadTexFile

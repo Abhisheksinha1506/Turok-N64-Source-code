@@ -1,0 +1,161 @@
+
+Here is the bullet feature list of each demo application
+
+autofill:
+	a simple fill-rate performance demo.  Automatically measures fill-rate
+	for different sizes and aspect ratios of triangles.  Prints data which
+	can be displayed using gnuplot.  See README file in application 
+	directory for more information.
+
+blockmonkey:
+	a simple performance measuring app that lets the user vary display
+	list sizes and parameters and see the effect on render time. 
+	controller explanation is printed when app is run.
+
+	the performance meter on the bottom display the time it requires to
+	render polygons. It does not account for the time on the CPU that it
+	takes to generate the display list. This is why the animation slows
+	down even if the next frame time have not been reached.
+
+chrome:
+	reflection map
+
+ci8fb:
+	Like autofill app, but renders using an 8-bit color index frame buffer.
+	See README file in application directory for more information.
+
+cptest:
+	A simple app that uses C++, including implementations of the
+	bare-bones libC.c++ that you would need. See the README file
+	for more information and restrictions.
+
+detail:
+	shows you how to use multitiled textures. Including detailed textures
+	and mipmap textures.
+
+fault:
+	shows you how to catch CPU exceptions (such as TLB misses and floating-
+	point divide-by-zero) without the use of rmon. Since this app uses 
+	osSyncPrintf, it can only run on HW2.
+
+fogworld:
+	shows how to use fog and volume culling.
+
+ginv:
+	a simple hardware inventory app that reports which version of the
+	RCP is on the current development board, the speed of the RCP and CPU,
+	amount of DRAM available, etc.
+
+greset:
+	a simple program that simulates pressing the RESET switch
+	on the game box.
+
+ground:
+	a simple app that demonstrates clipping precision for large
+	ground planes.
+
+gtdemo:
+	This is a complex application with characters that can run
+	around and punch. It demonstrates multiple graphics tasks, and
+	heavy use of the turbo graphics ucode. Also shows complex host
+	matrix manipulation for animation.
+
+hostio:
+	A simple application that use the Host-U64 APIs to send
+	data between the Indy "host" and the target app "game".
+
+lights:
+	rsp lighting w/specular texture lights
+	shadow is fake w/ location and size modifiable through simple
+		controller input
+        background is mipmapped
+
+mipmap:
+	an app that demonstrates mipmapping, comparing it to other
+	texture types and controlling mipmapping parameters.
+
+morphcube:
+	CPU morphs the vertices
+	CPU + gfx pipeline execute in parallel on two successive frames.
+	tiling large mipmap textures into pieces that fits in TMEM.
+	runs between 30/60Hz in 50Mhz u64 board. Runs 60Hz on 60+Hz u64 board.
+		The 60Hz u64 board won't be available until the 2nd chip.
+
+morphfaces:
+	2D image morphing.  CPU does vertex morph, blending is done by
+	two pass rendering.  See 'NOTES' file in the directory for more
+	details.
+
+nosPak:
+	Sample library and program to use N64 font data.
+
+onetri:
+	simple graphics, draws one triangle non zbuffered.
+	gload -a "-t" turns on simple texturing.
+
+overlay:
+	A version of "onetri" that does code overlays (using the same piece
+	of memory for two distinct segments of code and associated data).
+
+pfs:
+	a simple app that demonstrates memorry pack interface functions.
+
+playseq:
+	using the sequence player
+	we could not shipped many interesting sequences that we pulled off
+		of the net. You can find them in alt.binaries.sounds.midi
+		news group.
+
+polyline:
+	swap between triangle and line ucode to draws polys and lines.
+
+simple:
+	shows how audio/graphics can coexist
+	audio processing will preempt graphics if graphics overrun the frame.
+
+soundmonkey:
+	using both sequence player and sound player
+
+spgame:
+	using the sprite functions to render foreground/background objects
+
+spin:
+	an RDP exploration tool. see it's README for more info.
+
+spritemonkey:
+	a simple app which demonstrates how to use the sprite microcode
+
+terrain:
+	this program is a "terrain generation" program, using the
+	game box to draw geometry and the game controller to provide
+	the interface. Data can be created and saved back out to the
+	Indy. It demonstrates many advanced features, including the
+	host I/O communication. See the README file for more information.
+
+texlight:
+	shows how to do geometry with texture mapping, diffuse
+	lights, and specular highlights all at the same time.
+
+tile_rect2d:
+	A simple demo of how to break up a large texture into smaller
+	texture tiles that fit into Tmem.  Generates 2-D texture rectangle
+	primitives.
+
+tile_rect3d:
+	A simple demo that illustrates how to split large textures into
+	'tiles' that fit into Tmem and still allow proper filtering so that
+	seams are not created.  Generates triangles.
+
+topgun:
+	harrier is cut from flt2c, a multigen modeling package .flt file
+		sample convertor.
+
+tron:
+	walls are non-sorted transparent objects
+	shows how to use BOWTIE_VAL parameter to avoid RDP hangs.
+
+turbomonkey:
+	very much like 'blockmonkey', except it demos the turbo ucode.
+	You can compare the quality/speed tradeoffs between this program
+	and blockmonkey.
+

@@ -1,0 +1,6 @@
+#! /bin/csh -f
+foreach i(*.aif)
+tabledesign $i > $i.tbl
+end
+
+

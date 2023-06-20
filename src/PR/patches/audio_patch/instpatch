@@ -1,0 +1,67 @@
+#!/bin/csh -f
+#
+# Patch for Release 2.0E and 1.0I.
+# Mon Apr 29 14:40:23 PDT 1996
+#
+# This simple script updates the Nintendo64 libultra libraries
+# with fixes for the following problems:
+#
+#	- When the sound player or sequence player were
+# 	  removed (to free system resources), the CPU interrupts
+#	  were disabled. This could cause various, serious problems
+#	  due to unserviced interrupts.
+#
+#	- When the video system received an NMI, it attempted to
+#	  re-program video registers (to a default state) without
+#	  waiting for a video safe time to do so. This could leave the
+#	  video system in a hung state.
+#
+#       - The reverb function of the audio library was not working
+# 	  properly.
+# 
+
+# save old header files
+if ( ! -e /usr/include/PR/abi.h.orig ) then
+  cp -p /usr/include/PR/abi.h /usr/include/PR/abi.h.orig
+endif
+
+# replace header files
+cp -p abi.h /usr/include/PR/abi.h
+
+# save old libraries
+if ( ! -e /usr/lib/libultra.a.orig ) then
+  cp -p /usr/lib/libultra_rom.a /usr/lib/libultra_rom.a.orig
+  cp -p /usr/lib/libultra_d.a /usr/lib/libultra_d.a.orig
+  cp -p /usr/lib/libultra.a /usr/lib/libultra.a.orig
+endif
+
+# replace files in the library archives:
+ar cru /usr/lib/libultra_rom.a synremoveplayer.o
+ar cru /usr/lib/libultra_rom.a vi.o
+ar cru /usr/lib/libultra_rom.a reverb.o
+
+ar cru /usr/lib/libultra_d.a synremoveplayer.o
+ar cru /usr/lib/libultra_d.a vi.o
+ar cru /usr/lib/libultra_d.a reverb.o
+
+ar cru /usr/lib/libultra.a synremoveplayer.o
+ar cru /usr/lib/libultra.a vi.o
+ar cru /usr/lib/libultra.a reverb.o
+
+# check for mpal, replace if exists
+if ( -e /usr/lib/libultra_mpal.a ) then 
+  ar cru /usr/lib/libultra_mpal_rom.a synremoveplayer.o
+  ar cru /usr/lib/libultra_mpal_rom.a vi.o
+  ar cru /usr/lib/libultra_mpal_rom.a reverb.o
+
+  ar cru /usr/lib/libultra_mpal_d.a synremoveplayer.o
+  ar cru /usr/lib/libultra_mpal_d.a vi.o
+  ar cru /usr/lib/libultra_mpal_d.a reverb.o
+
+  ar cru /usr/lib/libultra_mpal.a synremoveplayer.o
+  ar cru /usr/lib/libultra_mpal.a vi.o
+  ar cru /usr/lib/libultra_mpal.a reverb.o
+endif
+
+#
+

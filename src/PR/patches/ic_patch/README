@@ -1,0 +1,6 @@
+Patch for release 2.0* and 1.0*
+Fri Aug 16 15:26:01 PDT 1996
+
+The "ic" in this directory fixes a bug which limited the number or
+size of all the "use" sound files added together in a .inst file.
+

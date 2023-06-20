@@ -1,0 +1,45 @@
+
+ This is the patch for Pfs-Library (Controller Pak library) version Aug1396.
+
+                                                   Nintendo Co., Ltd.  1996
+                                                        Written by K.M. RD3
+* Aug0896->Aug1396
+
+ These bugs are fixed.
+
+   After you read data from a controller and then you called osPfsInit
+   (osPfsIsPlug), you were not able to get correct data from a controller 
+   by osContGetReadData.
+
+
+* Jul2496->Aug0896
+
+ These bugs are fixed.
+
+   When you called osPfsWriteFile, it doesn't work if the data were
+   more than 256 bytes.
+
+   When you called osPfsInit (osPfsChecker), PFS_CORRUPETED was set
+   in pfs.status.
+
+
+* Jun2196->Jul2496
+
+ These bugs are fixed.
+
+   If you call some functions after you pulled out a Controller Pak 
+   and inserted another Controller Pak, they never returned the value
+   PFS_ERR_NEW_PACK.
+
+   When game_code was 0 and company_code was not 0 (or game_code was 
+   not 0 and company_code was 0), you couldn't find or erase the file.
+
+   There was a bug in osPfsInit when the Controller Pak was not inserted.
+
+   When a Controlller Pak was not installed and then you installed a 
+   Controller Pak and called osPfsIsPlug, it didn't detect the new 
+   Controller Pak.
+
+   When you allocated a new file with osPfsAllocateFile and then called
+   osPfsFindFile right away, you couldn't find the file you had 
+   allocated.

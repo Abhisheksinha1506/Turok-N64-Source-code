@@ -1,0 +1,42 @@
+#!/bin/csh -f
+#
+# Installation program for Controller Pak patch from NCL dated 8/8/96.
+# 
+# This script does the same thing as the original Makefile, but is a
+#   csh script in order to keep all patch scripts similar.
+#
+
+# Save original copies!!
+if ( ! -e /usr/lib/libultra.a.orig ) then
+  cp -p /usr/lib/libultra_rom.a /usr/lib/libultra_rom.a.orig
+  cp -p /usr/lib/libultra_d.a /usr/lib/libultra_d.a.orig
+  cp -p /usr/lib/libultra.a /usr/lib/libultra.a.orig
+endif
+ 
+
+# Do everything else
+foreach file (contpfs.o pfsdeletefile.o pfsisplug.o pfssearchfile.o \
+              contramread.o pfsfilestate.o pfsnumfiles.o pfssetlabel.o \
+              contramwrite.o pfsfreeblocks.o pfsreadwritefile.o \
+              pfsallocatefile.o pfsgetlabel.o pfsreformat.o \
+              pfschecker.o pfsinit.o pfsresizefile.o)
+
+  ar cru /usr/lib/libultra.a $file
+  ar cru /usr/lib/libultra_d.a $file
+  ar cru /usr/lib/libultra_rom.a $file
+end
+
+if ( -e /usr/lib/libultra_mpal.a ) then
+  foreach file (contpfs.o pfsdeletefile.o pfsisplug.o pfssearchfile.o \
+                contramread.o pfsfilestate.o pfsnumfiles.o pfssetlabel.o \
+                contramwrite.o pfsfreeblocks.o pfsreadwritefile.o \
+                pfsallocatefile.o pfsgetlabel.o pfsreformat.o \
+                pfschecker.o pfsinit.o pfsresizefile.o)
+
+    ar cru /usr/lib/libultra_mpal.a $file
+    ar cru /usr/lib/libultra_mpal_d.a $file
+    ar cru /usr/lib/libultra_mpal_rom.a $file
+  end
+endif
+
+#

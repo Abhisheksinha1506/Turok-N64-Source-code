@@ -1,0 +1,1412 @@
+set rspCycleType 1
+CrspCycleType
+set ccCycle0ColorA 31
+CccCycle0ColorA
+set ccCycle0ColorB 31
+CccCycle0ColorB
+set ccCycle0ColorC 31
+CccCycle0ColorC
+set ccCycle0ColorD 4
+CccCycle0ColorD
+set ccCycle0AlphaA 7
+CccCycle0AlphaA
+set ccCycle0AlphaB 7
+CccCycle0AlphaB
+set ccCycle0AlphaC 7
+CccCycle0AlphaC
+set ccCycle0AlphaD 4
+CccCycle0AlphaD
+set ccCycle0ColorA 2
+CccCycle0ColorA
+set ccCycle0ColorB 1
+CccCycle0ColorB
+set ccCycle0ColorC 13
+CccCycle0ColorC
+set ccCycle0ColorD 1
+CccCycle0ColorD
+set ccCycle0AlphaA 2
+CccCycle0AlphaA
+set ccCycle0AlphaB 1
+CccCycle0AlphaB
+set ccCycle0AlphaC 0
+CccCycle0AlphaC
+set ccCycle0AlphaD 3
+CccCycle0AlphaD
+set ccCycle0ColorA 31
+CccCycle0ColorA
+set ccCycle0ColorB 31
+CccCycle0ColorB
+set ccCycle0ColorC 31
+CccCycle0ColorC
+set ccCycle0ColorD 4
+CccCycle0ColorD
+set ccCycle0AlphaA 7
+CccCycle0AlphaA
+set ccCycle0AlphaB 7
+CccCycle0AlphaB
+set ccCycle0AlphaC 7
+CccCycle0AlphaC
+set ccCycle0AlphaD 4
+CccCycle0AlphaD
+set ccCycle0ColorA 31
+CccCycle0ColorA
+set ccCycle0ColorB 31
+CccCycle0ColorB
+set ccCycle0ColorC 31
+CccCycle0ColorC
+set ccCycle0ColorD 4
+CccCycle0ColorD
+set ccCycle0AlphaA 7
+CccCycle0AlphaA
+set ccCycle0AlphaB 7
+CccCycle0AlphaB
+set ccCycle0AlphaC 7
+CccCycle0AlphaC
+set ccCycle0AlphaD 4
+CccCycle0AlphaD
+set blAaEn 1
+CblAaEn
+set blZcmpEn 1
+CblZcmpEn
+set blZupdEn 1
+CblZupdEn
+set blImRdEn 1
+CblImRdEn
+set blCvgDest 0
+CblCvgDest
+set blColOnCvg 0
+CblColOnCvg
+set blCvgXalpha 0
+CblCvgXalpha
+set blAlphaCvgSel 1
+CblAlphaCvgSel
+set blForceBlend 0
+CblForceBlend
+set blZmode 0
+CblZmode
+set blTexEdgeMode 0
+CblTexEdgeMode
+set blAlphaCompEn 0
+CblAlphaCompEn
+set blDithAlphaEn 0
+CblDithAlphaEn
+set blZsrcSel 0
+CblZsrcSel
+set blCycle0ColorA 0
+CblCycle0ColorA
+set blCycle0ColorB 3
+CblCycle0ColorB
+set blCycle0ColorC 0
+CblCycle0ColorC
+set blCycle0ColorD 2
+CblCycle0ColorD
+set ccCycle0ColorA 2
+CccCycle0ColorA
+set ccCycle0AlphaA 2
+CccCycle0AlphaA
+set ccCycle0ColorB 1
+CccCycle0ColorB
+set ccCycle0AlphaB 1
+CccCycle0AlphaB
+set ccCycle0ColorC 13
+CccCycle0ColorC
+set ccCycle0AlphaC 0
+CccCycle0AlphaC
+set ccCycle0ColorD 1
+CccCycle0ColorD
+set ccCycle0AlphaD 1
+CccCycle0AlphaD
+set ccCycle1ColorA 31
+CccCycle1ColorA
+set ccCycle1AlphaA 7
+CccCycle1AlphaA
+set ccCycle1ColorB 31
+CccCycle1ColorB
+set ccCycle1AlphaB 7
+CccCycle1AlphaB
+set ccCycle1ColorC 31
+CccCycle1ColorC
+set ccCycle1AlphaC 7
+CccCycle1AlphaC
+set ccCycle1ColorD 0
+CccCycle1ColorD
+set ccCycle1AlphaD 0
+CccCycle1AlphaD
+set loadTexFile 13
+CloadTexFile
+CloadTex
+set rspModels 2
+CrspModels
+set rspModels 17
+CrspModels
+set blAaEn 1
+CblAaEn
+set blZcmpEn 1
+CblZcmpEn
+set blZupdEn 0
+CblZupdEn
+set blImRdEn 1
+CblImRdEn
+set blCvgDest 1
+CblCvgDest
+set blColOnCvg 1
+CblColOnCvg
+set blCvgXalpha 0
+CblCvgXalpha
+set blAlphaCvgSel 0
+CblAlphaCvgSel
+set blForceBlend 1
+CblForceBlend
+set blZmode 2
+CblZmode
+set blTexEdgeMode 0
+CblTexEdgeMode
+set blAlphaCompEn 0
+CblAlphaCompEn
+set blDithAlphaEn 0
+CblDithAlphaEn
+set blZsrcSel 0
+CblZsrcSel
+set blCycle1ColorA 0
+CblCycle1ColorA
+set blCycle1ColorB 0
+CblCycle1ColorB
+set blCycle1ColorC 1
+CblCycle1ColorC
+set blCycle1ColorD 0
+CblCycle1ColorD
+set ccCycle0AlphaD 3
+CccCycle0AlphaD
+set rspGeomCullBack 1
+CrspGeomCullBack
+set rspGeomCullBack 0
+CrspGeomCullBack
+.cc.primColorAlphaS set 60
+set mouseX 279
+set mouseY 10
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 249
+set mouseY 15
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 223
+set mouseY 20
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 205
+set mouseY 24
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 193
+set mouseY 27
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 183
+set mouseY 29
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 175
+set mouseY 30
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 170
+set mouseY 31
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 31
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 166
+set mouseY 31
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY 30
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 29
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 28
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 27
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 26
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 25
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 23
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 22
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 21
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 20
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 19
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 18
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 18
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 21
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 25
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 29
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 161
+set mouseY 33
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 161
+set mouseY 38
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 42
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 46
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 50
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 55
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 60
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 64
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 67
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 71
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 158
+set mouseY 75
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 158
+set mouseY 79
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 158
+set mouseY 84
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 157
+set mouseY 89
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 157
+set mouseY 94
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 157
+set mouseY 97
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 156
+set mouseY 103
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 156
+set mouseY 108
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 156
+set mouseY 115
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 155
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 155
+set mouseY 126
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 155
+set mouseY 132
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 154
+set mouseY 136
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 153
+set mouseY 141
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 153
+set mouseY 144
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 152
+set mouseY 147
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 152
+set mouseY 150
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 152
+set mouseY 152
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 151
+set mouseY 154
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 151
+set mouseY 157
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 150
+set mouseY 159
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 150
+set mouseY 162
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 150
+set mouseY 164
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 149
+set mouseY 166
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 148
+set mouseY 169
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 148
+set mouseY 172
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 147
+set mouseY 175
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 146
+set mouseY 177
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 145
+set mouseY 180
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 145
+set mouseY 182
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 144
+set mouseY 183
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 142
+set mouseY 183
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 140
+set mouseY 183
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 138
+set mouseY 182
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 135
+set mouseY 181
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 133
+set mouseY 180
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 131
+set mouseY 179
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 129
+set mouseY 178
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 127
+set mouseY 177
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 125
+set mouseY 175
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 124
+set mouseY 174
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 122
+set mouseY 173
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 120
+set mouseY 171
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 119
+set mouseY 170
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 118
+set mouseY 169
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 117
+set mouseY 167
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 116
+set mouseY 166
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 115
+set mouseY 164
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 114
+set mouseY 163
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 113
+set mouseY 162
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 113
+set mouseY 161
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 112
+set mouseY 161
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 111
+set mouseY 161
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 111
+set mouseY 160
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 110
+set mouseY 160
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 109
+set mouseY 160
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 109
+set mouseY 160
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 109
+set mouseY 160
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 109
+set mouseY 160
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 113
+set mouseY 160
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 125
+set mouseY 160
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 130
+set mouseY 163
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 132
+set mouseY 166
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 135
+set mouseY 170
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 136
+set mouseY 173
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 137
+set mouseY 176
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 138
+set mouseY 181
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 140
+set mouseY 187
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 142
+set mouseY 193
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 145
+set mouseY 198
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 149
+set mouseY 202
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 155
+set mouseY 205
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 209
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 165
+set mouseY 212
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 170
+set mouseY 216
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY 218
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY 219
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY 220
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 171
+set mouseY 220
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 220
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY 220
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 161
+set mouseY 220
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 220
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 220
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 220
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 220
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 218
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 215
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 211
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 207
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 203
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 198
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 192
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 188
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 159
+set mouseY 181
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 174
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 166
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 158
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 151
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 161
+set mouseY 141
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 161
+set mouseY 133
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 161
+set mouseY 123
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 115
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 108
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 100
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 93
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 86
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 80
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 73
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 67
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 62
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 57
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 51
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 47
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 42
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 37
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 33
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 28
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 23
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 18
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 163
+set mouseY 13
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY 7
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY 2
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY -11
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY -18
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY -24
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY -31
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 164
+set mouseY -38
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 165
+set mouseY -44
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 165
+set mouseY -51
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 165
+set mouseY -55
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 165
+set mouseY -61
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 166
+set mouseY -68
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 166
+set mouseY -81
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 167
+set mouseY -87
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 167
+set mouseY -93
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 167
+set mouseY -95
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY -104
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY -109
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 169
+set mouseY -114
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 169
+set mouseY -119
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 170
+set mouseY -124
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 170
+set mouseY -127
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 170
+set mouseY -132
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 171
+set mouseY -141
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 172
+set mouseY -146
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 172
+set mouseY -152
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY -157
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY -160
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 7
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 3
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 174
+set mouseY -168
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 188
+set mouseY 12
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 188
+set mouseY 30
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 189
+set mouseY 54
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 190
+set mouseY 82
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 190
+set mouseY 106
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 192
+set mouseY 117
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 184
+set mouseY 138
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 172
+set mouseY 148
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 176
+set mouseY 142
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 173
+set mouseY 144
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 171
+set mouseY 144
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 170
+set mouseY 141
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 169
+set mouseY 138
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 137
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 136
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 135
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 134
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 133
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 167
+set mouseY 133
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 172
+set mouseY 131
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 178
+set mouseY 131
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 186
+set mouseY 129
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 193
+set mouseY 129
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 201
+set mouseY 130
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 210
+set mouseY 131
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 220
+set mouseY 133
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 225
+set mouseY 134
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 228
+set mouseY 134
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 134
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 133
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 230
+set mouseY 132
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 230
+set mouseY 131
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 230
+set mouseY 129
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 126
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 124
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 122
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 120
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 119
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 229
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 228
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 227
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 226
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 225
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 224
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 223
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 222
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 221
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 219
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 218
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 217
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 216
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 215
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 214
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 212
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 211
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 209
+set mouseY 119
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 207
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 205
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 204
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 203
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 202
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 201
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 200
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 198
+set mouseY 120
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 197
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 196
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 194
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 193
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 192
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 190
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 189
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 187
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 185
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 183
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 181
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 180
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 178
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 175
+set mouseY 121
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 175
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 171
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 168
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 165
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 162
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 160
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 158
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 156
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 154
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 152
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 151
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 150
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 149
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 148
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 147
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 146
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 144
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 141
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 140
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 138
+set mouseY 121
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 133
+set mouseY 119
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 127
+set mouseY 119
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 125
+set mouseY 123
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 127
+set mouseY 130
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 136
+set mouseY 142
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 152
+set mouseY 154
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 178
+set mouseY 170
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 212
+set mouseY 192
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 258
+set mouseY 212
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 306
+set mouseY 228
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons

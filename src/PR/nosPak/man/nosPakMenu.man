@@ -1,0 +1,32 @@
+nosPakMenu(3)                                                      nosPakMenu(3)
+
+NAME
+
+    nosPakMenu  -  Controller Pack Menu
+
+
+SYNOPSIS
+
+    #include  <libnos.h>
+
+    int nosPakMenu (OSMesgQueue *siMessageQ, OSMesgQueue *retraceMessageQ);
+
+
+DESCRIPTION
+
+    nosPakMenu is the menu application for the controller memory pack. The 
+    player can see the file list recorded in the controller pack, the used 
+    pages and the rest of the pages, and delete the needless file.
+
+    In order to start this menu application, the player has to keep pushing 
+    the start button of 1-player-controller. If the start button is not 
+    pushed or the memory pack is not set, this menu application will be 
+    passed.
+
+    nosPakMenu returns the following value:
+
+            State                       value
+        Controller pack is not ready.       0
+        Error occurs in the menu.           1
+        Start button is not pushed.         2
+        QUIT is selected in the menu.       3

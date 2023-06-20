@@ -1,0 +1,2 @@
+#define		MAX_ELEMENT_FILES	200
+#define		FILE_MODIFIED		(1 << 0)

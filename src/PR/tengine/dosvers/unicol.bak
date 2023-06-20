@@ -1,0 +1,885 @@
+// unicol.cpp
+//
+
+#include "stdafx.h"
+
+#include "tengine.h"
+#include "unicol.h"
+#include "romstruc.h"
+#include "scaling.h"
+#include "regtype.h"
+#include "collinfo.h"
+
+// collision systems
+#include "instcol.h"
+#include "wradcol.h"
+#include "regicol.h"
+
+// globals
+
+// collision routine list
+/////////////////////////////////////////////////////////////////////////////
+
+typedef void (*pfnCOLLISIONFUNC)(CCollide *pThis);
+pfnCOLLISIONFUNC pfn_collision_routines[] =
+{
+	CCollide__InstanceCollision,			// collision routine for cylindrical
+													//   instances
+	CCollide__WallRadiusCollision2,		// collision routine to keep characters
+													//   away from walls
+	CCollide__RegionCollision,				// collision routine for landscapes
+													// NOTE: The region collision routine
+													//   must be the last in the list.
+													//   It updates the instance's current
+													//   region after each movement.
+
+	NULL											// end of list
+};
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+void CCollide__TrackGround(CCollide *pThis);
+
+
+// Universal Collision Routine
+/////////////////////////////////////////////////////////////////////////////
+
+int CAnimInstanceHdr__Collision3(CAnimInstanceHdr *pThis,
+											CVector3 vDesired,
+											CCollisionInfo2 *pCI)
+{
+#define COLLISION_MAX_ITERATIONS	100	// safety cap for loop
+
+	int					cf,					// current collision routine
+							cIteration,			// iteration counter
+							cCollision,			// collision counter
+							nMaxCollisions;	// max number of collisions allowed
+	CCollide				cd;					// collision data shared by collision
+													//   routines
+	float					remainT,				// remaining motion (range: 0.0 - 1.0)
+							dt,					// time (sec) for movement computation
+							dtd2,
+							friction,			// air/water/ground friction
+													//   (range: 0.0 - 1.0)
+							groundHeight,
+							startYPos;
+	CVector3				vAcceleration;		// total acceleration
+	BOOL					newDesiredPos;		// desired pos changed
+	CROMRegionSet		*pRegionSet;
+
+
+	// TEMP
+	// use test collision info until everything supports new format
+	//pCI = &ci2_test;
+	//CCollisionInfo2__SetTestDefaults(pCI);
+	//pThis->ih.m_pEA->m_CollisionWallRadius = 6*SCALING_FACTOR;
+	pCI->dwFlags &= ~COLLISIONFLAG_ENTERWATER;
+	//pCI->dwFlags &= ~COLLISIONFLAG_CLIMBDOWN;
+	//pCI->dwFlags &= ~COLLISIONFLAG_TRACKGROUND;
+	pCI->dwFlags |= COLLISIONFLAG_USEWALLRADIUS;
+
+	ASSERT(pThis);
+	ASSERT(pCI);
+
+	CVector3__Clamp(&vDesired, WORLD_LIMIT);
+
+	// clear collision results
+	CCollisionInfo__ClearCollision(pCI);
+
+	// initialize CCollide variables for entire collision operation
+	cd.pInst = pThis;
+	cd.pCI = pCI;
+	cd.vDesired = vDesired;
+	CCollide__InitSlideSurface(&cd);
+
+	// initialize collision variables
+	cIteration = 0;
+	cCollision = 0;
+	remainT = 1.0;
+	dt = frame_increment/FRAME_FPS;
+
+	cd.UsePhysics = (pCI->dwFlags & COLLISIONFLAG_PHYSICS) && (dt != 0.0);
+
+	if (cd.UsePhysics)
+	{
+		// allow 1 redirection
+		nMaxCollisions = 2;
+
+		startYPos = pThis->ih.m_vPos.y;
+
+		// friction
+		friction = pCI->AirFriction;
+		if (pCI->WaterFriction != pCI->AirFriction)
+		{
+			if (pThis->ih.m_pCurrentRegion)
+			{
+				if (pThis->ih.m_pCurrentRegion->m_wFlags & REGFLAG_HASWATER)
+				{
+					pRegionSet = CScene__GetRegionAttributes(&GetApp()->m_Scene, pThis->ih.m_pCurrentRegion);
+					if (pRegionSet && (pThis->ih.m_vPos.y < pRegionSet->m_WaterElevation))
+						friction = pCI->WaterFriction;
+				}
+			}
+		}
+		friction = min(1.0/dt, friction);
+
+		// acceleration = -friction*(velocity^2) + gravity
+		if (friction == 0.0)
+		{
+			vAcceleration.x =	0.0;
+			vAcceleration.y = pCI->GravityAcceleration;
+			vAcceleration.z = 0.0;
+		}
+		else
+		{
+			vAcceleration.x = -pThis->m_vVelocity.x*friction;
+			vAcceleration.y = -pThis->m_vVelocity.y*friction + pCI->GravityAcceleration;
+			vAcceleration.z = -pThis->m_vVelocity.z*friction;
+		}
+
+		// pos = initialPos + initialVelocity*dt + 0.5*acceleration*(dt^2)
+		dtd2 = 0.5*dt;
+		cd.vDesired.x += (pThis->m_vVelocity.x + vAcceleration.x*dtd2)*dt;
+		cd.vDesired.y += (pThis->m_vVelocity.y + vAcceleration.y*dtd2)*dt;
+		cd.vDesired.z += (pThis->m_vVelocity.z + vAcceleration.z*dtd2)*dt;
+
+		// velocity = initialVelocity + acceleration*dt
+		pThis->m_vVelocity.x += vAcceleration.x*dt;
+		pThis->m_vVelocity.y += vAcceleration.y*dt;
+		pThis->m_vVelocity.z += vAcceleration.z*dt;
+
+		pCI->vCollisionVelocity = pThis->m_vVelocity;
+	}
+	else
+	{
+		// just cast ray
+		nMaxCollisions = 1;
+	}
+
+	// skip collision if desired is same as current position
+	if (CVector3__IsEqual(&pThis->ih.m_vPos, &cd.vDesired))
+		return 0;
+
+	do
+	{
+		// initialize CCollide variables for iteration
+		CClosestIntersect__Reset(&cd.clint);
+		cd.AllowRedirection = (cCollision + 1) < nMaxCollisions;
+
+		CCollide__TrackGround(&cd);
+
+		CVector3__Subtract(&cd.vDelta, &cd.vDesired, &pThis->ih.m_vPos);
+
+		if (cd.UsePhysics)
+			cd.clint.vNextVelocity = pThis->m_vVelocity;
+
+		// call collision routines
+		for (cf=0; pfn_collision_routines[cf]; cf++)
+			pfn_collision_routines[cf](&cd);
+
+		switch (cd.clint.cr)
+		{
+			case CR_COLLISION:
+			case CR_COLLISION_NEWDESIREDPOS:
+				cCollision++;
+			case CR_NO_COLLISION_NEWDESIREDPOS:
+				// update current position
+				pThis->ih.m_vPos = cd.clint.vIntersect;
+
+				CClosestIntersect__Store(&cd.clint, pThis);
+
+				if (cd.UsePhysics)
+					pThis->m_vVelocity = cd.clint.vNextVelocity;
+
+				CCollide__UpdateNextSlideSurface(&cd);
+
+				break;
+
+			case CR_NO_COLLISION:
+				pThis->ih.m_vPos = cd.vDesired;
+				break;
+
+			default:
+				ASSERT(FALSE);
+				break;
+		}
+
+		// t time has passed
+		remainT -= cd.clint.t*remainT;
+
+		newDesiredPos = (cd.clint.cr == CR_NO_COLLISION_NEWDESIREDPOS)
+							 || (cd.clint.cr == CR_COLLISION_NEWDESIREDPOS);
+
+		if (newDesiredPos)
+		{
+			// update desired position for next iteration
+			cd.vDesired = cd.clint.vNextDesired;
+		}
+
+		cIteration++;
+
+	} while (	newDesiredPos
+				&& (cIteration < COLLISION_MAX_ITERATIONS)
+				&& (cCollision < nMaxCollisions) );
+
+	// post collision stuff
+
+	if (pCI->GroundBehavior != INTERSECT_BEHAVIOR_IGNORE)
+	{
+		// keep above ground
+		groundHeight = CInstanceHdr__GetGroundHeight(&pThis->ih);
+		if (cd.UsePhysics && (remainT > 0.01))
+			pThis->ih.m_vPos.y = max(cd.vDesired.y, groundHeight);
+		else
+			pThis->ih.m_vPos.y = max(pThis->ih.m_vPos.y, groundHeight);
+
+		// ceiling?
+	}
+
+	// set y velocity for ramps
+	if (cd.TrackingGround && cd.UsePhysics && (dt != 0.0))
+		pThis->m_vVelocity.y = (pThis->ih.m_vPos.y - startYPos)/dt;
+
+	return cCollision;
+}
+
+// CClosestIntersect
+/////////////////////////////////////////////////////////////////////////////
+
+void CClosestIntersect__Reset(CClosestIntersect *pThis)
+{
+	pThis->t						= 1.0;
+	pThis->cr					= CR_NO_COLLISION;
+	pThis->pvIntersectPos	= NULL;
+	pThis->ppRegion			= NULL;
+	pThis->pCollType			= NULL;
+	pThis->ppInst				= NULL;
+}
+
+void CClosestIntersect__Store(CClosestIntersect *pThis, CAnimInstanceHdr *pInst)
+{
+	// store collision position
+	if (pThis->pvIntersectPos)
+		*pThis->pvIntersectPos = pInst->ih.m_vPos;
+
+	// store collision region
+	if (pThis->ppRegion)
+		*pThis->ppRegion = pInst->ih.m_pCurrentRegion;
+
+	// store collision type
+	if (pThis->pCollType)
+		*pThis->pCollType = pThis->CollType;
+
+	// store instance collision
+	if (pThis->ppInst)
+		*pThis->ppInst = pThis->pInstType;
+}
+
+// CCollide
+/////////////////////////////////////////////////////////////////////////////
+
+// This routine takes care of all collision housekeeping.  Using it in
+// other collision routines will make life a lot easier.  It uses an infinite
+// plane to detect collision.  Where this is not appropriate, you should
+// detect collision before calling this routine.  Also, depending on the
+// collision routine, sometimes you can detect collision faster than this.
+// Detecting collision twice is fine, since collisions don't happen very
+// often.
+BOOL CCollide__IntersectPlane(CCollide *pThis,
+										CVector3 *pvNormal, CVector3 *pvPointOnPlane,
+										BOOL BackCull,
+										int Behavior,
+										float SurfaceFriction)
+{
+	float			normalDotMovementDelta,
+					normalDotPointDelta,
+					t,
+					magNormal;
+	CVector3		vPointDelta, vUnitNormal,
+					vRemainDelta,
+					vReflectDelta, vProjectDelta,
+					vProject, vRedirect;
+
+	if (Behavior == INTERSECT_BEHAVIOR_IGNORE)
+		return FALSE;
+
+	// don't intersect with surface that it's sliding on
+	if (CCollide__IsSlidePlane(pThis, pvNormal))
+		return FALSE;
+
+	normalDotMovementDelta = CVector3__Dot(pvNormal, &pThis->vDelta);
+	if (		(normalDotMovementDelta == 0.0)
+			||	(BackCull && (normalDotMovementDelta > 0.0)) )
+	{
+		return FALSE;
+	}
+
+	CVector3__Subtract(&vPointDelta, &pThis->pInst->ih.m_vPos, pvPointOnPlane);
+	normalDotPointDelta = CVector3__Dot(pvNormal, &vPointDelta);
+
+	t = -normalDotPointDelta/normalDotMovementDelta;
+	if (t >= pThis->clint.t)
+	{
+		// this is not the closest intersection
+		return FALSE;
+	}
+
+	pThis->clint.t = t;
+	CVector3__Blend(&pThis->clint.vIntersect, t,
+						 &pThis->pInst->ih.m_vPos, &pThis->vDesired);
+
+	// roll
+	if (Behavior == INTERSECT_BEHAVIOR_BOUNCE)
+		if (CVector3__MagnitudeSquared(&pThis->vDelta) < SQR(0.2*SCALING_FACTOR))
+			Behavior = INTERSECT_BEHAVIOR_SLIDE;
+
+	switch (Behavior)
+	{
+		case INTERSECT_BEHAVIOR_ITERATE:
+
+			pThis->clint.cr = CR_NO_COLLISION_NEWDESIREDPOS;
+
+			if (pThis->UsePhysics)
+				pThis->clint.vNextVelocity = pThis->pInst->m_vVelocity;
+
+			pThis->clint.vNextDesired = pThis->vDesired;
+
+			break;
+
+		case INTERSECT_BEHAVIOR_STICK:
+
+			pThis->clint.cr = CR_COLLISION;
+
+			if (pThis->UsePhysics)
+			{
+				// clear velocity
+				pThis->clint.vNextVelocity.x
+						= pThis->clint.vNextVelocity.y
+						= pThis->clint.vNextVelocity.z
+						= 0.0;
+			}
+			break;
+
+		case INTERSECT_BEHAVIOR_BOUNCE:
+
+			CCollide__ClearSlideSurface(pThis);
+
+			if (pThis->UsePhysics || pThis->AllowRedirection)
+			{
+				magNormal = CVector3__Magnitude(pvNormal);
+				if (magNormal == 0.0)
+					return FALSE;
+
+				CVector3__MultScaler(&vUnitNormal, pvNormal, 1.0/magNormal);
+			}
+
+			if (pThis->UsePhysics)
+			{
+				// reflect velocity
+				pThis->clint.vNextVelocity = CVector3__Reflect(&pThis->pInst->m_vVelocity,
+																			  &vUnitNormal,
+																			  pThis->pCI->BounceReturnEnergy);
+				CVector3__MultScaler(&pThis->clint.vNextVelocity,
+											&pThis->clint.vNextVelocity,
+											1.0 - SurfaceFriction);
+			}
+
+			if (pThis->AllowRedirection)
+			{
+				pThis->clint.cr = CR_COLLISION_NEWDESIREDPOS;
+
+				// reflect remaining motion
+				CVector3__MultScaler(&vRemainDelta, &pThis->vDelta, 1.0 - t);
+
+				vReflectDelta = CVector3__Reflect(&vRemainDelta,
+															 &vUnitNormal,
+															 pThis->pCI->BounceReturnEnergy);
+				CVector3__MultScaler(&vReflectDelta,
+											&vReflectDelta,
+											1.0 - SurfaceFriction);
+				
+				CVector3__Add(&pThis->clint.vNextDesired,
+								  &pThis->clint.vIntersect, &vReflectDelta);
+			}
+			else
+			{
+				pThis->clint.cr = CR_COLLISION;
+			}
+			break;
+
+		case INTERSECT_BEHAVIOR_SLIDE:
+		case INTERSECT_BEHAVIOR_SLIDEBOUNCE:		// TEMP
+
+			CCollide__SetSlidePlane(pThis, pvNormal);
+
+			if (pThis->UsePhysics || pThis->AllowRedirection)
+			{
+				magNormal = CVector3__Magnitude(pvNormal);
+				if (magNormal == 0.0)
+					return FALSE;
+
+				CVector3__MultScaler(&vUnitNormal, pvNormal, 1.0/magNormal);
+			}
+
+			if (pThis->UsePhysics)
+			{
+				// project velocity on plane
+				pThis->clint.vNextVelocity = CVector3__Project(&pThis->pInst->m_vVelocity,
+																			  &vUnitNormal);
+
+				CVector3__MultScaler(&pThis->clint.vNextVelocity,
+											&pThis->clint.vNextVelocity,
+											1.0 - SurfaceFriction);
+			}
+
+			if (pThis->AllowRedirection)
+			{
+				pThis->clint.cr = CR_COLLISION_NEWDESIREDPOS;
+
+				// project remaining motion
+				CVector3__MultScaler(&vRemainDelta, &pThis->vDelta, 1.0 - t);
+
+				vProjectDelta = CVector3__Project(&vRemainDelta, &vUnitNormal);
+				CVector3__MultScaler(&vProjectDelta,
+											&vProjectDelta,
+											1.0 - SurfaceFriction);
+
+				CVector3__Add(&pThis->clint.vNextDesired,
+								  &pThis->clint.vIntersect, &vProjectDelta);
+			}
+			else
+			{
+				pThis->clint.cr = CR_COLLISION;
+			}
+			break;
+
+		case INTERSECT_BEHAVIOR_REDIRECT:
+
+			CCollide__SetSlidePlane(pThis, pvNormal);
+
+			if (pThis->UsePhysics || pThis->AllowRedirection)
+			{
+				magNormal = CVector3__Magnitude(pvNormal);
+				if (magNormal == 0.0)
+					return FALSE;
+
+				CVector3__MultScaler(&vUnitNormal, pvNormal, 1.0/magNormal);
+			}
+
+			if (pThis->UsePhysics)
+			{
+				// project velocity on plane
+				pThis->clint.vNextVelocity = CVector3__Redirect(&pThis->pInst->m_vVelocity,
+																				&vUnitNormal);
+			}
+
+			if (pThis->AllowRedirection)
+			{
+				pThis->clint.cr = CR_COLLISION_NEWDESIREDPOS;
+
+				// redirect remaining motion
+				CVector3__MultScaler(&vRemainDelta, &pThis->vDelta, 1.0 - t);
+
+				vProjectDelta = CVector3__Redirect(&vRemainDelta, &vUnitNormal);
+
+				CVector3__Add(&pThis->clint.vNextDesired,
+								  &pThis->clint.vIntersect, &vProjectDelta);
+			}
+			else
+			{
+				pThis->clint.cr = CR_COLLISION;
+			}
+			break;
+
+		case INTERSECT_BEHAVIOR_GREASE:
+			
+			CCollide__SetSlidePlane(pThis, pvNormal);
+
+			if (pThis->UsePhysics || pThis->AllowRedirection)
+			{
+				magNormal = CVector3__Magnitude(pvNormal);
+				if (magNormal == 0.0)
+					return FALSE;
+
+				CVector3__MultScaler(&vUnitNormal, pvNormal, 1.0/magNormal);
+			}
+
+			if (pThis->UsePhysics)
+			{
+				// project velocity on plane
+				vProject = CVector3__Project(&pThis->pInst->m_vVelocity, &vUnitNormal);
+				vRedirect = CVector3__Redirect(&pThis->pInst->m_vVelocity, &vUnitNormal);
+				
+				CVector3__Blend(&pThis->clint.vNextVelocity,
+									 COLLISION_GREASE_FACTOR,
+									 &vProject, &vRedirect);
+				CVector3__MultScaler(&pThis->clint.vNextVelocity,
+											&pThis->clint.vNextVelocity,
+											1.0 - SurfaceFriction);
+			}
+
+			if (pThis->AllowRedirection)
+			{
+				pThis->clint.cr = CR_COLLISION_NEWDESIREDPOS;
+
+				// project remaining motion
+				CVector3__MultScaler(&vRemainDelta, &pThis->vDelta, 1.0 - t);
+
+
+				vProject = CVector3__Project(&vRemainDelta, &vUnitNormal);
+				vRedirect = CVector3__Redirect(&vRemainDelta, &vUnitNormal);
+
+				CVector3__Blend(&vProjectDelta,
+									 COLLISION_GREASE_FACTOR,
+									 &vProject, &vRedirect);
+				CVector3__MultScaler(&vProjectDelta,
+											&vProjectDelta,
+											1.0 - SurfaceFriction);
+
+
+				CVector3__Add(&pThis->clint.vNextDesired,
+								  &pThis->clint.vIntersect, &vProjectDelta);
+			}
+			else
+			{
+				pThis->clint.cr = CR_COLLISION;
+			}
+			break;
+
+		default:
+			ASSERT(FALSE);
+			break;
+	}
+
+	return TRUE;
+}
+
+BOOL CCollide__IntersectCylinder(CCollide *pThis,
+											CVector3 *pvCenter, float Radius,
+											BOOL UseHeight, float Top, float Bottom,
+											BOOL BackCull,
+											int Behavior,
+											float SurfaceFriction)
+{
+	CVector3		h, M,
+					hminusmhDotM,
+					vPoint, vNormal;
+	float			hDotDelta,
+					magDelta,
+					invMagDelta,
+					hdotM,
+					magSqRight, radSq,
+					sub,
+					t;
+
+	if (CCollide__IsSlideCylinder(pThis, pvCenter, Radius))
+		return FALSE;
+
+	h.x = pvCenter->x - pThis->pInst->ih.m_vPos.x;
+	h.z = pvCenter->z - pThis->pInst->ih.m_vPos.z;
+
+	if (BackCull)
+	{
+		hDotDelta = h.x*pThis->vDelta.x + h.z*pThis->vDelta.z;
+		if (hDotDelta < 0.0)
+			return FALSE;
+	}
+
+	magDelta = sqrt(SQR(pThis->vDelta.x) + SQR(pThis->vDelta.z));
+	if (magDelta != 0.0)
+	{
+		invMagDelta = 1.0/magDelta;
+		M.x = pThis->vDelta.x*invMagDelta;
+		M.z = pThis->vDelta.z*invMagDelta;
+
+		hdotM = h.x*M.x + h.z*M.z;
+		
+		hminusmhDotM.x = h.x - M.x*hdotM;
+		hminusmhDotM.z = h.z - M.z*hdotM;
+
+		magSqRight = SQR(hminusmhDotM.x) + SQR(hminusmhDotM.z);
+		radSq = SQR(Radius);
+
+		sub = radSq - magSqRight;
+		if (sub > 0.0)
+		{
+			// movement did cross cylinder
+			
+			//t = max(0.0, (hdotM - sqrt(sub))*invMagDelta);
+			t = (hdotM - sqrt(sub))*invMagDelta;
+			if (t < pThis->clint.t)
+			{
+				CVector3__Blend(&vPoint, t, &pThis->pInst->ih.m_vPos, &pThis->vDesired);
+
+				if (UseHeight)
+					if ((vPoint.y > Top) || (vPoint.y < Bottom))
+						return FALSE;
+
+				vNormal.x = vPoint.x - pvCenter->x;
+				vNormal.y = 0.0;
+				vNormal.z = vPoint.z - pvCenter->z;
+				
+				if (CCollide__IntersectPlane(pThis,
+													  &vNormal, &vPoint,
+													  FALSE,
+													  Behavior,
+													  SurfaceFriction))
+				{
+					CCollide__SetSlideCylinder(pThis, pvCenter, Radius);
+
+					return TRUE;
+				}
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+CGameRegion* CCollide__CanEnter(CCollide *pThis, CGameRegion *pCurrent, int nDesiredEdge)
+{
+	CGameRegion			*pDesired;
+	CAnimInstanceHdr	*pInst;
+	float					currentHeight,
+							desiredHeight,
+							edgeAngle, dt,
+							compareHeight;
+	int					cEdge;
+	BOOL					found,
+							moveUpLedges, moveDownLedges;
+	CVector3				vNextLower;
+
+	ASSERT(pCurrent);
+
+	pInst = pThis->pInst;
+	
+	pDesired = pCurrent->m_pNeighbors[nDesiredEdge];
+	if (!pDesired)
+		return NULL;
+
+	if (pCurrent->m_wFlags & REGFLAG_BRIDGE)
+	{
+		// if pDesired is linked back to pCurrent, this is a normal
+		// transition -- otherwise, the instance went off the edge of
+		// a bridge
+
+		found = FALSE;
+		for (cEdge=0; cEdge<3; cEdge++)
+		{
+			if (pDesired->m_pNeighbors[cEdge] == pCurrent)
+			{
+				found = TRUE;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			// this is a bridge transition
+			// first, see if pvCurrent is within pDesired
+
+			if (!CGameRegion__InRegion(pDesired, pThis->vOffBridgePos.x, pThis->vOffBridgePos.z))
+			{
+				// missed with guess
+				// search all regions
+
+				vNextLower.x = pThis->vOffBridgePos.x;
+				vNextLower.y = pInst->ih.m_vPos.y;
+				vNextLower.z = pThis->vOffBridgePos.z;
+
+				pDesired = CGameRegion__FindNextLowerRegion(pCurrent, vNextLower);
+				if (!pDesired)
+					return NULL;
+			}
+		}
+	}
+
+	// WHY SPECIAL CASE THIS -- WHAT'S WRONG WITH RESTRICTED AREAS?
+	// Used to keep TREX out of big life area
+	if (		(pThis->pCI->dwFlags & COLLISIONFLAG_AVOIDPRESSUREPLATE)
+			&& (		(pDesired->m_wFlags & REGFLAG_PRESSUREPLATE)
+					||	(pDesired->m_wFlags & REGFLAG_PRESSUREPLATENEEDSCOLLISION) ) )
+	{
+		return NULL;
+	}
+
+	// keep bad guys out of trouble
+	if (		(pDesired->m_wFlags & REGFLAG_RESTRICTEDAREA)
+			&& !(pThis->pCI->dwFlags & COLLISIONFLAG_CANENTERRESTRICTEDAREA) )
+	{
+		return NULL;
+	}
+
+	// allowed to exit water ?
+	if (		!(pThis->pCI->dwFlags & COLLISIONFLAG_EXITWATER)
+			&& !(pDesired->m_wFlags & REGFLAG_HASWATER)
+			&& (pCurrent->m_wFlags & REGFLAG_HASWATER) )
+	{
+		return NULL;
+	}
+
+	// avoid water
+	if (		!(pThis->pCI->dwFlags & COLLISIONFLAG_ENTERWATER)
+			&& (pDesired->m_wFlags & REGFLAG_HASWATER)
+			&& !(pCurrent->m_wFlags & REGFLAG_HASWATER) )
+	{
+		return NULL;
+	}
+
+	// need to be ducking to enter ducking area
+	if (		(pDesired->m_wFlags & REGFLAG_DUCK)
+			&&	!(pThis->pCI->dwFlags & COLLISIONFLAG_DUCKING) )
+	{
+		return NULL;
+	}
+
+	// can't enter closed door
+	if (		!(pThis->pCI->dwFlags & COLLISIONFLAG_MOVETHROUGHDOORS)
+			&&	(pDesired->m_wFlags & REGFLAG_DOOR) && !(pCurrent->m_wFlags & REGFLAG_DOOR)
+			&& !(pDesired->m_wFlags & REGFLAG_OPENDOOR) )
+	{
+		return NULL;
+	}
+
+	// bump in to wall above ceiling
+	if ((pDesired->m_wFlags & REGFLAG_CEILING) && !(pCurrent->m_wFlags & REGFLAG_CEILING))
+		if (pInst->ih.m_vPos.y > CGameRegion__GetCeilingHeight(pDesired, pInst->ih.m_vPos.x, pInst->ih.m_vPos.z))
+			return NULL;
+
+	if (pThis->pCI->dwFlags & COLLISIONFLAG_CLIFFONLY)
+	{
+		if (CGameRegion__IsCliff(pDesired))
+			return pDesired;
+		else
+			return NULL;
+	}
+
+	// stay on climbable portion of cliff
+	if (		(pThis->pCI->dwFlags & COLLISIONFLAG_CANCLIMBCLIMBABLE)
+			&& CGameRegion__IsCliff(pCurrent)
+			&& CGameRegion__IsCliff(pDesired)
+			&& (pCurrent->m_wFlags & REGFLAG_CLIMBABLE)
+			&& !(pDesired->m_wFlags & REGFLAG_CLIMBABLE) )
+	{
+		currentHeight = CGameRegion__GetGroundHeight(pCurrent, pInst->ih.m_vPos.x, pInst->ih.m_vPos.z);
+		if (pInst->ih.m_vPos.y < (currentHeight + 0.1*SCALING_FACTOR))
+			return NULL;
+	}
+
+	if (CGameRegion__IsCliff(pDesired))
+	{
+		moveUpLedges	= pThis->pCI->dwFlags & COLLISIONFLAG_CLIMBUP;
+		moveDownLedges	= pThis->pCI->dwFlags & COLLISIONFLAG_CLIMBDOWN;
+		
+		if ((pDesired->m_wFlags & REGFLAG_CLIMBABLE) && (pThis->pCI->dwFlags & COLLISIONFLAG_CANCLIMBCLIMBABLE))
+		{
+			// test angle
+			edgeAngle = CGameRegion__GetEdgeAngle(pCurrent, nDesiredEdge);
+			edgeAngle += ANGLE_PI;
+			NormalizeRotation(&edgeAngle);
+
+			// COLLISIONFLAG_CANCLIMBCLIMBABLE should only be set for CGameObjectInstance's
+			ASSERT(pInst->ih.m_Type == I_ANIMATED);
+
+			dt = RotDifference(edgeAngle, ((CGameObjectInstance*)pInst)->m_RotY);
+
+#define ALLOW_CLIMB_ANGLE	ANGLE_DTOR(40)
+
+			if (fabs(dt) <= ALLOW_CLIMB_ANGLE)
+				moveUpLedges = TRUE;
+		}
+
+		if (moveUpLedges && moveDownLedges)
+			return pDesired;
+
+		currentHeight = CGameRegion__GetGroundHeight(pCurrent, pInst->ih.m_vPos.x, pInst->ih.m_vPos.z);
+		desiredHeight = CGameRegion__GetGroundHeight(pDesired, pThis->vDesired.x, pThis->vDesired.z);
+
+		if (desiredHeight > currentHeight)
+		{
+			if (moveUpLedges)
+			{
+				return pDesired;
+			}
+			else
+			{
+				compareHeight = pInst->ih.m_vPos.y + 0.1*SCALING_FACTOR;
+
+				return (		(compareHeight > pDesired->m_pCorners[0]->m_vCorner.y)
+							&& (compareHeight > pDesired->m_pCorners[1]->m_vCorner.y)
+							&& (compareHeight > pDesired->m_pCorners[2]->m_vCorner.y)) ? pDesired : NULL;
+			}
+		}
+		else
+		{
+			return moveDownLedges ? pDesired : NULL;
+		}
+	}
+	else
+	{
+		return pDesired;
+	}
+}
+
+void CCollide__TrackGround(CCollide *pThis)
+{
+	CAnimInstanceHdr	*pInst;
+	float					currentGroundHeight, desiredGroundHeight,
+							dx, dy, dz,
+							groundMagSq, magSq,
+							moveFactor;
+
+	if (		!(pThis->pCI->dwFlags & COLLISIONFLAG_TRACKGROUND)
+			||	(pThis->pCI->GroundBehavior == INTERSECT_BEHAVIOR_IGNORE) )
+	{
+		pThis->TrackingGround = FALSE;
+		return;
+	}
+	
+	pInst = pThis->pInst;
+	
+	if (CGameRegion__IsCliff(pInst->ih.m_pCurrentRegion))
+	{
+		if (!(	(pInst->ih.m_pCurrentRegion->m_wFlags & REGFLAG_CLIMBABLE)
+				&& (pThis->pCI->dwFlags & COLLISIONFLAG_CANCLIMBCLIMBABLE) ))
+		{
+			pThis->TrackingGround = FALSE;
+			return;
+		}
+	}
+	
+	currentGroundHeight = CGameRegion__GetGroundHeight(pInst->ih.m_pCurrentRegion, pInst->ih.m_vPos.x, pInst->ih.m_vPos.z);
+	desiredGroundHeight = CGameRegion__GetGroundHeight(pInst->ih.m_pCurrentRegion, pThis->vDesired.x, pThis->vDesired.z);
+
+#define TRACKGROUND_THRESHOLD (0.1*SCALING_FACTOR)
+	pThis->TrackingGround =		((pInst->ih.m_vPos.y - currentGroundHeight) < TRACKGROUND_THRESHOLD)
+									&& ((pThis->vDesired.y - desiredGroundHeight) < TRACKGROUND_THRESHOLD);
+
+	// TEMP
+	//pThis->TrackingGround =	TRUE;
+	//pThis->TrackingGround =	FALSE;
+
+	if (pThis->TrackingGround)
+	{
+		pInst->ih.m_vPos.y = currentGroundHeight;
+		pThis->vDesired.y = desiredGroundHeight;
+
+		dx = pThis->vDesired.x - pInst->ih.m_vPos.x;
+		dy = desiredGroundHeight - currentGroundHeight;
+		dz = pThis->vDesired.z - pInst->ih.m_vPos.z;
+
+		groundMagSq = dx*dx + dz*dz;
+		magSq = groundMagSq + dy*dy;
+		
+		if (magSq == 0.0)
+			return;
+
+		// don't move as far
+		moveFactor = sqrt(groundMagSq/magSq);
+		CVector3__Blend(&pThis->vDesired, moveFactor, &pInst->ih.m_vPos, &pThis->vDesired);
+	}
+}

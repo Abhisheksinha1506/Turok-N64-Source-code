@@ -1,0 +1,863 @@
+/**************************************************************************
+ *                                                                        *
+ *               Copyright (C) 1995, 1996 Silicon Graphics, Inc.          *
+ *                                                                        *
+ *  These coded instructions, statements, and computer programs  contain  *
+ *  unpublished  proprietary  information of Silicon Graphics, Inc., and  *
+ *  are protected by Federal copyright  law.  They  may not be disclosed  *
+ *  to  third  parties  or copied or duplicated in any form, in whole or  *
+ *  in part, without the prior written consent of Silicon Graphics, Inc.  *
+ *                                                                        *
+ *************************************************************************/
+
+/*
+ * File:	main.c
+ *
+ * This application is a test-bed of single frame tests for RDP
+ * test vector generation. The idea is that each frame possibly uses a 
+ * different dataset (see static.c) to render a particular test.
+ *
+ * Under argc, argv control, you can choose to run a single frame test, or
+ * (by default) run all the "frames" of vector generation at once.  When
+ * sending multiple "frames" down, we always wait for vertical retrace before
+ * drawing the next frame (frames are always drawn in the first cfb, so that we
+ * know how to extract the image data when running simulations/test vectors).
+ *
+ * At the user's option, they may specify that RDRAM (e.g. the frame buffer)
+ * has been preinitialized, thus eliminating the need for a screen/zbuffer 
+ * clear.  Use the -m flag when this is the case.
+ *
+ * A similar strategy was used in RDP verification, so we are leveraging
+ * heavily from the old rdpverif program.
+ *
+ * The "-c <number>" flag performs checksum screen compares.
+ *
+ *     Use in conjunction with the -p to obtain a checksum dump ("printOnly").
+ *
+ * Use gload's -a flag to pass arguments through to this app.
+ *
+ * NOTE:
+ *
+ * This test-bed is composed of some shared code, and test-specific
+ * code. To add or modify a test case, you should only touch the
+ * test-specific code. Modifying shared code might break other tests, should
+ * we ever create other directories of test vector generators based upon this
+ * program.
+ *
+ *  FILES THAT MAY BE SHARED WITH OTHER TESTS: (don't modify)
+ *
+ *	main.c
+ *	init.c
+ *	dynamic.c
+ *	zbuffer.c
+ *	spec
+ *
+ *  FILES THAT ARE TEST-SPECIFIC: (may modify)
+ *
+ * 	<module_name>_static.c	(holds static display list data for tests)
+ *	<module_name>.h		(exports info to main.c, etc.)
+ * 	<module_name.c		(holds test frame procedures, etc.)
+ *	<any related include files>	(textures, etc.)
+ *	Makefile			(make test rules)
+ *
+ * A separate set of files should be modified when producing display lists for
+ * per module testing (e.g. cs.h, cs.c, cs_static.c).  A template display list
+ * test has been provided; some real gfx dl's are provided as samples in the ms
+ * test series.
+ *
+ * TO ADD A TEST CASE:
+ *
+ * decide which module your test will focus on, then tweak:
+ *
+ * <module_name>.h		- extern the static display list, so that it is
+ *				  visible from <module_name>_static.c
+ *
+ * <module_name>_static.c	- add the static display list for the test.
+ *
+ * <module_name>.c		- add the procedure to be called to
+ *				  perform the test case. (also put it
+ *				  in the testCaseProc table appropriate for
+ *				  this module)
+ *
+ *				- put the static display list pointer
+ *				  in the testList table (appropriately named
+ *				  for your module under test) as a Gfx pointer 
+ *				  in the GfxTest_t struct; also provide a name
+ *				  for your test so that the rdpascii2rdp tool
+ *				  can provide a filename for the resulting
+ *				  binary .rdp file.
+ *
+ * ... plus add any new textures, include files, etc.
+ *
+ * All locations are marked with comments that say "ADD TEST CASE"
+ * and give some hints what you need to do there.
+ *
+ * ADVANCED USAGE:
+ * You could re-use test case procedures or data, as long as you
+ * coordinate with all the tests that share it. It is a bad idea
+ * to share data or procedures with a test that someone else may
+ * go in and modify.
+ *
+ * If your test case needs a command line argument, that isn't handled
+ * too cleanly. You would have to add it to main.c, and export the
+ * global variables, etc. (messy) 
+ *
+ * This test suite favors single-frame tests. Animation support is clumsy.
+ *
+ * Fri Sep 22 11:39:18 PDT 1995
+ */
+
+#include <ultra64.h>
+#include <ramrom.h>
+#include <assert.h>
+#include "controller.h"
+
+#include "dldriver.h"
+#include "gng.h"
+
+extern void InitAudio(void);
+
+/*
+ * Symbol genererated by "makerom" to indicate the end of the code segment
+ * in virtual (and physical) memory
+ */
+extern char _codeSegmentEnd[];
+
+/* these are fixed sizes: */
+#define SP_UCODE_SIZE		4096
+#define SP_UCODE_DATA_SIZE	2048
+
+/*
+ * Symbols generated by "makerom" to tell us where the static segment is
+ * in ROM.
+ */
+extern char _staticSegmentRomStart[], _staticSegmentRomEnd[];
+extern char _static1SegmentRomStart[], _static1SegmentRomEnd[];
+extern char _static2SegmentRomStart[], _static2SegmentRomEnd[];
+
+/*
+ * Stacks for the threads as well as message queues for synchronization
+ */
+u64	bootStack[STACKSIZE/sizeof(u64)];
+
+int      uselines  = 0;
+
+static int      useblack  = 0;
+static int      skipZclear  = 0;
+
+static void	idle(void *);
+static void	mainproc(void *);
+
+static OSThread	idleThread;
+static u64	idleThreadStack[STACKSIZE/sizeof(u64)];
+
+static OSThread	mainThread;
+static u64	mainThreadStack[STACKSIZE/sizeof(u64)];
+
+#ifndef _FINALROM
+static OSThread	rmonThread;
+static u64      rmonStack[RMON_STACKSIZE/sizeof(u64)];
+#endif
+
+/* this number (the depth of the message queue) needs to be equal
+ * to the maximum number of possible overlapping PI requests.
+ * For this app, 1 or 2 is probably plenty, other apps might
+ * require a lot more.
+ */
+#define NUM_PI_MSGS     8
+    
+static OSMesg PiMessages[NUM_PI_MSGS];
+static OSMesgQueue PiMessageQ;
+
+OSMesgQueue	dmaMessageQ, rspMessageQ, rdpMessageQ, retraceMessageQ;
+OSMesg		dmaMessageBuf, rspMessageBuf, rdpMessageBuf, retraceMessageBuf;
+OSMesg		dummyMessage;
+OSIoMesg	dmaIOMessageBuf;
+OSMesgQueue	siMessageQ;
+OSMesg		siMessageBuf;
+
+/*
+ * Dynamic segment in code space. Needs OS_K0_TO_PHYSICAL()...
+ */
+Dynamic dynamic;
+
+/*
+ * necessary for RSP tasks:
+ */
+u64 dram_stack[SP_DRAM_STACK_SIZE64];
+u64 dram_yield[OS_YIELD_DATA_SIZE];
+
+u64 rdp_output_len;
+u64 rdp_output[4096*16];
+
+/*
+ * must be in BSS, not on the stack for this to work:
+ */
+OSTask	tlist =
+{
+    M_GFXTASK,			/* task type */
+    OS_TASK_DP_WAIT,		/* task flags */
+    NULL,			/* boot ucode pointer (fill in later) */
+    0,				/* boot ucode size (fill in later) */
+    NULL,			/* task ucode pointer (fill in later) */
+    SP_UCODE_SIZE,		/* task ucode size */
+    NULL,			/* task ucode data pointer (fill in later) */
+    SP_UCODE_DATA_SIZE,		/* task ucode data size */
+    &(dram_stack[0]),		/* task dram stack pointer */
+    SP_DRAM_STACK_SIZE8,	/* task dram stack size */
+    &(rdp_output[0]),		/* task output buffer ptr (not always used) */
+    &rdp_output_len,		/* task output buffer size ptr */
+    NULL,			/* task data pointer (fill in later) */
+    0,				/* task data size (fill in later) */
+    NULL,			/* task yield buffer ptr (not used here) */
+    0				/* task yield buffer size (not used here) */
+};
+
+char *staticSegment;
+char *static1Segment;
+char *static2Segment;
+char *rspcodeSegment;
+
+Gfx *glistp;	/* global for test case procs */
+
+/*
+ * global variables for arguments, to control test cases
+ */
+int frame_count = -1;
+int module_num = -1;
+int rdp_DRAM_io = 0;
+int doChecksum = 1;		/* checksum */
+int printOnly = 0;		/* printing checksum values only */
+int noprintf  = 0;              /* supress PRINTFs */
+int rdp_regressionFlag = 0;
+int rdp_mspanFlushFlag = 0;
+int debugflag = 0;
+int dumpImage = 0;
+int draw_buffer = 0;
+void *cfb_ptrs[2];
+int cfb_size = G_IM_SIZ_16b;
+u64 ramrombuf[RAMROM_MSG_SIZE/8];
+int controlFrame = 0;
+int lastFrameNum = -2;
+int controllerSlot;
+int zaruexists;
+int runningFromRom;
+
+		/*
+		 * When TRUE, toplevel.c routines will issue a full sync after
+		 * the frame's DL has been rendered.  When dumping DL's, we
+		 * will want to inhibit the full sync's for every frame of a
+		 * particular module until the last frame, so that we can
+		 * accumulate all the frame's test vectors together in one 
+		 * monster DL.
+		 */
+int generateFullSync = 1;
+
+typedef union {
+    u32		word[2];
+    u64		force_alignment;
+} scratch_t;
+scratch_t scratch_buff[1024], *scrp;
+
+#define PI_BASE	((u32)(0xb0700000))
+static u32	*piAddr = (u32 *)(PI_BASE);
+
+/* 
+ * Declare an array of ModuleTest_t structs, so that we can cycle through all
+ * the tests designed for each of the rdp's major functional blocks.
+ */
+ModuleTest_t moduleTestSet[MODULE_COUNT];
+
+u32 argbuf[16];
+
+extern int dlDriver(void);
+extern void audMain(void);
+extern void uji_diags(void);
+extern int piAllTest(void);
+extern int nmitest_phase1(void);
+extern int nmitest_phase2(void);
+extern int clocktest(void);
+extern int intr1test(void);
+extern int rsp(void);
+
+extern int rdramDiagErrors;
+extern int rdramDiagStatus;
+
+/*
+ * The boot() function MUST be the first function in this module, otherwise
+ * the original boot thread (loaded at 2MB in rdram) will be unable to invoke 
+ * this secondary boot procedure, which loads the program low in rdram.
+ */
+boot(void *arg)
+{
+    int i, *pr;
+    char *ap;
+    u32 *argp;
+    gngstatus	*pstatus;
+
+    /*
+     * osAppNMIBuffer == 0x8000031c in locore rdram
+     */
+    pstatus = (gngstatus *)osAppNMIBuffer;
+    
+    /*
+     * Save the reserved memory variables used by the rdram diagnostic before 
+     * calling osInitialize(), since this function wipes out the reserved 
+     * rdram memory locations used by the rdram test.
+     */
+    rdramDiagStatus = pstatus->rdram_diag_status;
+    rdramDiagErrors = pstatus->rdram_diag_errors;
+
+    osInitialize();
+
+    /*
+     * Restore the rdram test's reserved memory variables, so that an nmi 
+     * reset can detect whether or not the rdram test has run.
+     */
+    pstatus->rdram_diag_status = rdramDiagStatus;
+    pstatus->rdram_diag_errors = rdramDiagErrors;
+
+#ifndef _FINALROM
+   for (pr = (int *)0xb0700000; (u32)pr < 0xb0702000; pr++)
+       osPiRawWriteIo((u32)pr, 0x55555555);
+
+    argp = (u32 *)RAMROM_APP_WRITE_ADDR;
+    for (i=0; i<sizeof(argbuf)/4; i++, argp++) {
+	osPiRawReadIo((u32)argp, &argbuf[i]); /* Assume no DMA */
+    }
+#endif
+
+    osCreateThread(&idleThread, 1, idle, arg, idleThreadStack+STACKSIZE/sizeof(u64), 10);
+    osStartThread(&idleThread);
+
+    /* never reached */
+}
+
+/*
+ * private routine used to parse args.
+ */
+static int
+myatoi(char *str)
+{
+    int		log10[5], logn = 0, val = 0, i, pow10 = 1;
+
+    if (str == NULL || *str == '\0')
+	return(-1);
+    
+    while (*str != '\0') {
+	if (!(*str == '0' ||
+	      *str == '1' ||
+	      *str == '2' ||
+	      *str == '3' ||
+	      *str == '4' ||
+	      *str == '5' ||
+	      *str == '6' ||
+	      *str == '7' ||
+	      *str == '8' ||
+	      *str == '9')) {
+	    logn = 0;
+	    break;
+	}
+
+	log10[logn++] = *str - '0';
+	str++;
+    }
+    
+    if (logn == 0)
+	return(-1);
+    
+    for (i=logn-1; i>= 0; i--) {
+	val += log10[i] * pow10;
+	pow10 *= 10;
+    }
+    return (val);
+}
+
+/*
+ * private routine used to parse args.
+ */
+static void
+parse_args(char *argstring)
+{
+    int		argc = 1, i;
+    char	*arglist[32], **argv = arglist;	/* max 32 args */
+    char	*c, *ptr;
+
+    if (argstring == NULL || argstring[0] == '\0')
+	return;
+
+    /* re-organize argstring to be like main(argv,argc) */
+    ptr = argstring;
+    while (*ptr != '\0') {
+	while (*ptr != '\0' && (*ptr == ' ')) {
+	    *ptr = '\0';
+	    ptr++;
+	}
+	if (*ptr != '\0')
+	    arglist[argc++] = ptr;
+	while (*ptr != '\0' && (*ptr != ' ')) {
+	    ptr++;
+	}
+    }
+
+    /* ADD TEST CASE:
+     * might want to pick off special arguments here.
+     */
+
+    /* process the arguments: */
+    while ((argc > 1) && (argv[1][0] == '-')) {
+	switch(argv[1][1]) {
+
+	  case 'c':
+	    doChecksum = 0;
+	    break;
+
+	  case 'd':
+	    rdp_DRAM_io = 1;	/* route RSP output for RDP back to DRAM */
+	    break;
+	    
+	  case 'f':
+	    frame_count = myatoi(argv[2]); /* start frame */
+	    if (frame_count < 0) {
+		frame_count = -1;
+	    }
+	    controlFrame = frame_count;
+	    argc--;
+	    argv++;
+	    break;
+
+	  case 'g':
+	    debugflag = 1;
+	    break;
+
+	  case 'i':
+	    dumpImage = 1;
+	    break;
+
+	  case 'F':
+	    rdp_mspanFlushFlag = 1; /* flush mspan cache by enabling 1PRIM */
+            break;
+	    
+	  case 'r':
+	    rdp_regressionFlag = 1; /* when set, shrink viewport for brevity */
+	    break;
+	    
+	  case 'l':
+	     uselines = 1;
+	     break;
+
+	  case 's':
+	     noprintf = 1;
+             break; 
+
+	/*
+	 * -m specifies that we run a single module's set of tests.
+	 */
+	case 'm':
+	    module_num = myatoi(argv[2]);
+	    if (module_num < 0) {
+		module_num = -1;
+	    }
+	    argc--;
+	    argv++;
+	    break;
+
+	case 'p':
+	  printOnly = 1;
+	  break;
+
+	case 'b':
+	    useblack = 1;
+	    break;
+	    
+	case 'z':
+	    skipZclear = 1;
+	    break;
+
+	  default:
+	    /*
+	    PRINTF("option [%s] not recognized.\n", argv[1]);
+	    */
+	    break;
+	}
+	argc--;
+	argv++;
+    }
+}
+
+static void
+idle(void *arg)
+{
+    /* Initialize video */
+    osCreateViManager(OS_PRIORITY_VIMGR);
+    osViSetMode(&osViModeTable[OS_VI_NTSC_LAN1]);
+    
+    /*
+     * Parse option arguments before we start the main thread, so that if we
+     * set the debugflag, we won't start the main thread (debugger will have to
+     * do that for us).  Unfortunately this means we can't PRINTF any
+     * errors in argument parsing...
+     */
+#ifndef _FINALROM
+    parse_args((char *)argbuf);
+#else
+    parse_args(NULL);
+#endif
+
+    /*
+     * Start PI Mgr for access to cartridge
+     */
+    osCreatePiManager((OSPri)OS_PRIORITY_PIMGR, &PiMessageQ, PiMessages, 
+		      NUM_PI_MSGS);
+    
+#ifndef _FINALROM
+    /*
+     * Start RMON for debugging & data xfer (make sure to start 
+     * PI Mgr first)
+     */
+    osCreateThread(&rmonThread, 0, rmonMain, (void *)0,
+		   rmonStack+RMON_STACKSIZE/sizeof(u64), OS_PRIORITY_RMON);
+    osStartThread(&rmonThread);
+#endif
+    
+    /*
+     * Create main thread
+     */
+    osCreateThread(&mainThread, 3, mainproc, arg,
+		   mainThreadStack+STACKSIZE/sizeof(u64), 10);
+    
+    if (debugflag != 1) {
+	osStartThread(&mainThread);
+    }
+    /*
+     * Become the idle thread
+     */
+    osSetThreadPri( 0, 0 );
+    for(;;);
+}
+
+/*
+ * Build up an RDP task to clear the frame buffer, in whatever video mode the
+ * current test requires.
+ */
+void 
+clear_framebuffers(int cfb_pixSize, int cfb_clearColor)
+{
+    OSTask	*tlistp;
+    Dynamic	*dynamicp;
+
+    /*
+     * set up pointers to build the display list.
+     */
+    tlistp = &tlist;
+    dynamicp = &dynamic;
+    glistp = &(dynamicp->glist[0]);
+    
+    /*
+     * Tell RCP where each segment is
+     */
+    gSPSegment(glistp++, 0, 0x0); /* K0 (physical) address segment */
+    gSPSegment(glistp++, STATIC_SEGMENT,
+	       osVirtualToPhysical(staticSegment));
+    gSPSegment(glistp++, STATIC_SEGMENT1,
+	       osVirtualToPhysical(static1Segment));
+    gSPSegment(glistp++, STATIC_SEGMENT2,
+	       osVirtualToPhysical(static2Segment));
+    
+    /*
+     * XXX Probably not necessary to do this each time, but too hard to figure
+     *     out what's needed and what's not, so we do it every time & wonder...
+     */
+    gSPDisplayList(glistp++, rdpinit_dl);
+    gSPDisplayList(glistp++, rspinit_dl);
+
+    if ((cfb_pixSize == G_IM_SIZ_16b) || (cfb_pixSize == G_IM_SIZ_8b))    {
+        if (skipZclear == 0) {
+            gSPDisplayList(glistp++, clear_16fb_z);
+        }
+        if (cfb_clearColor == CLEAR_AQUA)
+          gSPDisplayList(glistp++, clear_16fb_aqua)
+        else
+          gSPDisplayList(glistp++, clear_16fb_black);
+     } else if (cfb_pixSize == G_IM_SIZ_32b){
+        if (skipZclear == 0) {
+            gSPDisplayList(glistp++, clear_32fb_z);
+        }
+        if (cfb_clearColor == CLEAR_AQUA)
+          gSPDisplayList(glistp++, clear_32fb_aqua)
+        else
+          gSPDisplayList(glistp++, clear_32fb_black);
+     } else if (cfb_pixSize == 1024){
+        PRINTF("clearing 1024\n");
+        if (skipZclear == 0) {
+            gSPDisplayList(glistp++, clear_16fb_z);
+        }
+        if (cfb_clearColor == CLEAR_AQUA)
+          gSPDisplayList(glistp++, clear_1024fb_aqua)
+        else
+          gSPDisplayList(glistp++, clear_1024fb_black);
+    } else if (cfb_pixSize == 640){
+	 PRINTF("clearing 640\n");
+        if (skipZclear == 0) {
+            gSPDisplayList(glistp++, clear_16fb_z);
+        }
+        if (cfb_clearColor == CLEAR_AQUA)
+          gSPDisplayList(glistp++, clear_640fb_aqua)
+        else
+          gSPDisplayList(glistp++, clear_640fb_black);
+    }
+
+
+    gDPFullSync(glistp++);
+    gSPEndDisplayList(glistp++);
+
+    assert((glistp - dynamicp->glist) < MAX_GRAPHICS_SIZE);
+
+    /* 
+     * Build a graphics task to execute the frame buffer clears, fire it off,
+     * then wait for RDP completion.
+     */
+    tlistp->t.type = M_GFXTASK;
+    tlistp->t.flags = OS_TASK_DP_WAIT;
+    tlistp->t.ucode_boot = (u64 *) rspbootTextStart;
+    tlistp->t.ucode_boot_size = ((int)rspbootTextEnd - 
+				 (int)rspbootTextStart);
+
+    /* 
+     * RSP output over XBUS to RDP.
+     */
+    tlistp->t.ucode = (u64 *) gspFast3DTextStart;
+    tlistp->t.ucode_data = (u64 *) gspFast3DDataStart;
+    
+    tlistp->t.ucode_size = SP_UCODE_SIZE;
+    tlistp->t.ucode_data_size = SP_UCODE_DATA_SIZE;
+    
+    tlistp->t.dram_stack = (u64 *) &(dram_stack[0]);
+    tlistp->t.dram_stack_size = SP_DRAM_STACK_SIZE8;
+
+    tlistp->t.output_buff = (u64 *) 0x0;
+    tlistp->t.output_buff_size = (u64 *) 0x0;
+
+    /* initial display list: */
+    tlistp->t.data_ptr = (u64 *) dynamicp->glist;
+    tlistp->t.data_size = ((int)(glistp - dynamicp->glist) *
+			   sizeof (Gfx));
+    tlistp->t.yield_data_ptr = (u64 *) NULL;
+    tlistp->t.yield_data_size = 0xDA0;
+
+    /*
+     * Can just flush 16KB and forget about each individual pieces
+     * of data to flush.  We flush the cache so that when the RSP
+     * updates rdram (as a consequence of executing the task), the 
+     * R4300 cpu won't ignore the newly updated data in favor of its
+     * privately held data cache contents.
+     */
+    osWritebackDCacheAll();
+    
+    /* unwrap this macro for debugging:
+     *
+     *	osSpTaskStart(tlistp);
+     *
+     */
+    osSpTaskLoad(tlistp);
+    osSpTaskStartGo(tlistp);
+    
+    /* 
+     * ignore SP completion, wait for DP completion.
+     */
+    (void)osRecvMesg(&rdpMessageQ, &dummyMessage, OS_MESG_BLOCK);
+
+    /* 
+     * Now wait for a vertical retrace to go by.
+     *
+     * Make sure there isn't an old retrace in queue 
+     * (assumes queue has a depth of 1) by checking to see if the MQ is full.
+     */
+
+    if (MQ_IS_FULL(&retraceMessageQ))
+	(void)osRecvMesg(&retraceMessageQ, &dummyMessage, OS_MESG_BLOCK);
+
+    /* 
+     * Now really wait for vertical retrace to finish.
+     */
+    (void)osRecvMesg(&retraceMessageQ, &dummyMessage, OS_MESG_BLOCK);
+}
+
+
+extern int pifCheck(void);
+extern void RunViTests(int);
+
+#include "../uji/uji_audio.h"
+
+static void
+mainproc(void *arg)
+{
+    OSTask	*tlistp;
+    Dynamic	*dynamicp;
+    int		testListCount;
+    int		frameNum, endFrame;
+    int		moduleNum, startModule, endModule;
+    int         keep_going = 1;
+    int		pixSize;
+    gngstatus	*pstatus;
+    int		errCount = 0;
+    volatile int testWord;
+
+
+    /* Both low res framebuffers share the same highres
+       array, so offset the second pointer from the base
+       of the array */
+
+    cfb_ptrs[0] = cfb_16_a;
+    cfb_ptrs[1] = (unsigned int *) ((unsigned int *) cfb_16_a + 320*240);
+
+    /*
+     * Setup the message queues
+     */
+    osCreateMesgQueue(&dmaMessageQ, &dmaMessageBuf, 1);
+    
+    osCreateMesgQueue(&rspMessageQ, &rspMessageBuf, 1);
+    osSetEventMesg(OS_EVENT_SP, &rspMessageQ, dummyMessage);
+    
+    osCreateMesgQueue(&rdpMessageQ, &rdpMessageBuf, 1);
+    osSetEventMesg(OS_EVENT_DP, &rdpMessageQ, dummyMessage);
+    
+    osCreateMesgQueue(&retraceMessageQ, &retraceMessageBuf, 1);
+    osViSetEvent(&retraceMessageQ, dummyMessage, 1);
+
+    osCreateMesgQueue(&siMessageQ, &siMessageBuf, 1);
+    osSetEventMesg(OS_EVENT_SI, &siMessageQ, dummyMessage);
+    
+    /*
+     * Can just flush 16KB and forget about each individual pieces
+     * of data to flush.  We flush the cache so that when the PI 
+     * updates rdram (as a consequence of executing the dma task), the 
+     * R4300 cpu won't ignore the newly updated data in favor of its
+     * privately held data cache contents.
+     */
+    osWritebackDCacheAll();
+
+    /*
+     * Stick the static segment right after the code/data segment
+     */
+    staticSegment = _codeSegmentEnd;
+    osPiStartDma(&dmaIOMessageBuf, OS_MESG_PRI_NORMAL, OS_READ,
+                 (u32)_staticSegmentRomStart, staticSegment,
+                 _staticSegmentRomEnd - _staticSegmentRomStart, &dmaMessageQ);
+
+    /*
+     * Wait for DMA to finish
+     */
+    (void)osRecvMesg(&dmaMessageQ, &dummyMessage, OS_MESG_BLOCK);
+
+    /*
+     * Dma in static segment1 at base of expansion memory
+     *
+     */
+    if ((osMemSize == 0x600000) || (osMemSize == 0x800000)) {
+        static1Segment = (char *)STATIC_SEGMENT1_DRAM_6M;
+
+        osPiStartDma(&dmaIOMessageBuf, OS_MESG_PRI_NORMAL, OS_READ,
+               (u32)_static1SegmentRomStart, static1Segment,
+               _static1SegmentRomEnd - _static1SegmentRomStart, &dmaMessageQ);
+       /*
+        * Wait for DMA to finish
+        */
+        (void)osRecvMesg(&dmaMessageQ, &dummyMessage, OS_MESG_BLOCK);
+    }
+
+    /*
+     * Dma in static segment2 3M into the expansion memory (7M)
+     *
+     */
+    if (osMemSize == 0x800000) {
+        static2Segment = (char *)STATIC_SEGMENT2_DRAM_8M;
+
+        osPiStartDma(&dmaIOMessageBuf, OS_MESG_PRI_NORMAL, OS_READ,
+               (u32)_static2SegmentRomStart, static2Segment,
+               _static2SegmentRomEnd - _static2SegmentRomStart, &dmaMessageQ);
+       /*
+        * Wait for DMA to finish
+        */
+        (void)osRecvMesg(&dmaMessageQ, &dummyMessage, OS_MESG_BLOCK);
+    }
+
+
+    /*
+     * Stick the rspcode segment right after the static segment.
+     *
+     * We can't use the "_staticSegmentEnd" variable because makerom has
+     * assigned an rsp address to it.
+     */
+    rspcodeSegment = ( _codeSegmentEnd + 
+        ( _staticSegmentRomEnd - _staticSegmentRomStart ) );
+
+    /*
+     * Tell the VI to display the first frame buffer.
+     */
+    osViSwapBuffer(cfb_16_a);
+
+    /*
+     * Initialize the Zaru.  If it does not exist, assume that
+     * we are using a controller for the "Next Test" Button.
+     */
+    zaruexists = ZaruInit(&siMessageQ, 0);
+
+    /*
+     * Do a simple write/readback from the ROM to determine whether or not
+     * we are running from ROM or the development board's 16MB of RAM.
+     * 
+     * Use a portion of the rom unused by the gng application, which is 8MB
+     * max size.
+     */
+
+    testWord = 0xdeadbeef;
+
+    /*
+     * Write 0xdeadbeef to 0x900000 in the ROM, then read it back and see if
+     * the write succeeded.  If so, we are running from RAMROM.  Otherwise, we
+     * are running from ROM.
+     */
+    osPiRawWriteIo((u32)0xb0900000, 0xdeadbeef);
+
+    osPiRawReadIo((u32)0xb0900000, (u32 *)&testWord);
+
+    if (testWord == 0xdeadbeef) {
+	runningFromRom = 0;
+    } else {
+	runningFromRom = 1;
+    }
+
+    if (!zaruexists) {
+	controllerSlot = initControllers();
+    }
+    
+    /*
+     * osAppNMIBuffer == 0x8000031c in locore rdram
+     */
+    pstatus = (gngstatus *)osAppNMIBuffer;
+
+    /*
+     * Initialize audio (audio services are used by the audio test and 
+     * the gng_report() error reporting function).
+     */
+    InitAudio();
+    chkAppendSoundPlayer();
+
+    /*
+     * Check if this is a cold reset or an NMI
+     */
+    if (osResetType != 0) {
+	pstatus->nmi_count++;
+	errCount = nmitest_phase2();
+	gng_report("Reset Switch Test\n(NMI occurred):", errCount, 
+	    GNG_PASS_FAIL_BIT, PASS_MESSAGE_RETRACE_COUNT);
+	testDriver(TRUE);
+    } else {
+	testDriver(FALSE);
+    }
+
+#ifndef _FINALROM
+    osExit();
+#endif
+}

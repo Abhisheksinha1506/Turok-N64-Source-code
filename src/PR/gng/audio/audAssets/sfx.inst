@@ -1,0 +1,67 @@
+envelope Pass
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 700000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 0;
+}
+
+envelope Fail
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 300000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 0;
+}
+
+keymap key1
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 41;
+    keyMax      = 41;
+    keyBase     = 41;
+    detune      = 0;
+}
+
+sound sound1
+{
+    use ("maru.aiff");
+    
+    keymap = key1;
+    pan    = 64;
+    volume = 127;
+    envelope = Pass;
+}
+
+sound sound2
+{
+    use ("batu.aiff");
+    
+    keymap = key1;
+    pan    = 64;
+    volume = 127;
+    envelope = Fail;
+}
+
+instrument inst1
+{
+    volume = 127;
+    pan    = 64;
+
+    sound  = sound1;
+    sound  = sound2;
+}
+
+bank Wave1
+{
+    instrument [0] = inst1;
+}
+
+
+
+

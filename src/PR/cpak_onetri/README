@@ -1,0 +1,9 @@
+This version of onetri has been modified by NCL to call nosPakMenu.
+
+<     osSyncPrintf("Go into nosMemMenu()\n");
+<     nosPakMenu(&siMessageQ, &retraceMessageQ);
+<     osSyncPrintf("START GAME\n");
+
+
+That's the only difference between the original onetri.
+

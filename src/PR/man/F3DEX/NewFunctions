@@ -1,0 +1,106 @@
+
+* New functions for F3DEX/F3DLX/F3DLX.Rej/F3DLP.Rej ucode
+
++ gSPVertex (Gfx *pkt, Vtx *v, u32 n, u32 v0)
+  gsSPVertex(          Vtx *v, u32 n, u32 v0)
+
+	Made the vertex cache larger, so changed the range of
+	parameters n and v0. (see below) g*SPVertex accepts less than
+	33 vertice per one load. (n accepts 1-32.) So, you may use it
+	twice or more to load more than 32 vertice(*).
+	
+	                    Vertice
+                           cache size         Range of n      Range of v0
+	F3DEX/F3DEX.NoN        32               1-32            0-31
+	F3DLX/F3DLX.NoN        32               1-32            0-31
+	F3DLX.Rej              64               1-32(*)         0-63
+	F3DLP.Rej              80               1-32(*)         0-79
+	
+
++ gSP2Triangles (pkt,  v00, v01, v02, flag0,  v10, v11, v12, flag1)
+  gsSP2Triangles(      v00, v01, v02, flag0,  v10, v11, v12, flag1)
+
+	gSP2Triangles are "double triangle face command."
+	This command generates *two* triangles same as
+
+	  gSP1Triangle(pkt++, v00, v01, v02, flag0);
+	  gSP1Triangle(pkt++, v10, v11, v12, flag1);
+
+	You can replace two g*SP1Triangle to one g*SP2Triangles,
+	so this command can make DL size shorter.
+
+	F3DLX.Rej and F3DLP.Rej are very fast because they are
+	optimized for executing g*SP2Triangle. So you'd better use
+	g*SPTriangle to get more performance.
+
+
++ gSP1Quadrangle (pkt,  v0, v1, v2, v3, flag)
+  gsSP1Quadrangle(      v0, v1, v2, v3, flag)
+
+	g*SP1Quadrangle generates a quadrangle (v0,v1,v2,v3).
+	flag should be either 0,1,2 or 3 for flat shading.
+
+	We don't support dynamic divide selection for quadrangle in
+	this and later release. Because SP's overhead is larger than
+	DP's increase of performance we had expected.
+
+	In release 0.96 and later, g*SP1Quadrangle is emulated by
+	g*SP2Triangles, so apps for release 0.95 or before can work
+	with re-compiling.
+
+
++ gSPSetGeometryMode(Gfx *gdl, unsigned int mode)
+  gsSPSetGeometryMode(unsigned int mode)
+
+	G_CLIPPING would be available for mode identify.
+	
+	If G_CLIPPING has cleared, F3DLX does not clip any triangle
+	(quadrangle) but faster.
+	
+	If G_CLIPPING has cleared....
+	  gSPVertex   :  Does not make pre-calculated vertex data for clipping.
+	  gSP*Triangle:  Does not work any clipping. (also gSP1Quadrangle)
+	
+	So, following DL is *not* correct because gsSP1Triangle cannot get
+	pre-calculated vertex data of clipping from gsSPVertex.
+	In this DL, gsSP1Triangle cannot work.
+
+		gsSPClearGeometryMode(G_CLIPPING),	// Clipping OFF
+		gsSPVertex(v, 3, 0),			// Load 3 vertices
+		gsSPSetGeometryMode(G_CLIPPING),	// Clipping ON
+		gsSP1Triangle(0,1,2,0),			// Draw TRI
+	
+	Also gSPCullDisplayList() cannot work with no pre-calculated vertex
+	data made by no G_CLIPPING.
+	
+	G_CLIPPING is available in F3DLX only. It's ignored in other ucodes.
+	
+	G_CLIPPING is set when initialized RSP.
+
+
++ gSPCullDisplaylist(Gfx *gdl, unsigned int v0, unsigned int vn)
+  gsSPCullDisplaylist(unsigned int v0, unsigned int vn)
+
+	Change ranges of v0 and vn by increase vertices cache size.
+	The ranges are same as v0 of gSPVertex parameter. But, must be
+	v0 <= vn. (man pages are incorrect.)
+
+	g*SPClipRatio of F3DEX/LX works same as Fast3D's. But F3DLX.Rej's
+	and F3DLP.Rej's are not same at all.
+
+
++ gSPClipRatio(Gfx *gdl, r)
+  gsSPClipRatio(r)
+
+	Also, g*SPClipRatio of F3DEX/LX works same as Fast3D's. But
+	F3DLX.Rej's and F3DLP.Rej's are not same at all.
+	In F3DL*.Rej, g*SPClipRatio defines a size of the rejecting box.
+	(default: FRUSTRATIO_2)
+
+
++ gSPModiftVertex(Gfx *gdl, 
+		  unsigned int vtx, unsigned int where, unsigned int val)
+  gsSPModifyVertex(unsigned int vtx, unsigned int where, unsigned int val)
+
+	Change ranges of vtx by increase vertices cache size. The
+	ranges are same as v0 of gSPVertex parameter. 

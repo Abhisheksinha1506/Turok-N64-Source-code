@@ -1,0 +1,59 @@
+#include "smonkey.h"
+
+/*
+	include "$(ROOT)/usr/lib/PR/soundbanks/sfx.tbl" 
+	include "$(ROOT)/usr/lib/PR/soundbanks/sfx.tbl" 
+
+
+ * ROM spec file
+ */
+beginseg
+	name "code"
+	flags BOOT OBJECT
+	entry boot
+	stack bootStack + STACKSIZE
+	include "codesegment.o"
+	include "$(ROOT)/usr/lib/PR/rspboot.o"
+	include "$(ROOT)/usr/lib/PR/aspMain.o"
+endseg
+
+beginseg
+	name "seq"
+	flags RAW
+	include "$(ROOT)/usr/lib/PR/sequences/ship.sbk"  
+endseg
+
+beginseg
+	name "sfxbank"
+	flags RAW
+	include "$(ROOT)/usr/src/PR/turoksnd/testsfx.ctl 
+endseg
+
+beginseg
+	name "sfxtable"
+	flags RAW
+	include "$(ROOT)/usr/src/PR/turoksnd/testsfx.tbl" 
+endseg
+
+beginseg
+	name "midibank"
+	flags RAW
+	include "$(ROOT)/usr/lib/PR/soundbanks/GenMidiBank.ctl"
+endseg
+
+beginseg
+	name "miditable"
+	flags RAW
+	include "$(ROOT)/usr/lib/PR/soundbanks/GenMidiBank.tbl"
+endseg
+
+
+beginwave
+        name "smonkey"
+	include "code"
+	include "seq"
+	include "sfxbank"
+	include "sfxtable"
+	include "midibank"
+	include "miditable"
+endwave

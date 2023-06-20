@@ -1,0 +1,178 @@
+   #include "simple.h" 
+   
+   /*
+    * ROM spec file
+    */
+   
+   /* 
+      Main Memory map for simple:
+  
+     0x000000	exception vectors, ...
+   
+     0x000400	code segment
+   		code, data, bss (includes audio heap, and
+   		gfx dynamic area)
+   
+   
+     0x00????	gfxdlists segment
+    (after code	space for static gfx display lists
+     segment)
+   
+   
+   		empty
+   
+   
+     0x1da800	zbuffer segment
+   		The Z buffer
+   
+     0x200000	cfb segment
+   		The two color framebuffers
+   
+     0x24b000	empty
+   
+   
+   */
+   beginseg
+   	name "code" 
+   	flags BOOT OBJECT
+   	entry boot
+   	stack bootStack + STACKSIZEBYTES
+   	include "codesegment.o" 
+   	include "$(ROOT)/usr/lib/PR/rspboot.o" 
+   	include "$(ROOT)/usr/lib/PR/gspFast3D.o" 
+   	include "$(ROOT)/usr/lib/PR/gspFast3D.dram.o" 
+   	include "$(ROOT)/usr/lib/PR/aspMain.o" 
+   endseg
+   
+   /* area for static gfx display lists */
+   beginseg
+   	name "gfxdlists" 
+   	flags OBJECT
+   	after code
+   	include "gfxdlists.o" 
+   endseg
+   
+   beginseg
+   	name "zbuffer" 
+   	flags OBJECT
+   	address 0x801da800
+   	include "gfxzbuffer.o" 
+   endseg
+   
+   beginseg
+   	name "cfb" 
+   	flags OBJECT
+   	address 0x80200000
+   	include "gfxcfb.o" 
+   endseg
+   
+   beginseg
+   	name "static" 
+   	flags OBJECT
+   	number STATIC_SEGMENT
+   	include "gfxinit.o"
+   	include "gfxstatic.o"
+   endseg
+   
+   beginseg
+   	name "dynamic"
+   	flags OBJECT
+   	number DYNAMIC_SEGMENT
+   	include "gfxdynamic.o"
+   endseg
+   
+   
+   beginseg
+   	name "seqbank"
+   	flags RAW
+   	include "$(ROOT)/usr/turoksnd/sequences/testbank.ctl" 
+   endseg
+   
+   beginseg
+   	name "seqtable"
+   	flags RAW
+    include "$(ROOT)/usr/turoksnd/sequences/testbank.tbl" 
+   endseg
+   
+   beginseg
+   	name "seq0"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnljungl.cmp"
+   endseg
+   
+   beginseg
+   	name "seq1"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlcave.cmp"
+   endseg
+   
+   beginseg
+   	name "seq2"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlcats.cmp"
+   endseg
+   
+   beginseg
+   	name "seq3"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   beginseg
+   	name "seq4"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   beginseg
+   	name "seq5"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   beginseg
+   	name "seq6"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   beginseg
+   	name "seq7"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   beginseg
+   	name "seq8"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   beginseg
+   	name "seq9"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/tengine/fnlboss.cmp"
+   endseg
+   
+   
+   beginwave
+   	name "simple"
+   	include "code"
+   	include "gfxdlists"
+   	include "static"
+   	include "dynamic"
+   	include "cfb"
+   	include "zbuffer"
+   	include "seqtable"
+   	include "seqbank"
+   	include "seq0
+   	include "seq1
+   	include "seq2
+   	include "seq3
+   	include "seq4
+   	include "seq5
+   	include "seq6
+   	include "seq7
+   	include "seq8
+   	include "seq9
+   endwave

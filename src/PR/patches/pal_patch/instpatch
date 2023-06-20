@@ -1,0 +1,28 @@
+#!/bin/csh -f
+#
+# Patch for Release 2.0* and 1.0*.
+# Mon Jul 17 15:00:00 JST 1996
+#
+# This simple script updates the Nintendo64 libultra libraries
+# with fixes for the following problems:
+#
+#	- osViClock was VI_NTSC_CLOCK in spite of VI mode.
+#
+# 	!!Caution!!
+#If you used mpal_patch, you must recover "rcp.h" from backup file (rcp_pal.h)
+#Because mpal_patch changes VI_PAL_CLOCK value in "rcp.h" to MPAL value.
+
+# save old libraries
+if ( ! -e /usr/lib/libultra.a.orig ) then
+  cp -p /usr/lib/libultra_rom.a /usr/lib/libultra_rom.a.orig
+  cp -p /usr/lib/libultra_d.a /usr/lib/libultra_d.a.orig
+  cp -p /usr/lib/libultra.a /usr/lib/libultra.a.orig
+endif
+
+# replace files in the library archives:
+ar cru /usr/lib/libultra_rom.a vi.o
+ar cru /usr/lib/libultra_d.a vi.o
+ar cru /usr/lib/libultra.a vi.o
+
+#
+

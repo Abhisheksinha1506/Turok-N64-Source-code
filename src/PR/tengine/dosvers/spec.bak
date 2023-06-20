@@ -1,0 +1,188 @@
+#include "spec.h"
+
+/*
+ * ROM spec file
+ */
+
+/* ----------- MEMORY MAP -----------
+ *
+ * 0x000000 exception vectors      1k
+ * 0x000400 code segment        1363k
+ * 0x155000 audio heap           300k
+ * 0x1a0000 display lists        256k
+ * 0x1e0000 fifo                 128k
+ * 0x200000 frame buffers        450k
+ * 0x270800 cart cache heap     1448k
+ * 0x3da800 z-buffer             150k
+ * ----------------------------------
+ * 0x400000                     4096k
+ */
+
+
+/*
+ * boot entry point is "boot", and the boot
+ * stack named "boot_stack" with size STACKSIZE
+ */
+beginseg
+	name "code"
+	flags BOOT OBJECT
+	entry boot
+	stack boot_stack + STACKSIZE
+	include "codesegment.o"
+	include "$(ROOT)/usr/lib/PR/rspboot.o"
+/*	include "$(ROOT)/usr/lib/PR/gspF3DNoN.o" */
+	include "$(ROOT)/usr/lib/PR/gspF3DNoN.fifo.o"
+	include "$(ROOT)/usr/lib/PR/gspLine3D.fifo.o"
+	include "$(ROOT)/usr/lib/PR/aspMain.o"
+endseg
+
+/*
+ * Audio Heap
+ * size: 0x4b000
+ */
+beginseg
+	name "audheap"
+	flags OBJECT
+	address 0x80155000
+	include "audheap.o"
+endseg
+
+/*
+ * Graphics Display Lists
+ * size: 0x40000
+ */
+beginseg
+	name "gdl"
+	flags OBJECT
+	address 0x801a0000
+	include "gdl.o"
+endseg
+
+/*
+ * FIFO Buffer
+ * size: 0x20000
+ */
+beginseg
+	name "fifo"
+	flags OBJECT
+	address 0x801e0000
+	include "fifo.o"
+endseg
+
+/*
+ * Three Color Frame Buffers
+ * size: 0x70800
+ */
+beginseg
+	name "cfb"
+	flags OBJECT
+	address 0x80200000
+	include "cfb.o"
+endseg
+
+/*
+ * Cartridge Cache Heap
+ * size: 0x16A000
+ */
+beginseg
+	name "mempool"
+	flags OBJECT
+	address 0x80270800
+	include "mempool.o"
+endseg
+
+/*
+ * Z-Buffer
+ * size: 0x25800 bytes
+ */
+beginseg
+	name "zbuffer"
+	flags OBJECT
+	address 0x803da800
+	include "zbuffer.o"
+endseg
+
+/*
+ * 'STATIC' segment
+ *
+ * This segment contains cartridge data
+ * The data itself will have to be DMA'd to RDRAM location.
+ */
+beginseg
+	name "static"
+	flags RAW
+	include "cartdata.dat"
+endseg
+
+
+/*
+ * Acclaim ID
+ */
+beginseg
+	name "acclmid"
+	flags RAW
+	include "acclmid.txt"
+endseg
+
+/*
+ * audio segments
+ */
+beginseg
+	name "seqctl"
+	flags RAW
+	include "testbank.ctl"
+endseg
+
+beginseg
+	name "seqtbl"
+	flags RAW
+	include "testbank.tbl"
+endseg
+
+beginseg
+	name "sfxctl"
+	flags RAW
+	include "sfx.ctl"
+endseg
+
+beginseg
+	name "sfxtbl"
+	flags RAW
+	include "sfx.tbl"
+endseg
+
+/*
+ *beginseg
+ *	name "gfxTitle"
+ *	flags RAW
+ *	include "title.bin"
+ *endseg
+ *
+ *beginseg
+ *	name "gfxController"
+ *	flags RAW
+ *	include "contscr.bin"
+ *endseg
+ */
+
+beginwave
+	name "tengine"
+	include "code"
+	include "audheap"
+	include "gdl"
+	include "fifo"
+	include "cfb"
+	include "mempool"
+	include "zbuffer"
+	include "static"
+	include "acclmid"
+	include "seqtbl"
+	include "seqctl"
+	include "sfxctl"
+	include "sfxtbl"
+endwave
+/*
+ *	include "gfxTitle"
+ *	include "gfxController"
+ */
+

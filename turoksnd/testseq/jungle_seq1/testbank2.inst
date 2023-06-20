@@ -1,0 +1,399 @@
+keymap seqkey1
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 72;
+    detune      = 0;
+}
+
+envelope seqenv1
+
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 142000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound1
+{
+    use ("Clave.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv1;
+}
+
+
+
+envelope seqenv2
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 528000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound2
+{
+    use ("How+1.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv2;
+}
+
+
+envelope seqenv3
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 545000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound3
+{
+    use ("LogHit.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv3;
+}
+
+
+envelope seqenv4
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 1225000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound4
+{
+    use ("PercHit3.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv4;
+}
+
+
+envelope seqenv5
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 1794000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound5
+{
+    use ("Rainstick.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv5;
+}
+
+envelope seqenv6
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 1124000;
+    decayVolume		= 127;
+    releaseTime		= 1500000;
+    releaseVolume	= 127;
+}
+
+sound seqsound6
+{
+    use ("Roar+2.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv6;
+}
+
+envelope seqenv7
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 204000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound7
+{
+    use ("Tamb.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv7;
+}
+
+envelope seqenv8
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 885000;
+    decayVolume		= 127;
+    releaseTime		= 1500000;
+    releaseVolume	= 127;
+}
+
+sound seqsound8
+{
+    use ("Toms2.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv8;
+}
+
+
+envelope seqenv9
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 966000;
+    decayVolume		= 127;
+    releaseTime		= 1500000;
+    releaseVolume	= 127;
+}
+
+sound seqsound9
+{
+    use ("Toms1.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv9;
+}
+
+envelope seqenv10
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 1033000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound10
+{
+    use ("UduPotHit.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv10;
+}
+
+
+envelope seqenv11
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 261000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound11
+{
+    use ("Shaker.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 0;
+    envelope = seqenv11;
+}
+
+
+envelope seqenv12
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 1063000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound12
+{
+    use ("SleighBells.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv12;
+}
+
+envelope seqenv13
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 862000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound13
+{
+    use ("VoxC4.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv13;
+
+}
+
+
+envelope seqenv14
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 388000;
+    decayVolume		= 127;
+    releaseTime		= 0;
+    releaseVolume	= 127;
+}
+
+sound seqsound14
+{
+    use ("Taiko.n64");
+    keymap = seqkey1;
+	pan    = 64;
+    volume = 127;
+    envelope = seqenv14;
+}
+
+
+instrument inst1
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound1;
+}
+
+instrument inst2
+{
+	volume = 127;
+    pan    = 64;
+	sound  = seqsound2;
+}
+
+instrument inst3
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound3;
+}
+
+instrument inst4
+{
+	volume = 127;
+    pan    = 64;
+	sound  = seqsound4;
+}
+
+instrument inst5
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound5;
+}
+
+instrument inst6
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound6;
+}
+
+instrument inst7
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound7;
+}
+instrument inst8
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound8;
+}
+instrument inst9
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound9;
+}
+instrument inst10
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound10;
+}
+instrument inst11
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound11;
+}
+instrument inst12
+{
+    volume = 127;
+    pan    = 64;
+	sound  = seqsound12;
+}
+instrument inst13
+{
+
+	sound  = seqsound13;
+	volume = 127;
+    pan    = 64;
+}
+instrument inst14
+{
+	volume = 127;
+    pan    = 64;
+	sound  = seqsound14;
+}
+
+bank Wave1
+{
+    instrument [0] = inst1;
+	instrument [1] = inst2;
+    instrument [2] = inst3;
+    instrument [3] = inst4;
+    instrument [4] = inst5;
+    instrument [5] = inst6;
+    instrument [6] = inst7;
+    instrument [7] = inst8;
+    instrument [8] = inst9;
+    instrument [9] = inst10;
+    instrument [10] = inst11;
+    instrument [11] = inst12;
+    instrument [12] = inst13;
+    instrument [13] = inst14;
+
+}
+

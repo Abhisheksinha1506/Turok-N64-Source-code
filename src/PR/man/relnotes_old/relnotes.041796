@@ -1,0 +1,361 @@
+
+Apr 17 release RELEASE NOTES
+============================
+
+SUMMARY:
+--------
+	This release of Ultra 64 (version 2.0E for RCP 2.0,
+	version 1.0I for RCP 1.0) contains various problem fixes 
+	and enhancements. 
+
+	*** NOTE: Observant readers might be concerned about
+	the release numbering:
+
+	      Version 2.0D (1.0G) was not shipped to developers. This
+	      version, 2.0E (1.0I) represents that version, plus
+	      several important improvements discovered necessary
+	      during the testing of 2.0D. Even though 2.0D (1.0G) was
+	      not shipped to a wide audience, the release number was
+	      incremented to avoid confusion.
+
+	Please note that some fixes apply only to RCP 2.0. A good rule
+	of thumb is that: "Features and problem fixes which apply to the
+	R4300 (CPU libraries) are usually available to RCP 1.0
+	systems."  Conversely, features and problem fixes which relate to
+	the GBI, RSP microcode, or the RDP are usually *not*
+	applicable to RCP 1.0 systems.
+
+	Please note that some applications can only run on RCP 2.0.
+	(applications which use turbo microcode, advanced texturing
+	demos, and applications which call osSyncPrintf()). These
+	include fogworld, blockmonkey, mipmap, spbench, terrain,
+	texlight, tile_rect2d, tile_rect3d, and gtdemo.
+
+	Please note the R4300 multiply problem detailed in the 2.0C
+	release.  You MUST install the IRIX 5.3 patch provided. Brief
+	instructions are included below in the Appendix; full patch
+	installation instructions are included in the release notes
+	provided with that patch (also included on this tape).
+
+NEW FEATURES:
+-------------
+	New GBI macros:
+	(These macros are advanced commands and recommended only for
+	people who really know what they are doing):
+
+	    gSPForceMatrix, gsSPForceMatrix: Advanced command.  Set a
+		new matrix directly without any matrix multiplications
+
+	    gSPInsertMatrix, gsSPInsertMatrix: Advanced command.
+		Insert elements into the concatenated PROJECTION,
+		MODELVIEW matrix without doing any matrix
+		multiplications.
+
+	    gSPModifyVertex, gsSPModifyVertex: Advanced command.
+		Insert new numbers in specific parts of a vertex which
+		is already in the RSP.  This allows you to modify
+		attributes of a vertex after it is loaded.  This is
+		particularly useful if you have vertices which are
+		shared by 2 or more triangles with dissimilar
+		attributes (such as texture coordinate), or if you
+		want to draw screen-space lines.
+
+	New Microcode: 
+	gspF3DNon, gspF3DNon.dram, gspF3DNon.fifo.  These 3 microcode
+	versions are just like their gspFast3D equivalents, except they
+	do not do near clipping.  This means that objects between the
+	eyepoint and the near clipping plane do not disappear.
+	Therefore you can make your near plane farther from your
+	eyepoint (which will improve Z precision and texture mapping
+	accuracy) without losing objects that come close to the
+	eyepoint. (the old display list command which supported
+	turning near clipping off has been removed).  This feature is
+	available in the new fogworld demo from the View menu.  (choose
+	Near Clipping OFF from the View Menu.)
+
+	New feature of Line Microcode:
+	Now when a regular triangle display list (which would ordinarily be 
+	used with the gspFast3D microcode) is sent to the gspLine3D 
+	microcode, the triangles are drawn as lines.  Each gSP1Triangle 
+	command causes the 3 edges of the triangle to be drawn.  Notice
+	that this is very inefficient since triangle commands describing
+	adjacent triangles will both cause the common edge of the triangle
+	to be drawn.  For this reason this feature of the line microcode is
+	meant to be used for debugging purposes only.  For more efficient
+	line drawing use the line microcode's gSPLine3D command.  This
+	new gSP1Triangle feature of the line microcode is demonstrated
+	in the new demo fogworld.  Run fogworld, go to the view menu, and
+	slect Wireframe to see it work.
+
+
+NEW DEMO APPLICATIONS:
+----------------------
+
+	cptest:
+	This program uses C++, and provides the basic library support
+	needed. This demo program is not supported, it is provided
+	as-is.
+
+	fault:
+	This program demonstrates how to catch and process CPU
+	exceptions (such as TLB misses and floating point
+	divide-by-zero) without the use of rmon.
+
+	fogworld:
+	Demonstrates the use of fog and volume culling.  Fog can hide
+	the extremities of a visual database, obscuring geometry as it
+	enters and exits the view.  This eliminates the appearance of
+	geometry "popping" into and out of view.  Volume culling
+	allows you to send a large display list to the RSP and have
+	the RSP quickly throw away sections which are not visible.
+
+	greset:
+	A simple program that simulates pressing the RESET switch on
+	the game box.
+
+	pfs:
+	A simple app that demonstrates the memory pack interface
+	functions.
+
+	terrain: 
+	This is a terrain generating program.  You can interactively
+	create mountainous terrains which can be saved and used in
+	your own games.  Note that this is a demo and not necessarily
+	an efficient terrain generating program for game development.
+	Run it by running the "terrain" program on the Indy, not by
+	gload'ing the rom.
+
+
+MODIFIED DEMO APPLICATIONS:
+----------------------
+
+	All:
+	Shared texture images and their include files have been
+	moved to the /usr/src/PR/Texture directory. This saves
+	disk space, compile time, and hopefully makes things a little
+	clearer in the sample apps.
+
+
+PROBLEM FIXES:  ----------
+	AUDIO 
+	What was called "audio Yield" (actually an extension of
+	graphics yielding) is no longer supported.  Now when you
+	create an audio task the task header's yield_data_ptr and
+	yield_data_size fields should both be 0 (no buffer needed).
+	Also, you no longer need to set the OS_TASK_DP_WAIT bit in the
+	flags field of an audio task header.  If you are using the
+	fifo graphics microcode this bit should never be set (in the
+	audio OR the graphics task headers).
+
+	A Sound Player problem that occasionally causes sounds to
+	terminate early when the Sound Player is under heavy use 
+	has been fixed.
+
+	In the previous release, there were some round off errors in
+	some timing calculations that were causing sequences to play
+	at a faster tempo than normal.  These round off errors have
+	been eliminated.
+
+	A problem in the sequence player's loop handling code has been
+	fixed. The problem caused the sequence player to lose an
+	available voice each time through the loop and eventually
+	to run out of voices. The problem would appear depending on
+	the placement of the loop markers.  Although this problem
+	has been fixed, if you are using loops you should read the
+	man page for alSeqpLoop which describes the limitations
+	of the loops and what to look out for.  Note, this only
+	affects the sequence player not the compact sequence player.
+
+	A problem that caused negative detune values in ALKeymap not to
+	get handled properly has been fixed. 
+
+	osAiSetNextBuffer now includes a workaround for the hardware
+	problem reported in the last release. The problem imposes a restriction
+	that certain addresses for the end of the audio buffer will 
+	not transfer correctly. osAiSetNextBuffer now adjusts those
+	addresses correctly so that the transfers are successful.
+
+	Midi Controller #16 can now be used to set the priority of a 
+	channel from within a midi sequence. This change has been 
+	implemented in both the regular sequence player and the 
+	compact midi sequence player.
+
+	Midicvt now handles end events correctly.
+
+	alSynSetFXParam is now implemented. Check man page for details.
+
+	Both sequence players now support a way of disabling the most
+	common error messages when used with the debug libraries. When
+	init'ing a sequence player you set the debugFlags of the 
+	ALSeqpConfig structure. Setting different flags (bits), controls
+	which error messages will be suppressed. Three masks are defined
+	in libaudio.h. The simple demo has an example of their use in
+	audio.c. 	
+
+	GRAPHICS 
+	Precision in the turbo microcode was improved, removing most
+	of the cracks and dropouts that were evident.
+
+	A problem in the gbi.h macros was found and fixed. The _SHIFT()
+	macros were not masking off the fields, so negative parameters
+	could destroy other fields. This problem was actually quite rare,
+	but the proper fix required changing the _SHIFT() macros,
+	which necessitated touching just about *every* macro in
+	gbi.h. If you have written any of your own macros (in addition
+	to gbi.h) you will need to perform the corresponding fixes
+	(see comments in mbi.h).
+
+	The FIFO microcode had a problem, which caused the RDP to hang in
+	between gload invocations, if a program using the XBUS was not
+	run in between. This was an RDP initialization problem, which has
+	been fixed.
+
+	A lighting problem, caused by sqrt() precision loss was fixed.
+
+	'rgb2c' was outputting an array size for mipmap arrays that
+    	was too large by a factor of 2. This has been fixed by
+    	removing the array size argument. For developers using mipmaps
+    	this will save ROM space.
+
+	SCHEDULER
+	The scheduler now blanks the screen until the first swapbuffer
+	occurs.  With the old scheduler, it was possible to have a
+	few frames of garbage displayed at the beginning of the game.
+
+	OS
+	sprintf() and related functions were inadvertently deleted
+	from libultra_rom.a; they have been restored.
+
+	Profiling has been fixed.  The addresses and function names
+	reported by gperf were incorrect.  Also, the argument checking
+	for osProfileInit() in libultra_d.a has been turned on.
+
+	R4300
+	A new version of the "r4300_check" program is being released.
+	This version fixes a problem which causes incorrect warnings to
+	be generated which running on code compiled with the -O2 flag.
+
+	DOCUMENTATION
+	Incorrect page numbering and cross-references have been fixed.
+
+	Numerous sections have been edited, improved, or added. The
+	"change bars" reflect these changes.
+
+
+FEATURES ENHANCED:
+------------------
+
+	AUDIO
+
+
+	GRAPHICS
+	Line & Turbo microcode now supports .dram output and .fifo
+	output.  The usage is the same as other dram/fifo microcode
+	versions.
+
+	Line microcode now supports variable-width lines. New macros
+	(gSPLineW3D and gsSPLineW3D) are supplied which have an
+	additional parameter to specify line width. Consult the
+	updated man page for more details.
+
+	VIDEO
+
+	OS
+	Several undocumented functions have been documented and
+	exported. These calls, __os* were necessary for some advanced
+	features (such as fault recovery).
+
+	All #include files have been modified to use
+	_LANGUAGE_C_PLUS_PLUS (in addition to _LANGUAGE_C) around
+	C-specific code. This allows for better support of C++.
+
+	DOCUMENTATION
+	The developer documentation now has an index.
+
+	Many man pages have received edits and additional information.
+
+
+FEATURES NO LONGER SUPPORT:
+---------------------------
+
+
+THINGS TO WATCH OUT FOR:
+------------------------
+
+It has been discovered that the video interface unit will malfunction
+if the osViBlack() routine is called while the video interface unit
+has non-default YScaling enabled. This problem has been added to the os VI
+routines man page.
+
+
+DOCUMENTATION:
+-------------
+
+
+----------------------------------------------------------------------------
+CAVEATS
+----------------------------------------------------------------------------
+
+Graphics:
+--------
+
+Audio:
+-----
+
+Operating System:
+----------------
+
+	RCP SPEED:
+	We now have 4 different speed systems out there
+
+	   a. HW1			50 Mhz
+	   b. HW2 (NTSC)		60.85 Mhz
+	   c. HW2 (PAL)			62.07 Mhz
+	   d. Real game machines	62.5  Mhz
+	      (Both NTSC and PAL)
+
+        To have the correct timing for all the systems, makerom has
+	been changed to set the right value for different systems. The
+	default value is set to 62.5 Mhz. For case b, developers need
+	to pass "-C 0" or "-C 60850000 "to makerom.  For those
+	developers who still have HW1, they need to do "makerom -C
+	50000000"
+
+
+Demos:
+------
+
+Tools:
+------
+	IC:
+	The "-n" option has been added to ic to disable sorting by
+	keymaps. When this option is enabled, sounds will be included
+	in the instruments in the order they are specified. This is
+	usefull for sound effects banks.
+
+Debugger:
+--------
+
+----------------------------------------------------------------------------
+APPENDIX
+----------------------------------------------------------------------------
+
+Important Things from Previous Releases That You Must Know:
+----------------------------------------------------------
+
+	You need 'sgitcl' to run the application 'spin'. This
+	package is included on 5.3 distribution CD's, and is
+	included with this release for convenience. It is
+	*not* installed when you do a default ultra install.
+
+	You *must* install the IRIX patch patchSG0001118 to your
+	system. This patch fixes your C compiler and Assembler
+	in order to work around an R4300 problem. This patch is
+	included with this release for convenience. It is
+	*not* installed when you do a default ultra install.
+	See patch1118/patchSG0001118/relnotes/ch1.z for complete
+	installation instructions. Note: You must select this
+	patch for install. The default behavior for 'inst' is to
+	not install patches. You must request this patch to be
+	installed explicitly. (see man inst for more information)
+

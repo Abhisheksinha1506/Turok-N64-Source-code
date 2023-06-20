@@ -1,0 +1,18 @@
+#! /bin/sh
+
+LD_LIBRARY_PATH=.
+export LD_LIBRARY_PATH
+
+$ROOT/usr/sbin/gload  rom &
+
+GLOAD_PID=$!
+
+trap "killall tex;  kill -9 $GLOAD_PID; exit" 1 2 3 15
+
+#tex dso 
+cd ui
+echo "start UI"
+./tex ../spintcl.so
+
+kill -9 $GLOAD_PID
+exit 0

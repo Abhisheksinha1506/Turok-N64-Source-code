@@ -1,0 +1,2376 @@
+// onscrn.cpp
+#include "cppu64.h"
+#include "tengine.h"
+#include "onscrn.h"
+#include "tmove.h"
+#include "textload.h"
+#include "romstruc.h"
+#include "boss.h"
+#include "pickup.h"
+
+// numerals 0-9
+#include "overlay/font/0.h"
+#include "overlay/font/1.h"
+#include "overlay/font/2.h"
+#include "overlay/font/3.h"
+#include "overlay/font/4.h"
+#include "overlay/font/5.h"
+#include "overlay/font/6.h"
+#include "overlay/font/7.h"
+#include "overlay/font/8.h"
+#include "overlay/font/9.h"
+#include "overlay/font/0_4.h"
+#include "overlay/font/1_4.h"
+#include "overlay/font/2_4.h"
+#include "overlay/font/3_4.h"
+#include "overlay/font/4_4.h"
+#include "overlay/font/5_4.h"
+#include "overlay/font/6_4.h"
+#include "overlay/font/7_4.h"
+#include "overlay/font/8_4.h"
+#include "overlay/font/9_4.h"
+#include "overlay/font/neg.h"
+
+// actual font
+#include "overlay/font/a.h"
+#include "overlay/font/b.h"
+#include "overlay/font/c.h"
+#include "overlay/font/d.h"
+#include "overlay/font/e.h"
+#include "overlay/font/f.h"
+#include "overlay/font/g.h"
+#include "overlay/font/h.h"
+#include "overlay/font/i.h"
+#include "overlay/font/j.h"
+#include "overlay/font/k.h"
+#include "overlay/font/l.h"
+#include "overlay/font/m.h"
+#include "overlay/font/n.h"
+#include "overlay/font/o.h"
+#include "overlay/font/p.h"
+#include "overlay/font/q.h"
+#include "overlay/font/r.h"
+#include "overlay/font/s.h"
+#include "overlay/font/t.h"
+#include "overlay/font/u.h"
+#include "overlay/font/v.h"
+#include "overlay/font/w.h"
+#include "overlay/font/x.h"
+#include "overlay/font/y.h"
+#include "overlay/font/z.h"
+#include "overlay/font/ramp.h"
+
+// health
+#include "overlay/health/health.h"
+#include "overlay/health/armour.h"
+#include "overlay/health/turkhead.h"
+
+// walk - run icons
+#include "overlay/health/walk.h"
+#include "overlay/health/run.h"
+
+// boxes
+#include "overlay/boxes/rok.h"
+
+// compass
+//#include "overlay/compass/compass.h"
+#include "overlay/compass/nesw.h"
+
+// ammo
+#include "overlay/ammo/arrow.h"
+#include "overlay/ammo/xarrow.h"
+#include "overlay/ammo/bullet.h"
+#include "overlay/ammo/shell.h"
+#include "overlay/ammo/xshell.h"
+#include "overlay/ammo/energy.h"
+#include "overlay/ammo/minigun.h"
+#include "overlay/ammo/grenade.h"
+#include "overlay/ammo/rocket.h"
+#include "overlay/ammo/shockwav.h"
+#include "overlay/ammo/kamf.h"
+
+
+// weapons
+#include "overlay/weapons/knife.h"
+#include "overlay/weapons/bow.h"
+#include "overlay/weapons/pistol.h"
+#include "overlay/weapons/rifle.h"
+#include "overlay/weapons/shotgun.h"
+#include "overlay/weapons/autosh.h"
+#include "overlay/weapons/grenade.h"
+#include "overlay/weapons/rocket.h"
+#include "overlay/weapons/minigun.h"
+#include "overlay/weapons/longhunt.h"
+#include "overlay/weapons/infntry.h"
+#include "overlay/weapons/shock.h"
+#include "overlay/weapons/fusion.h"
+
+
+#define		DISPLAY_TOKENS		0
+
+/////////////////////////////////////////////////////////////////////////////
+// Constants
+/////////////////////////////////////////////////////////////////////////////
+
+// health position defines
+#define	HEALTH_XPOS								(16+32)
+#define	HEALTH_YPOS								212
+#define	HEALTH_START_YPOS						300
+
+// lives position defines
+#define	LIVES_START_XPOS						(16)
+#define	LIVES_XPOS								(16)
+#define	LIVES_YPOS								16
+
+
+// compass position defines
+#define	COMPASS_XPOS							((320/2)-(64/2))
+#define	COMPASS_YPOS							13
+#define	COMPASS_START_YPOS					0
+
+// world position defines
+#define	POSITION_XPOS							200
+#define	POSITION_YPOS							13
+
+//  on screen weapon defines
+#define	ONSCRN_WEAPONSELECTION_TIMER		40		// weapon selection timer before dropping off
+#define	ONSCRN_WEAPONICON_SEL_X				29
+#define	ONSCRN_WEAPONICON_SEL_Y				32
+#define	ONSCRN_WEAPONICON_XOFF				-1//2
+#define	ONSCRN_WEAPONICON_YOFF				72
+#define	ONSCRN_WEAPONICON_SPACER			20//12
+#define	ONSCRN_WEAPONICON_SEL_WIDTH		36
+#define	ONSCRN_WEAPONICON_SEL_HEIGHT		12
+#define	ONSCRN_WEAPONICON_TOTAL				14
+
+
+// on screen run / walk defines
+#define	RUNWALK_XPOS							280
+#define	RUNWALK_YPOS							12
+#define	RUNWALK_START_YPOS					-96
+#define	ONSCRN_RUNWALKSELECTION_TIMER		30		// run / walk selection timer before dropping off
+
+// on screen swim / burst defines
+#define	SWIMBURST_XPOS							(280-32)
+#define	SWIMBURST_YPOS							24
+#define	SWIMBURST_START_YPOS					-96
+#define	ONSCRN_SWIMBURSTSELECTION_TIMER		30		// swim / burst selection timer before dropping off
+
+
+
+// numeral size & spacing
+//#define	ONSCRN_NUMERAL_WIDTH		16
+//#define	ONSCRN_NUMERAL_HEIGHT	16
+#define	ONSCRN_NUMERAL_WIDTH		12
+#define	ONSCRN_NUMERAL_HEIGHT	12
+#define	ONSCRN_NUMERAL_SPACER	-3
+
+
+#if (ONSCRN_NUMERAL_WIDTH & 0x3)
+#define ONSCRN_ALIGNEDWIDTH ((ONSCRN_NUMERAL_WIDTH/4*4) + 4)
+#else
+#define ONSCRN_ALIGNEDWIDTH ONSCRN_NUMERAL_WIDTH
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Data
+/////////////////////////////////////////////////////////////////////////////
+typedef struct s_WeaponInfo
+{
+	int	XOff, YOff ;
+	void *Icon ;
+} t_WeaponInfo ;
+
+// regular ammo icons
+static t_WeaponInfo pAmmoIcons[] =
+{
+	0, 0,  NULL,						// 1 Knife
+	0, 0,  NULL,						// 2 Tomahawk
+	0, -1, AmmoArrowOverlay,		// 3 TekBow
+	4, 0,  AmmoBulletOverlay,		// 4 SemiAutomaticPistol
+	0, 0,  AmmoShellOverlay,		// 5 RiotShotgun
+	0, 0,  AmmoShellOverlay,		// 6 AutomaticShotgun
+	4, 0,  AmmoBulletOverlay,		// 7 AssaultRifle
+	0, 0,  AmmoEnergyOverlay,		// 8 MachinGun
+	4, -2, AmmoMinigunOverlay,		// 9 MiniGun
+	0, 0,  AmmoGrenadeOverlay,		// 10 GrenadeLauncher
+	0, 0,  AmmoEnergyOverlay,		// 11 TechWeapon1
+	0, -1, AmmoRocketOverlay,		// 12	Rocket Launcher
+	0, 0,  AmmoShockwaveOverlay,	// 13 Shockwave
+	4, 0,  AmmoKamfOverlay,			// 14 TechWeapon2
+} ;
+
+// explosive ammo icons
+static t_WeaponInfo pExplosiveAmmoIcons[] =
+{
+	0, 0,  NULL,						// 1 Knife
+	0, 0,  NULL,						// 2 Tomahawk
+	0, -1, AmmoExpArrowOverlay,	// 3 TekBow
+	4, 0,  AmmoBulletOverlay,		// 4 SemiAutomaticPistol
+	0, 0,  AmmoExpShellOverlay,	// 5 RiotShotgun
+	0, 0,  AmmoExpShellOverlay,  	// 6 AutomaticShotgun
+	4, 0,  AmmoBulletOverlay,		// 7 AssaultRifle
+	0, 0,  AmmoEnergyOverlay,		// 8 MachinGun
+	4, -2, AmmoMinigunOverlay,		// 9 MiniGun
+	0, 0,  AmmoGrenadeOverlay,		// 10 GrenadeLauncher
+	0, 0,  AmmoEnergyOverlay,		// 11 TechWeapon1
+	0, -1, AmmoRocketOverlay,		// 12	Rocket Launcher
+	0, 0,	 AmmoShockwaveOverlay,	// 13 Shockwave
+	4, 0,	 AmmoKamfOverlay,			// 14 TechWeapon2
+} ;
+
+
+
+static t_WeaponInfo pWeaponIcons[] =
+{
+	10, 6, KnifeWeapon,			// 1 Knife
+	0, 0, KnifeWeapon,			// 2 Tomahawk
+	0, 2, TekBowWeapon,			// 3 TekBow
+	16, 4, PistolWeapon,			// 4 SemiAutomaticPistol
+	0, 4, ShotgunWeapon,			// 5 RiotShotgun
+	0, 4, AutoShotgunWeapon,	// 6 AutomaticShotgun
+	0, 2, RifleWeapon,			// 7 AssaultRifle
+	0, 1, LongHunterWeapon,		// 8 MachinGun
+	0, 0, MinigunWeapon,			// 9 MiniGun
+	0, 0, GrenadeWeapon,			// 10 GrenadeLauncher
+	0, 2, InfantryWeapon,		// 11 TechWeapon1
+	0, 1, RocketWeapon,			// 12 Rocket Launcher
+	0, 0, ShockWeapon,			// 13 Shockwave
+	0, 3, FusionWeapon,			// 14 TechWeapon2
+};
+
+
+// Pointers to digit data
+static void *pNumbers[10]=
+{
+	Font0,
+	Font1,
+	Font2,
+	Font3,
+	Font4,
+	Font5,
+	Font6,
+	Font7,
+	Font8,
+	Font9,
+};
+
+// Pointers to digit data 4bit
+static void *pNumbers4Bit[10]=
+{
+	Font0_4,
+	Font1_4,
+	Font2_4,
+	Font3_4,
+	Font4_4,
+	Font5_4,
+	Font6_4,
+	Font7_4,
+	Font8_4,
+	Font9_4,
+};
+
+// Pointers to font data (4bit)
+static void *pFont[26]=
+{
+	FontA,
+	FontB,
+	FontC,
+	FontD,
+	FontE,
+	FontF,
+	FontG,
+	FontH,
+	FontI,
+	FontJ,
+	FontK,
+	FontL,
+	FontM,
+	FontN,
+	FontO,
+	FontP,
+	FontQ,
+	FontR,
+	FontS,
+	FontT,
+	FontU,
+	FontV,
+	FontW,
+	FontX,
+	FontY,
+	FontZ,
+};
+
+
+
+// Pointers to walk & run mode icons
+static void *pRunWalkIcons[2]=
+{
+	// 0 = walk mode icon
+	// 1 = run mode icon
+	WalkOverlay,
+	RunOverlay
+};
+
+// Pointers to walk & run mode icons
+static void *pSwimBurstIcons[2]=
+{
+	// 0 = swim mode icon
+	// 1 = burst mode icon
+	WalkOverlay,
+	RunOverlay
+};
+
+
+
+// Ammo overlay scripts
+DEFINE_OVERLAY_SCRIPT(AmmoInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_SET_POS(20+32+68,240+96)
+END_OVERLAY_SCRIPT
+
+DEFINE_OVERLAY_SCRIPT(AmmoOnOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(20+32+68,192+20,2)
+END_OVERLAY_SCRIPT
+
+DEFINE_OVERLAY_SCRIPT(AmmoDropOffOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_DROP_OFF(6)
+END_OVERLAY_SCRIPT
+
+
+
+// Health overlay scripts
+DEFINE_OVERLAY_SCRIPT(HealthInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(HEALTH_XPOS, HEALTH_YPOS, 2)
+END_OVERLAY_SCRIPT
+
+DEFINE_OVERLAY_SCRIPT(SwitchHealthArmourOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(HEALTH_XPOS, HEALTH_YPOS+32, 2)
+END_OVERLAY_SCRIPT
+
+
+// Lives overlay scripts
+DEFINE_OVERLAY_SCRIPT(LivesInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(LIVES_XPOS, LIVES_YPOS, 1)
+END_OVERLAY_SCRIPT
+
+
+
+// Compass overlay scripts
+DEFINE_OVERLAY_SCRIPT(CompassInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(COMPASS_XPOS, COMPASS_YPOS, 1)
+END_OVERLAY_SCRIPT
+
+
+
+// Weapon Selection overlay scripts
+DEFINE_OVERLAY_SCRIPT(WeaponInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_SET_POS(ONSCRN_WEAPONICON_SEL_X - 90,24)
+END_OVERLAY_SCRIPT
+
+DEFINE_OVERLAY_SCRIPT(WeaponOnOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(ONSCRN_WEAPONICON_SEL_X,ONSCRN_WEAPONICON_SEL_Y,2)
+	OVERLAY_SCRIPT_ENTRY_WAIT(ONSCRN_WEAPONSELECTION_TIMER)
+	OVERLAY_SCRIPT_ENTRY_HORZDROP_OFF(-4)
+END_OVERLAY_SCRIPT
+
+// Run / Walk Toggle overlay scripts
+DEFINE_OVERLAY_SCRIPT(RunWalkInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_SET_POS(RUNWALK_XPOS, RUNWALK_START_YPOS)
+END_OVERLAY_SCRIPT
+
+DEFINE_OVERLAY_SCRIPT(RunWalkOnOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(RUNWALK_XPOS, RUNWALK_YPOS, 2)
+	OVERLAY_SCRIPT_ENTRY_WAIT(ONSCRN_RUNWALKSELECTION_TIMER)
+	OVERLAY_SCRIPT_ENTRY_DROP_OFF(-4)
+END_OVERLAY_SCRIPT
+
+// Swim / Burst Toggle overlay scripts
+DEFINE_OVERLAY_SCRIPT(SwimBurstInitOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_SET_POS(SWIMBURST_XPOS, SWIMBURST_START_YPOS)
+END_OVERLAY_SCRIPT
+
+DEFINE_OVERLAY_SCRIPT(SwimBurstOnOverlayScript)
+	OVERLAY_SCRIPT_ENTRY_ZOOM(SWIMBURST_XPOS, SWIMBURST_YPOS, 2)
+	OVERLAY_SCRIPT_ENTRY_WAIT(ONSCRN_SWIMBURSTSELECTION_TIMER)
+	OVERLAY_SCRIPT_ENTRY_DROP_OFF(-4)
+END_OVERLAY_SCRIPT
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Internal Prototypes
+/////////////////////////////////////////////////////////////////////////////
+void COnScreen__DrawCompassGraphic(Gfx **ppDLP, CGridGraphic *Grid, INT16 XPos, INT16 YPos) ;
+
+void COnScreen__DrawScrollTexture(Gfx **ppDLP,
+										 void *pTexture,
+										 int XPos, int YPos,
+										 int TextureWidth, int TextureHeight,
+										 int XOff, int YOff) ;
+
+void COnScreen__DrawClipTexture(Gfx **ppDLP,
+										 void *pTexture,
+										 int XPos, int YPos,
+										 int TextureWidth, int TextureHeight,
+										 int XSize, int YSize) ;
+
+
+void COnScreen__InitFontDraw(Gfx **ppDLP) ;
+void COnScreen__DrawFontTexture(Gfx **ppDLP,
+										void *pTexture,
+										float XPos, float YPos,
+										float XScale, float YScale) ;
+void COnScreen__DoDrawText(Gfx **ppDLP,
+								 char *String,
+								 int nX, int nY,
+								 float XScale, float YScale,
+								 int Opacity, BOOL centre,
+								 int topr, int topg, int topb,
+								 int botr, int botg, int botb) ;
+
+/////////////////////////////////////////////////////////////////////////////
+// Functions
+/////////////////////////////////////////////////////////////////////////////
+
+void COnScreen__Construct(COnScreen *pThis)
+{
+	// reset vars
+	pThis->m_Ammo = 0;
+	//pThis->m_OnScreenAmmo = 0 ;
+
+	pThis->m_Health = 0;
+	pThis->m_HealthArmourIcon = ONSCRN_HEALTH_ICON;
+
+	pThis->m_CompassPos = 0;
+	pThis->m_CompassAccel = 0;
+
+	pThis->m_SelectPosition = 0;
+	pThis->m_BarrelDirection = 0;
+
+	pThis->m_WalkRunIcon = ONSCRN_WALK_ICON ;
+
+	pThis->m_pBossInstance = NULL ;
+
+	COverlay__Construct(&pThis->m_AmmoOverlay, 24, 240+96) ;
+	COverlay__RunScript(&pThis->m_AmmoOverlay, AmmoInitOverlayScript) ;
+
+	COverlay__Construct(&pThis->m_HealthOverlay, HEALTH_XPOS, HEALTH_START_YPOS) ;
+	COverlay__RunScript(&pThis->m_HealthOverlay, HealthInitOverlayScript) ;
+
+	COverlay__Construct(&pThis->m_LivesOverlay, LIVES_START_XPOS, LIVES_YPOS) ;
+	COverlay__RunScript(&pThis->m_LivesOverlay, LivesInitOverlayScript) ;
+
+	COverlay__Construct(&pThis->m_WeaponOverlay, -60, 24) ;
+	COverlay__RunScript(&pThis->m_WeaponOverlay, WeaponInitOverlayScript) ;
+
+	COverlay__Construct(&pThis->m_RunWalkOverlay, RUNWALK_XPOS, RUNWALK_START_YPOS) ;
+	COverlay__RunScript(&pThis->m_RunWalkOverlay, RunWalkInitOverlayScript) ;
+
+	COverlay__Construct(&pThis->m_SwimBurstOverlay, SWIMBURST_XPOS, SWIMBURST_START_YPOS) ;
+	COverlay__RunScript(&pThis->m_SwimBurstOverlay, SwimBurstInitOverlayScript) ;
+
+	COverlay__Construct(&pThis->m_CompassOverlay, COMPASS_XPOS, COMPASS_START_YPOS) ;
+	COverlay__RunScript(&pThis->m_CompassOverlay, CompassInitOverlayScript) ;
+
+	COnScreen__InitializeGameText() ;
+}
+
+
+void COnScreen__Update(COnScreen *pThis)
+{
+	// Update ammo icons movement
+	COverlay__Update(&pThis->m_AmmoOverlay) ;
+
+	// Update health icons movement
+	COverlay__Update(&pThis->m_HealthOverlay) ;
+
+	// Update lives icons movement
+	COverlay__Update(&pThis->m_LivesOverlay) ;
+
+	// Update weapon icons movement
+	COverlay__Update(&pThis->m_WeaponOverlay) ;
+
+	// Update run / walk icon movement
+	COverlay__Update(&pThis->m_RunWalkOverlay);
+
+	// Update swim / burst icon movement
+	COverlay__Update(&pThis->m_SwimBurstOverlay);
+
+	// Update compass movement
+	COverlay__Update(&pThis->m_CompassOverlay);
+
+}
+
+
+
+
+void COnScreen__Draw(COnScreen *pThis, Gfx **ppDLP)
+{
+	INT16				nRunWalkMode;
+	INT16				nSwimBurstMode;
+	INT32				Offset ;
+	CGridGraphic	*Grid ;
+	int				xoff, yoff ;
+#ifdef DISPLAY_COORDINATES
+	CGameObjectInstance *pTurok = CEngineApp__GetPlayer(GetApp());
+#endif
+
+//#define ALL_WEAPONS_MAN
+#ifdef ALL_WEAPONS_MAN
+	CTurokMovement[0].KnifeFlag						= TRUE;
+	CTurokMovement[0].TekBowFlag						= TRUE;
+	CTurokMovement[0].SemiAutomaticPistolFlag		= TRUE;
+	CTurokMovement[0].AssaultRifleFlag				= TRUE;
+	CTurokMovement[0].MachineGunFlag					= TRUE;
+	CTurokMovement[0].RiotShotgunFlag				= TRUE;
+	CTurokMovement[0].AutomaticShotgunFlag			= TRUE;
+	CTurokMovement[0].MiniGunFlag						= TRUE;
+	CTurokMovement[0].GrenadeLauncherFlag			= TRUE;
+	CTurokMovement[0].TechWeapon1Flag				= TRUE;
+	CTurokMovement[0].RocketFlag						= TRUE;
+	CTurokMovement[0].ShockwaveFlag					= TRUE;
+	CTurokMovement[0].TechWeapon2Flag				= TRUE;
+
+	CTurokMovement[0].TekBowAmmo						= MAX_ARROWS ;
+	CTurokMovement[0].BulletPool						= MAX_BULLETS ;
+	CTurokMovement[0].EnergyPool						= MAX_ENERGY ;
+	CTurokMovement[0].ShotgunPool						= MAX_SHOTGUN ;
+	CTurokMovement[0].MiniGunAmmo						= MAX_MINIGUN ;
+	CTurokMovement[0].GrenadeLauncherAmmo			= MAX_GRENADES ;
+	CTurokMovement[0].RocketAmmo						= MAX_ROCKETS ;
+	CTurokMovement[0].ShockwaveAmmo					= 0 ;
+	CTurokMovement[0].TechWeapon2Ammo				= MAX_TECH2 ;
+#endif
+
+	// Prepare for drawing texture graphics
+	COnScreen__InitTextureDraw(ppDLP, GetApp()->m_Options.m_Opacity) ;
+
+	// using point sampling for unscaled bitmaps
+	gDPSetTextureFilter((*ppDLP)++, G_TF_POINT);
+
+	if (GetApp()->m_Options.m_Opacity)
+	{
+		// Display ammo info
+		if ((pThis->m_SelectPosition != (u8) -1) && COverlay__OnScreen(&pThis->m_AmmoOverlay))
+		{
+			// Calculate 1/2 of pixel width
+			if (pThis->m_ExplosiveAmmo)
+			{
+				Grid = (CGridGraphic *)(pExplosiveAmmoIcons[pThis->m_SelectPosition].Icon) ;
+				xoff = pExplosiveAmmoIcons[pThis->m_SelectPosition].XOff ;
+				yoff = pExplosiveAmmoIcons[pThis->m_SelectPosition].YOff ;
+			}
+			else
+			{
+				Grid = (CGridGraphic *)(pAmmoIcons[pThis->m_SelectPosition].Icon) ;
+				xoff = pAmmoIcons[pThis->m_SelectPosition].XOff ;
+
+				yoff = pAmmoIcons[pThis->m_SelectPosition].YOff ;
+			}
+
+			if (Grid)
+			{
+				Offset = 32 ;
+
+				// Draw ammo overlay
+				COnScreen__DrawGridGraphic(ppDLP,
+													Grid,
+													pThis->m_AmmoOverlay.m_X-Offset+xoff,
+													pThis->m_AmmoOverlay.m_Y-8+yoff) ;
+
+				// display rock piece for numbers
+				COnScreen__DrawGridGraphic(ppDLP,
+													(CGridGraphic *)RokOverlay,
+													pThis->m_AmmoOverlay.m_X-Offset+18,
+													pThis->m_AmmoOverlay.m_Y-8) ;
+
+					// Display ammo numbers
+				COnScreen__DrawDigits(ppDLP,
+											 pThis->m_Ammo,
+											 (int)pThis->m_AmmoOverlay.m_X-12,
+											 (int)pThis->m_AmmoOverlay.m_Y-4);
+			}
+		}
+
+		// Display health info
+		if (COverlay__OnScreen(&pThis->m_HealthOverlay))
+		{
+			// Calculate 1/2 of pixel width
+			if (pThis->m_HealthArmourIcon == ONSCRN_HEALTH_ICON)
+				Grid = (CGridGraphic *)HealthOverlay ;
+			else
+				Grid = (CGridGraphic *)ArmourOverlay ;
+			Offset = 30 ;
+
+			// Draw health overlay
+			COnScreen__DrawGridGraphic(ppDLP,
+												Grid,
+												pThis->m_HealthOverlay.m_X-Offset,
+												pThis->m_HealthOverlay.m_Y-8) ;
+
+			// draw rock
+			COnScreen__DrawGridGraphic(ppDLP,
+												(CGridGraphic *)RokOverlay,
+												pThis->m_HealthOverlay.m_X-Offset+21,
+												pThis->m_HealthOverlay.m_Y-8) ;
+
+
+			// Display numbers
+			COnScreen__DrawDigits(ppDLP,
+										 pThis->m_Health,
+										 (int)pThis->m_HealthOverlay.m_X-6,
+										 (int)pThis->m_HealthOverlay.m_Y-4) ;
+
+	#if DISPLAY_TOKENS
+			// Display lives
+			COnScreen__DrawDigits(ppDLP,
+										 CTurokMovement[0].Lives,
+										 (int)pThis->m_HealthOverlay.m_X-6,
+										 (int)pThis->m_HealthOverlay.m_Y-4-16) ;
+			// Display tokens
+			COnScreen__DrawDigits(ppDLP,
+										 CTurokMovement[0].Tokens,
+										 (int)pThis->m_HealthOverlay.m_X-6+32,
+										 (int)pThis->m_HealthOverlay.m_Y-4-16) ;
+
+	#endif
+		}
+
+		// display lives info
+		if (COverlay__OnScreen(&pThis->m_LivesOverlay))
+		{
+		 	Grid = (CGridGraphic *)TurokHeadOverlay ;
+
+			// draw icon overlay
+			COnScreen__DrawGridGraphic(ppDLP,
+												Grid,
+												pThis->m_LivesOverlay.m_X,
+												pThis->m_LivesOverlay.m_Y) ;
+
+			// display numbers
+			COnScreen__DrawDigits(ppDLP,
+										 CTurokMovement[0].Lives,
+										 (int)pThis->m_LivesOverlay.m_X+32,
+										 (int)pThis->m_LivesOverlay.m_Y+8) ;
+		}
+
+
+		// Draw boss health
+		if (pThis->m_pBossInstance)
+		{
+			COnScreen__DrawDigits(ppDLP,
+										 pThis->m_pBossInstance->m_pBoss->m_PercentageHealth,
+										 260,
+										 POSITION_YPOS);
+		}
+
+	#ifdef DISPLAY_FRAMERATE
+		// Display frame rate
+		COnScreen__DrawDigits(ppDLP,
+									 (int) (FRAME_FPS/frame_increment),
+									 50,
+									 POSITION_YPOS);
+	#endif
+
+	#ifdef DISPLAY_COORDINATES
+		// display world position
+		COnScreen__DrawDigits(ppDLP,
+									 (int)(pTurok->ah.ih.m_vPos.x/SCALING_FACTOR),
+									 POSITION_XPOS,
+									 POSITION_YPOS);
+		COnScreen__DrawDigits(ppDLP,
+									 (int)(pTurok->ah.ih.m_vPos.z/SCALING_FACTOR),
+									 POSITION_XPOS,
+									 POSITION_YPOS+16);
+	#endif
+
+
+		// Draw compass icon (line is drawn from tengine in gameswapbuffer to framebuffer)
+		if (COverlay__OnScreen(&pThis->m_CompassOverlay))
+		{
+			//COnScreen__DrawGridGraphic(ppDLP,
+			//									(CGridGraphic *)CompassOverlay,
+			//									pThis->m_CompassOverlay.m_X-8,
+			//									pThis->m_CompassOverlay.m_Y-8) ;
+
+			COnScreen__DrawCompassGraphic(ppDLP,
+												(CGridGraphic *)NESWOverlay,
+												pThis->m_CompassOverlay.m_X,
+												pThis->m_CompassOverlay.m_Y) ;
+
+		}
+
+		// Display run / walk icon
+		if (COverlay__OnScreen(&pThis->m_RunWalkOverlay))
+		{
+			if (pThis->m_WalkRunIcon==ONSCRN_WALK_ICON)
+				nRunWalkMode = 0;
+			else
+				nRunWalkMode = 1;
+
+			COnScreen__DrawGridGraphic(ppDLP,
+												(CGridGraphic *)pRunWalkIcons[nRunWalkMode],
+												pThis->m_RunWalkOverlay.m_X,
+												pThis->m_RunWalkOverlay.m_Y) ;
+		}
+
+		// Display swim / burst icon
+		if (COverlay__OnScreen(&pThis->m_SwimBurstOverlay))
+		{
+			if (pThis->m_SwimBurstIcon==ONSCRN_SWIM_ICON)
+				nSwimBurstMode = 0;
+			else
+				nSwimBurstMode = 1;
+
+			COnScreen__DrawGridGraphic(ppDLP,
+												(CGridGraphic *)pSwimBurstIcons[nSwimBurstMode],
+												pThis->m_SwimBurstOverlay.m_X,
+												pThis->m_SwimBurstOverlay.m_Y) ;
+		}
+	}
+
+	// Draw weapon selection
+	COnScreen__DrawWeaponSelection(pThis, ppDLP) ;
+
+
+	COnScreen__UpdateGameText(ppDLP) ;
+}
+
+
+#if 0
+/*
+void COnScreen__DrawWeaponSelection(COnScreen *pThis, Gfx **ppDLP)
+{
+	CGridGraphic	**ppIcon ;
+	BOOL	Dim, YAdd ;
+	BOOL	*pWeaponFlag ;
+	//int	*pAmmo ;
+	INT32	XPos, YPos, i ;
+	INT32	SelectionYPos = 0 ;
+	FLOAT	Alpha ;
+
+	// Display weapon selection info
+	if (pThis->m_WeaponOverlay.m_OnScreen)
+	{
+		// Prepare for drawing texture graphics
+		COnScreen__InitTextureDraw(ppDLP, GetApp()->m_Options.m_Opacity) ;
+
+		//----------------------------------------------
+		// Display weapon icons if present
+		//----------------------------------------------
+		ppIcon = (CGridGraphic **)pWeaponIcons ;
+		pWeaponFlag = &CTurokMovement[0].KnifeFlag ;
+
+		XPos = pThis->m_WeaponOverlay.m_X + ONSCRN_WEAPONICON_XOFF ;
+		YPos = pThis->m_WeaponOverlay.m_Y + ONSCRN_WEAPONICON_YOFF ;
+		for (i = 0 ; i < ONSCRN_WEAPONICON_TOTAL ; i++)
+		{
+			// Is this the selected weapon?
+			if (i == pThis->m_SelectPosition)
+				SelectionYPos = YPos - ONSCRN_WEAPONICON_YOFF ;
+
+			// if TUROK has weapon, draw icon
+			if (*pWeaponFlag)
+			{
+				COnScreen__DrawGridGraphic(ppDLP,
+													*ppIcon,
+													XPos,
+													YPos + ONSCRN_WEAPONICON_YOFF) ;
+
+				// move to next y
+				YPos += ONSCRN_WEAPONICON_SPACER ;
+			}
+
+			// next weapon
+			ppIcon++ ;
+			pWeaponFlag++ ;
+		}
+
+
+		// Prepare for drawing box graphics
+		COnScreen__InitBoxDraw(ppDLP) ;
+
+		//----------------------------------------------
+		// Dim weapon icons if no ammo
+		//----------------------------------------------
+		//pWeaponFlag = &CTurokMovement[0].KnifeFlag ;
+		//pAmmo = &CTurokMovement[0].KnifeAmmo ;
+		XPos = pThis->m_WeaponOverlay.m_X ;
+		YPos = pThis->m_WeaponOverlay.m_Y ;
+
+
+		// to check the ammo, using this marvellous new pooled bullet system,
+		// use a for loop from WEAPON_START to WEAPON_END so can do special case checks...
+		// yeah, I know it looks nasty, but its either this or change the order of stuff
+		// and risk who knows how many potential errors...
+		for (i= TWEAPON_KNIFE; i< TWEAPON_TOTAL; i++)
+		{
+			Dim = FALSE ;
+			YAdd = FALSE ;
+			switch (i)
+			{
+				case 1:		//TWEAPON_KNIFE:
+					YAdd = TRUE ;
+					break ;
+				case 3:		//TWEAPON_TEKBOW:
+					if (CTurokMovement[0].TekBowFlag)
+					{
+						YAdd = TRUE ;
+						if ((CTurokMovement[0].TekBowAmmo + CTurokMovement[0].ExpTekBowAmmo) == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 4:	//TWEAPON_SEMIAUTOMATICPISTOL:
+					if (CTurokMovement[0].SemiAutomaticPistolFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].BulletPool == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 5:	//TWEAPON_RIOTSHOTGUN:
+					if (CTurokMovement[0].RiotShotgunFlag)
+					{
+						YAdd = TRUE ;
+						if ((CTurokMovement[0].ShotgunPool + CTurokMovement[0].ExpShotgunPool) == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 6:	//TWEAPON_AUTOMATICSHOTGUN:
+					if (CTurokMovement[0].AutomaticShotgunFlag)
+					{
+						YAdd = TRUE ;
+						if ((CTurokMovement[0].ShotgunPool + CTurokMovement[0].ExpShotgunPool) == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 7:	//TWEAPON_ASSAULTRIFLE:
+					if (CTurokMovement[0].AssaultRifleFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].BulletPool == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 8:	//TWEAPON_MACHINEGUN:
+					if (CTurokMovement[0].MachineGunFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].EnergyPool == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 9:	//TWEAPON_MINIGUN:
+					if (CTurokMovement[0].MiniGunFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].MiniGunAmmo == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 10:	//TWEAPON_GRENADE_LAUNCHER:
+					if (CTurokMovement[0].GrenadeLauncherFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].GrenadeLauncherAmmo == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 11:	//TWEAPON_TECHWEAPON1:
+					if (CTurokMovement[0].TechWeapon1Flag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].EnergyPool == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 12:	//TWEAPON_ROCKET:
+					if (CTurokMovement[0].RocketFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].RocketAmmo == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 13:	//TWEAPON_SHOCKWAVE:
+					if (CTurokMovement[0].ShockwaveFlag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].ShockwaveAmmo == 0)
+							Dim = TRUE ;
+					}
+					break ;
+				case 14:	//TWEAPON_TECHWEAPON2:
+					if (CTurokMovement[0].TechWeapon2Flag)
+					{
+						YAdd = TRUE ;
+						if (CTurokMovement[0].TechWeapon2Ammo == 0)
+							Dim = TRUE ;
+					}
+					break ;
+			}
+			if (Dim)
+			{
+				COnScreen__DrawBox(ppDLP, XPos, YPos,
+										XPos + ONSCRN_WEAPONICON_SEL_WIDTH,
+									   YPos + ONSCRN_WEAPONICON_SEL_HEIGHT,
+									   0,0,0, ONSCRN_WEAPONICON_DIM_ALPHA) ;
+
+			}
+
+			// move to next y
+			if (YAdd)
+				YPos += ONSCRN_WEAPONICON_SPACER ;
+		}
+
+
+
+		//----------------------------------------------
+		// Draw throbbing transparent box over current selection
+		//----------------------------------------------
+		Alpha = 64.0 + (32.0*cos((FLOAT)pThis->m_SelectionTimer / 4.0)) ;
+		COnScreen__DrawBoxOutLine(ppDLP, XPos-2, SelectionYPos,
+										  XPos + ONSCRN_WEAPONICON_SEL_WIDTH+2,
+										  SelectionYPos + ONSCRN_WEAPONICON_SEL_HEIGHT,2,
+										  255,0,128,(UINT8)Alpha) ;
+
+		// Next frame
+		pThis->m_SelectionTimer++ ;
+	}
+}
+*/
+#endif
+
+
+#if 1
+#define	WEAPONS_DISPLAYED		8
+#define	WEAPONS_STEP			((M_PI*2)/WEAPONS_DISPLAYED)
+
+
+int	WeaponBuffer[TWEAPON_TOTAL] ;
+int	CurrentWeapon = 0;
+int	NewWeapon = 0;
+float	CurrentAngle = 0;
+float	NewAngle = 0;
+int	MaxWeapons ;
+float	delta = 0;
+float	AngleAccel = 0 ;
+float	ViewAngleOffset = 0 ;
+
+void COnScreen__DrawWeaponSelection(COnScreen *pThis, Gfx **ppDLP)
+{
+	CGridGraphic	*ppIcon ;
+	BOOL	*pWeaponFlag ;
+
+	float	XPos, YPos ;
+	int	xoff, yoff ;
+	int	i, index ;
+	float	angle, alpha ;
+
+
+	// Display weapon selection info
+	if (pThis->m_WeaponOverlay.m_OnScreen)
+	{
+		// create a list of currently owned weapons
+		pWeaponFlag = &CTurokMovement[0].KnifeFlag ;
+		MaxWeapons = 0;
+		for (i= 0; i< TWEAPON_TOTAL; i++)
+		{
+			// weapon is owned, add to buffer
+			if (*pWeaponFlag)
+			{
+				WeaponBuffer[MaxWeapons] = i ;
+				if (i == pThis->m_SelectPosition)
+				{
+					NewWeapon = MaxWeapons ;
+					NewAngle = MaxWeapons * WEAPONS_STEP ;
+				}
+
+				MaxWeapons++ ;
+			}
+			pWeaponFlag++ ;
+		}
+
+		// if current is different from selected, find angle difference,
+		// and interpolate to it.
+		if (NewAngle != CurrentAngle)
+		{
+			// get difference in radians
+			delta = NewAngle - CurrentAngle ;
+
+			// if direction was DOWN, make sure accel correct sign
+			if (pThis->m_BarrelDirection)
+			{
+				while (delta < 0)
+					delta += (MaxWeapons * WEAPONS_STEP) ;
+			}
+			// direction was UP, make sure accel correct sign
+			else
+			{
+				while (delta > 0)
+					delta -= (MaxWeapons * WEAPONS_STEP) ;
+			}
+
+
+			// shm, fruit machine simulator
+			//delta -= AngleAccel ;
+			//AngleAccel += delta / 6 ;
+
+
+			AngleAccel = delta / 4 ;
+			CurrentAngle += AngleAccel ;
+			ViewAngleOffset += AngleAccel ;
+
+			// normalize rotation (no negatives!)
+			if (CurrentAngle < 0)
+				CurrentAngle += (MaxWeapons * WEAPONS_STEP) ;
+			else if (CurrentAngle > (MaxWeapons * WEAPONS_STEP))
+				CurrentAngle -= (MaxWeapons * WEAPONS_STEP) ;
+
+
+			if (fabs(delta) < 0.01)
+			{
+				CurrentAngle = NewAngle ;
+				CurrentWeapon = NewWeapon ;
+				AngleAccel = 0;
+				ViewAngleOffset = 0;
+			}
+		}
+
+
+		// move along array to avoid 'popping'
+		while (ViewAngleOffset >= WEAPONS_STEP)
+		{
+			ViewAngleOffset -= WEAPONS_STEP ;
+			CurrentWeapon++ ;
+			if (CurrentWeapon >= MaxWeapons)
+				CurrentWeapon = 0 ;
+		}
+
+		while (ViewAngleOffset <= -WEAPONS_STEP)
+		{
+			ViewAngleOffset += WEAPONS_STEP ;
+			CurrentWeapon-- ;
+			if (CurrentWeapon < 0)
+				CurrentWeapon = MaxWeapons-1 ;
+		}
+
+
+		// draw list, starting with current
+		COnScreen__InitTextureDraw(ppDLP, 0) ;
+		gDPSetTextureFilter((*ppDLP)++, G_TF_BILERP);
+		gDPSetRenderMode((*ppDLP)++, G_RM_ZB_CLD_SURF, G_RM_ZB_CLD_SURF2);
+
+		// weapon to start with
+		index = CurrentWeapon -4;
+		if (index <0)
+			index += MaxWeapons ;
+
+		// check incase not enough weapons!
+		if (index == -2)
+			index = 0 ;
+		else if ((index <0) || (index > MaxWeapons-1))
+			index = MaxWeapons-1 ;
+
+		for (i=0 ; i<WEAPONS_DISPLAYED; i++)
+		{
+			angle = i*(3.141592654*2) / (WEAPONS_DISPLAYED-0) ;
+			angle += 3.141592654 ;
+			angle -= ViewAngleOffset ;
+
+			XPos = pThis->m_WeaponOverlay.m_X + ONSCRN_WEAPONICON_XOFF ;
+
+			YPos = pThis->m_WeaponOverlay.m_Y + ONSCRN_WEAPONICON_YOFF ;
+			YPos += 48 * sin(angle) ;
+
+			alpha = 128+(127*cos(angle)) ;
+
+
+			if (alpha >0)
+			{
+				gDPSetPrimColor((*ppDLP)++,
+								 0, 0,				// lod for mip-mapping
+								 255, 255, 255,	// rgb
+								 alpha);				// a
+
+				ppIcon = (CGridGraphic *)pWeaponIcons[WeaponBuffer[index]].Icon ;
+				xoff = pWeaponIcons[WeaponBuffer[index]].XOff ;
+				yoff = pWeaponIcons[WeaponBuffer[index]].YOff ;
+
+				COnScreen__DrawScaledGridGraphic(ppDLP,
+														ppIcon,
+														XPos+xoff, YPos+yoff,
+														//1.0, 1.0) ;
+														0.6+(0.4*cos(angle)), 0.6+(0.4*cos(angle))) ;
+			}
+
+			index++ ;
+			if (index >MaxWeapons-1)
+				index = 0 ;
+		}
+
+		// display box (temporarily) where selected weapon should be
+		COnScreen__InitBoxDraw(ppDLP) ;
+
+		angle = 4*(3.141592654*2) / (WEAPONS_DISPLAYED-0) ;
+		XPos = pThis->m_WeaponOverlay.m_X + ONSCRN_WEAPONICON_XOFF ;
+		YPos = pThis->m_WeaponOverlay.m_Y + ONSCRN_WEAPONICON_YOFF ;
+		YPos += 48 * sin(angle) ;
+
+		alpha = 64.0 + (32.0*cos((FLOAT)pThis->m_SelectionTimer / 4.0)) ;
+		COnScreen__DrawBoxOutLine(ppDLP,
+										  XPos, YPos,
+										  XPos+64, YPos+32,
+										  2,
+										  255,0,128, alpha) ;
+
+		// Next frame
+		pThis->m_SelectionTimer++ ;
+	}
+}
+#endif
+
+
+
+
+
+// set on screen health
+//
+void COnScreen__SetHealth(COnScreen *pThis, int nHealth)
+{
+	if (CTurokMovement[0].ArmorFlag)
+	{
+		if (pThis->m_HealthArmourIcon == ONSCRN_HEALTH_ICON)
+		{
+			COverlay__RunScript(&pThis->m_HealthOverlay, SwitchHealthArmourOverlayScript) ;
+			if (pThis->m_HealthOverlay.m_Y == pThis->m_HealthOverlay.m_FinalY)
+			{
+				pThis->m_HealthArmourIcon = ONSCRN_ARMOUR_ICON;
+				COverlay__RunScript(&pThis->m_HealthOverlay, HealthInitOverlayScript) ;
+			}
+		}
+		else
+			pThis->m_Health = CTurokMovement[0].ArmorAmount ;
+	}
+	else
+	{
+		if (pThis->m_HealthArmourIcon == ONSCRN_ARMOUR_ICON)
+		{
+			COverlay__RunScript(&pThis->m_HealthOverlay, SwitchHealthArmourOverlayScript) ;
+			if (pThis->m_HealthOverlay.m_Y == pThis->m_HealthOverlay.m_FinalY)
+			{
+				pThis->m_HealthArmourIcon = ONSCRN_HEALTH_ICON;
+				COverlay__RunScript(&pThis->m_HealthOverlay, HealthInitOverlayScript) ;
+			}
+		}
+		else
+			pThis->m_Health = nHealth;
+	}
+}
+
+
+// set on screen ammo count
+//
+
+void COnScreen__SetAmmo(COnScreen *pThis, int nAmmo, BOOL explosive)
+{
+	// Bring Ammo overlay onto screen?
+	if ((nAmmo >= 0) && (pThis->m_Health > 0))
+	{
+		// Only bring on if ammo number is different!
+		if ((!COverlay__OnScreen(&pThis->m_AmmoOverlay)) && (pThis->m_Ammo != nAmmo))
+			COverlay__RunScript(&pThis->m_AmmoOverlay, AmmoOnOverlayScript) ;
+	}
+	else if ((COverlay__OnScreen(&pThis->m_AmmoOverlay)) &&
+				(!COverlay__Active(&pThis->m_AmmoOverlay)))
+	{
+		// Make ammo drop off
+		COverlay__RunScript(&pThis->m_AmmoOverlay, AmmoDropOffOverlayScript) ;
+	}
+
+	pThis->m_Ammo = nAmmo ;
+	//pThis->m_OnScreenAmmo = nAmmo ;
+
+	pThis->m_ExplosiveAmmo = explosive ;
+}
+
+
+// Set walk or run icon
+//
+void COnScreen__SetWalkRunIcon(COnScreen *pThis, INT32 nIcon)
+{
+	// Alive?
+	if (pThis->m_Health > 0)
+	{
+		// bring run / walk selection icon on screen
+		COverlay__RunScript(&pThis->m_RunWalkOverlay, RunWalkOnOverlayScript) ;
+		pThis->m_WalkRunIcon = nIcon ;
+	}
+}
+
+// Set swim or burst icon
+//
+void COnScreen__SetSwimBurstIcon(COnScreen *pThis, INT32 nIcon)
+{
+	// Alive?
+	if (pThis->m_Health > 0)
+	{
+		// bring swim / burst selection icon on screen
+		COverlay__RunScript(&pThis->m_SwimBurstOverlay, SwimBurstOnOverlayScript) ;
+		pThis->m_SwimBurstIcon = nIcon ;
+	}
+}
+
+
+
+// bring on weapon icons for weapon selection
+//
+void COnScreen__DisplayWeaponChoice(COnScreen *pThis, int SelectPosition, BOOL Direction)
+{
+	// Alive?
+	if (pThis->m_Health > 0)
+	{
+		// bring weapon selection icons on screen
+		COverlay__RunScript(&pThis->m_WeaponOverlay, WeaponOnOverlayScript) ;
+		pThis->m_SelectPosition = SelectPosition;
+		pThis->m_SelectionTimer = 0 ;
+
+		pThis->m_BarrelDirection = Direction ;
+	}
+}
+
+void COnScreen__QuickWeaponChange(COnScreen *pThis, int SelectPosition)
+{
+	pThis->m_SelectPosition = SelectPosition;
+}
+
+// is weapon overlay on screen ?
+//
+BOOL COnScreen__IsWeaponOverlayOn(COnScreen *pThis)
+{
+	return COverlay__OnScreen(&pThis->m_WeaponOverlay);
+}
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Overlay code
+/////////////////////////////////////////////////////////////////////////////
+
+void COverlay__Construct(COverlay *pThis, INT16 nScreenX, INT16 nScreenY)
+{
+	// reset vars
+	pThis->m_OnScreen = FALSE ;
+	pThis->m_Mode = OVERLAY_INACTIVE_MODE,
+	pThis->m_X = (FLOAT)nScreenX ;
+	pThis->m_Y = (FLOAT)nScreenY ;
+}
+
+
+
+// Start script into action
+//
+void COverlay__RunScript(COverlay *pThis, INT32 *pScript)
+{
+	pThis->m_pScript = pScript ;
+	pThis->m_Mode = OVERLAY_READ_SCRIPT_MODE ;
+	COverlay__Update(pThis) ;
+}
+
+
+
+// Update overlay movement
+//
+void COverlay__Update(COverlay *pThis)
+{
+	BOOL	DoNextCommand ;
+	FLOAT	XVel, YVel ;
+
+	// Update movement
+	do
+	{
+		DoNextCommand = FALSE ;
+		switch(pThis->m_Mode)
+		{
+			case OVERLAY_INACTIVE_MODE:
+				break ;
+
+			case OVERLAY_READ_SCRIPT_MODE:
+
+				// Script active?
+				if (pThis->m_pScript)
+				{
+					// Process new script command
+					switch(*pThis->m_pScript++)
+					{
+						case OVERLAY_SCRIPT_SET_POS:
+							pThis->m_X = (FLOAT)*pThis->m_pScript++ ;
+							pThis->m_Y = (FLOAT)*pThis->m_pScript++ ;
+							DoNextCommand = TRUE ;
+							break ;
+
+						case OVERLAY_SCRIPT_WAIT:
+							pThis->m_Mode = OVERLAY_WAIT_MODE ;
+							pThis->m_Time = *pThis->m_pScript++ ;
+							break ;
+
+						case OVERLAY_SCRIPT_ZOOM:
+							pThis->m_OnScreen = TRUE ;
+							pThis->m_Mode = OVERLAY_ZOOM_MODE ;
+							pThis->m_FinalX = (FLOAT)*pThis->m_pScript++ ;
+							pThis->m_FinalY = (FLOAT)*pThis->m_pScript++ ;
+							pThis->m_ZoomFactor = 1.0 / (FLOAT)*pThis->m_pScript++ ;
+							break ;
+
+						case OVERLAY_SCRIPT_DROP_OFF:
+							pThis->m_OnScreen = TRUE ;
+							pThis->m_Mode = OVERLAY_DROP_OFF_MODE ;
+							pThis->m_YVel = 0.0 ;
+							pThis->m_YAccel = ((FLOAT)*pThis->m_pScript++) / 65536.0 ;
+							break ;
+
+						case OVERLAY_SCRIPT_HORZDROP_OFF:
+							pThis->m_OnScreen = TRUE ;
+							pThis->m_Mode = OVERLAY_HORZDROP_OFF_MODE ;
+							pThis->m_XVel = 0.0 ;
+							pThis->m_XAccel = ((FLOAT)*pThis->m_pScript++) / 65536.0 ;
+							break ;
+
+						default:
+							pThis->m_Mode = OVERLAY_INACTIVE_MODE ;
+							pThis->m_pScript = NULL ;
+							break ;
+					}
+				}
+				else
+					pThis->m_Mode = OVERLAY_INACTIVE_MODE ;
+
+				break ;
+
+			case OVERLAY_WAIT_MODE:
+
+				// Timer ran out?
+				if (pThis->m_Time-- <= 0)
+					DoNextCommand = TRUE ;
+
+				break ;
+
+			case OVERLAY_ZOOM_MODE:
+
+				// Calculate zoom vels
+				XVel = (pThis->m_FinalX - pThis->m_X) * pThis->m_ZoomFactor ;
+				YVel = (pThis->m_FinalY - pThis->m_Y) * pThis->m_ZoomFactor ;
+
+				// Move overlay
+				pThis->m_X += XVel ;
+				pThis->m_Y += YVel ;
+
+				// Snap to final target
+				if ((abs(XVel) < 0.25) && (abs(YVel) < 0.25))
+				{
+					pThis->m_X = pThis->m_FinalX ;
+					pThis->m_Y = pThis->m_FinalY ;
+					DoNextCommand = TRUE ;
+				}
+			  	break ;
+
+			case OVERLAY_DROP_OFF_MODE:
+
+				// Move
+				pThis->m_Y += pThis->m_YVel ;
+				pThis->m_YVel += pThis->m_YAccel ;
+
+				// Off bottom of screen?
+				if ((pThis->m_Y > (240+96)) || (pThis->m_Y<-90))
+				{
+					pThis->m_OnScreen = FALSE ;
+					DoNextCommand = TRUE ;
+				}
+
+				break ;
+
+			case OVERLAY_HORZDROP_OFF_MODE:
+
+				// Move
+				pThis->m_X += pThis->m_XVel ;
+				pThis->m_XVel += pThis->m_XAccel ;
+
+				// Off left / right of screen?
+				if ((pThis->m_X > (320+96)) || (pThis->m_X<-90))
+				{
+					pThis->m_OnScreen = FALSE ;
+					DoNextCommand = TRUE ;
+				}
+
+				break ;
+		}
+
+		// Process next command?
+		if (DoNextCommand)
+			pThis->m_Mode = OVERLAY_READ_SCRIPT_MODE ;
+
+	}
+	while(DoNextCommand) ;
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Texture draw functions
+/////////////////////////////////////////////////////////////////////////////
+
+// Prepare for a texture draw
+//
+void COnScreen__InitTextureDraw(Gfx **ppDLP, int Opacity)
+{
+	CTextureLoader__InvalidateTextureCache();
+
+	gDPPipeSync((*ppDLP)++);
+
+	gSPTexture((*ppDLP)++,
+				  0x8000,
+				  0x8000,
+				  0, 0, G_ON);
+	gDPSetTextureLUT((*ppDLP)++, G_TT_NONE);
+
+	gDPSetCycleType((*ppDLP)++, G_CYC_1CYCLE);
+
+/*
+	if (Opacity < 128)
+	{
+		gDPSetRenderMode((*ppDLP)++, G_RM_ZB_CLD_SURF, G_RM_ZB_CLD_SURF2);
+	}
+	else
+	{
+*/
+		gDPSetRenderMode((*ppDLP)++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+//	}
+
+	gDPSetCombineMode((*ppDLP)++, G_CC_ROB_DECALRGBA_PRIMALPHA, G_CC_ROB_DECALRGBA_PRIMALPHA);
+	gDPSetPrimColor((*ppDLP)++,
+						 0, 0,				// lod for mip-mapping
+						 255, 255, 255,	// rgb
+						 Opacity);			// a
+
+
+	gDPSetTexturePersp((*ppDLP)++, G_TP_NONE);
+}
+
+
+
+// Draw texture
+//
+void COnScreen__DrawTexture(Gfx **ppDLP,
+									 void *pTexture,
+									 int XPos, int YPos,
+									 int TextureWidth, int TextureHeight)
+{
+	gDPLoadTextureBlock(((*ppDLP)++),
+							  RDP_ADDRESS(pTexture), G_IM_FMT_RGBA, G_IM_SIZ_32b,
+							  TextureWidth, TextureHeight, 0,
+							  G_TX_NOMIRROR, G_TX_NOMIRROR,
+							  G_TX_NOMASK, G_TX_NOMASK,
+							  G_TX_NOLOD, G_TX_NOLOD);
+
+   gSPTextureRectangle((*ppDLP)++,
+							  (XPos << 2), (YPos << 2),
+							  ((XPos + TextureWidth) << 2), ((YPos + TextureHeight) << 2),
+							  G_TX_RENDERTILE,
+							  0, 0, (1 << 10), (1 << 10));
+}
+
+
+void COnScreen__DrawScaledTexture(Gfx **ppDLP,
+											void *pTexture,
+											float XPos, float YPos,
+											int TextureWidth, int TextureHeight,
+											float XScale, float YScale)
+{
+	int	xstep ;
+	int	ystep ;
+
+	int xPosInt, xRightPosInt;
+	int yPosInt, yBottomPosInt;
+
+	xstep = (1<<10) ;
+	if (XScale != 0)
+		xstep *= (1/XScale) ;
+	ystep = (1<<10) ;
+	if (YScale != 0)
+		ystep *= (1/YScale) ;
+
+	xPosInt = (int) (XPos * (1 << 2));	
+	xRightPosInt = (int) ((XPos + TextureWidth*XScale) * (1 << 2));
+	yPosInt = (int) (YPos * (1 << 2));	
+	yBottomPosInt = (int) ((YPos + TextureHeight*YScale) * (1 << 2));
+
+
+
+	gDPLoadTextureBlock(((*ppDLP)++),
+							  RDP_ADDRESS(pTexture), G_IM_FMT_RGBA, G_IM_SIZ_32b,
+							  TextureWidth, TextureHeight, 0,
+							  G_TX_NOMIRROR, G_TX_NOMIRROR,
+							  G_TX_NOMASK, G_TX_NOMASK,
+							  G_TX_NOLOD, G_TX_NOLOD);
+
+   gSPTextureRectangle((*ppDLP)++,
+							  xPosInt, yPosInt,
+							  xRightPosInt, yBottomPosInt,
+							  G_TX_RENDERTILE,
+							  0, 0, xstep, ystep);
+}
+
+
+void COnScreen__DrawScrollTexture(Gfx **ppDLP,
+										 void *pTexture,
+										 int XPos, int YPos,
+										 int TextureWidth, int TextureHeight,
+										 int XOff, int YOff)
+{
+	gDPLoadTextureBlock(((*ppDLP)++),
+							  RDP_ADDRESS(pTexture), G_IM_FMT_RGBA, G_IM_SIZ_32b,
+							  TextureWidth, TextureHeight, 0,
+							  G_TX_WRAP, G_TX_WRAP,
+							  4, 4,
+							  G_TX_NOLOD, G_TX_NOLOD);
+
+   gSPTextureRectangle((*ppDLP)++,
+							  (XPos << 2), (YPos << 2),
+							  ((XPos + (TextureWidth-XOff)) << 2), ((YPos + (TextureHeight-YOff)) << 2),
+							  G_TX_RENDERTILE,
+							  (XOff<<5), (YOff<<5), (1 << 10), (1 << 10));
+}
+
+void COnScreen__DrawClipTexture(Gfx **ppDLP,
+										 void *pTexture,
+										 int XPos, int YPos,
+										 int TextureWidth, int TextureHeight,
+										 int XSize, int YSize)
+{
+	gDPLoadTextureBlock(((*ppDLP)++),
+							  RDP_ADDRESS(pTexture), G_IM_FMT_RGBA, G_IM_SIZ_32b,
+							  TextureWidth, TextureHeight, 0,
+							  G_TX_NOMIRROR, G_TX_NOMIRROR,
+							  G_TX_NOMASK, G_TX_NOMASK,
+							  G_TX_NOLOD, G_TX_NOLOD);
+
+   gSPTextureRectangle((*ppDLP)++,
+							  (XPos << 2), (YPos << 2),
+							  ((XPos + XSize) << 2), ((YPos + YSize) << 2),
+							  G_TX_RENDERTILE,
+							  0, 0, (1 << 10), (1 << 10));
+}
+
+
+
+
+void COnScreen__DrawFontTexture(Gfx **ppDLP,
+										void *pTexture,
+										float XPos, float YPos,
+										float XScale, float YScale)
+{
+	int	xstep ;
+	int	ystep ;
+
+	int xPosInt, xRightPosInt;
+	int yPosInt, yBottomPosInt;
+
+	xstep = (1<<10) ;
+	if (XScale != 0)
+		xstep *= (1/XScale) ;
+	ystep = (1<<10) ;
+	if (YScale != 0)
+		ystep *= (1/YScale) ;
+
+	xPosInt = (int) (XPos * (1 << 2));	
+	xRightPosInt = (int) ((XPos + 16*XScale) * (1 << 2));
+	yPosInt = (int) (YPos * (1 << 2));	
+	yBottomPosInt = (int) ((YPos + 16*YScale) * (1 << 2));
+
+
+	gDPLoadTextureBlock_4b((*ppDLP)++,
+							  RDP_ADDRESS(pTexture), G_IM_FMT_I,
+							  16, 16, 0,
+							  G_TX_CLAMP, G_TX_CLAMP,
+							  4, 4,
+							  G_TX_NOLOD, G_TX_NOLOD);
+   gSPTextureRectangle((*ppDLP)++,
+							  xPosInt, yPosInt,
+							  xRightPosInt, yBottomPosInt,
+							  G_TX_RENDERTILE,
+							  0, 0, xstep, ystep);
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Box draw functions
+/////////////////////////////////////////////////////////////////////////////
+
+// Prepare for box draw
+//
+void COnScreen__InitBoxDraw(Gfx **ppDLP)
+{
+	gDPPipeSync((*ppDLP)++);
+	gDPSetRenderMode((*ppDLP)++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+	gDPSetCycleType((*ppDLP)++, G_CYC_1CYCLE);
+
+	gDPSetCombineMode((*ppDLP)++,
+							G_CC_PRIMITIVE,
+							G_CC_PRIMITIVE);
+}
+
+
+// Draw box
+//
+void COnScreen__DrawBox(Gfx **ppDLP, INT32 X1, INT32 Y1, INT32 X2, INT32 Y2,
+								UINT8 Red, UINT8 Green, UINT8 Blue, UINT8 Alpha)
+{
+	// Setup color
+	gDPPipeSync((*ppDLP)++);
+	gDPSetPrimColor((*ppDLP)++,
+						 255, 255,				// LOD stuff
+						 Red, Green, Blue,	// R,G,B
+						 Alpha);					// Alpha
+
+	gDPScisFillRectangle((*ppDLP)++, X1,Y1,X2,Y2) ;
+}
+
+
+// Draw box
+//
+void COnScreen__DrawBoxOutLine(Gfx **ppDLP, INT32 X1, INT32 Y1, INT32 X2, INT32 Y2, INT32 Thickness,
+										 UINT8 Red, UINT8 Green, UINT8 Blue, UINT8 Alpha)
+{
+	// Setup color
+	gDPPipeSync((*ppDLP)++);
+	gDPSetPrimColor((*ppDLP)++,
+						 255, 255,				// LOD stuff
+						 Red, Green, Blue,	// R,G,B
+						 Alpha);					// Alpha
+
+	// Top edge
+	gDPScisFillRectangle((*ppDLP)++, X1,Y1, X2,Y1+Thickness) ;
+
+	// Bottom edge
+	gDPScisFillRectangle((*ppDLP)++, X1,Y2-Thickness, X2,Y2) ;
+
+	// Left edge
+	gDPScisFillRectangle((*ppDLP)++, X1,Y1+Thickness, X1+Thickness,Y2-Thickness) ;
+
+	// Right edge
+	gDPScisFillRectangle((*ppDLP)++, X2-Thickness,Y1+Thickness, X2,Y2-Thickness) ;
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Misc draw functions
+/////////////////////////////////////////////////////////////////////////////
+
+void COnScreen__DrawGridGraphic(Gfx **ppDLP, CGridGraphic *Grid, INT16 XPos, INT16 YPos)
+{
+	UINT32 	X, XCount, YCount, Size ;
+	UINT8		*Data = Grid->m_pData ;
+
+
+//	rmonPrintf("w:%d h:%d pw:%d ph:%d\r\n", Grid->m_BlocksAcross, Grid->m_BlocksDown,
+//					Grid->m_BlockWidth, Grid->m_BlockHeight) ;
+
+	ASSERT((Grid->m_BlocksAcross > 0) && (Grid->m_BlocksDown > 0)) ;
+	ASSERT((Grid->m_BlockWidth == 16) && (Grid->m_BlockHeight == 16)) ;
+
+	Size = Grid->m_BlockWidth * Grid->m_BlockHeight * 4 ;
+	YCount = Grid->m_BlocksDown;
+	while(YCount--)
+	{
+		XCount = Grid->m_BlocksAcross ;
+		X = XPos ;
+		while(XCount--)
+		{
+			COnScreen__DrawTexture(ppDLP, (void *)Data,
+										  X, YPos,
+										  Grid->m_BlockWidth, Grid->m_BlockHeight) ;
+
+			X += Grid->m_BlockWidth ;
+			Data += Size ;
+		}
+
+		YPos += Grid->m_BlockHeight ;
+	}
+}
+
+
+void COnScreen__DrawScaledGridGraphic(Gfx **ppDLP, CGridGraphic *Grid, float XPos, float YPos, float XScale, float YScale)
+{
+	float 	X, XCount, YCount ;
+	INT32		Size ;
+	UINT8		*Data = Grid->m_pData ;
+
+
+//	rmonPrintf("w:%d h:%d pw:%d ph:%d\r\n", Grid->m_BlocksAcross, Grid->m_BlocksDown,
+//					Grid->m_BlockWidth, Grid->m_BlockHeight) ;
+
+	ASSERT((Grid->m_BlocksAcross > 0) && (Grid->m_BlocksDown > 0)) ;
+	ASSERT((Grid->m_BlockWidth == 16) && (Grid->m_BlockHeight == 16)) ;
+
+	Size = Grid->m_BlockWidth * Grid->m_BlockHeight * 4 ;
+	YCount = Grid->m_BlocksDown;
+	while(YCount--)
+	{
+		XCount = Grid->m_BlocksAcross ;
+		X = XPos ;
+		while(XCount--)
+		{
+			COnScreen__DrawScaledTexture(ppDLP, (void *)Data,
+												 X, YPos,
+												Grid->m_BlockWidth, Grid->m_BlockHeight,
+												XScale, YScale) ;
+
+			X += Grid->m_BlockWidth * XScale ;
+			Data += Size ;
+		}
+
+		YPos += Grid->m_BlockHeight * YScale ;
+	}
+}
+
+
+
+// based on 16 16x16 blocks (256 wide texture), single block high
+// effectively displaying 4 16x16 blocks with correct shift
+#define		COMPASS_WIDTH		(4*16)
+#define		COMPASS_MAXBLOCKS	(16)
+
+void COnScreen__DrawCompassGraphic(Gfx **ppDLP, CGridGraphic *Grid, INT16 XPos, INT16 YPos)
+{
+	UINT32 	x, pixels ;
+	UINT32	BlockSize ;
+	UINT8		*Data = Grid->m_pData ;
+
+	CGameObjectInstance	*pTurok ;
+	FLOAT						yrot, delta ;
+	INT32						Shift ;
+	
+	COnScreen		*pThis = &GetApp()->m_OnScreen ;
+
+
+	// assert if blocksize is wrong
+	ASSERT((Grid->m_BlocksAcross > 0) && (Grid->m_BlocksDown > 0)) ;
+	ASSERT((Grid->m_BlockWidth == 16) && (Grid->m_BlockHeight == 16)) ;
+
+
+	// get a pointer to the player and extract the view direction (in radians)
+	pTurok = CEngineApp__GetPlayer(GetApp());
+	yrot = pTurok->m_RotY ;
+
+	// convert radian direction to texel coordinates (-pi to pi)
+	yrot += (3.141592654) ;
+	Shift = yrot * (COMPASS_MAXBLOCKS * 16) / (2*3.141592654) ;
+
+
+	// work out difference and check for wrapping wrong direction
+	delta = Shift - pThis->m_CompassPos;
+	if (delta > 128)
+		delta = delta - (COMPASS_MAXBLOCKS*16) ;
+	else if (delta < -128)
+		delta = delta + (COMPASS_MAXBLOCKS*16) ;
+	delta -= pThis->m_CompassAccel;
+
+	// dampen the acceleration to stop it looking crap
+	pThis->m_CompassAccel += (delta /8) ;
+	if (fabs(pThis->m_CompassAccel) < 0.1)
+		pThis->m_CompassAccel = 0 ;
+
+	pThis->m_CompassPos += pThis->m_CompassAccel ;
+	if (pThis->m_CompassPos > (COMPASS_MAXBLOCKS*16))
+		pThis->m_CompassPos -= (COMPASS_MAXBLOCKS*16) ;
+	else if (pThis->m_CompassPos < 0)
+		pThis->m_CompassPos += (COMPASS_MAXBLOCKS*16) ;
+
+
+	// use correct shift value
+	Shift = pThis->m_CompassPos ;
+
+
+
+	// make this be the centre of the compass
+	Shift -= (COMPASS_WIDTH / 2) ;
+	Shift += 8 ;							// take a bit more of to centre letter (16wide)
+	if (Shift <0)
+		Shift += (COMPASS_MAXBLOCKS *16) ;
+
+
+	// single block of 16x16 size
+	BlockSize = Grid->m_BlockWidth * Grid->m_BlockHeight * 4 ;
+
+	Shift %= 256 ;
+	while (Shift > 16)
+	{
+		Data += BlockSize ;
+		Shift -= 16 ;
+	}
+	x = XPos ;
+
+	// loop through each block
+	pixels = 0;
+	while (pixels < (COMPASS_WIDTH-16))
+	{
+		COnScreen__DrawScrollTexture(ppDLP, (void *)Data,
+									  x, YPos,
+									  Grid->m_BlockWidth, Grid->m_BlockHeight,
+									  Shift, 0) ;
+
+		// move along to next x position
+		x += (Grid->m_BlockWidth-Shift) ;
+
+		// point to next block to draw, wrap to start if necessary
+		Data += BlockSize ;
+		if (Data >= (Grid->m_pData + (COMPASS_MAXBLOCKS*BlockSize)))
+			Data = Grid->m_pData ;
+
+		// advance pixels drawn
+		pixels += (16-Shift) ;
+
+		// amount of next block to skip
+		Shift = 0 ;
+	}
+
+	// last block is special case to clip right edge
+	// 16 or less pixels left to draw
+	pixels = COMPASS_WIDTH - pixels ;
+
+	COnScreen__DrawClipTexture(ppDLP, (void *)Data,
+								  x, YPos,
+								  Grid->m_BlockWidth, Grid->m_BlockHeight,
+								  pixels, Grid->m_BlockHeight) ;
+
+}
+
+
+
+
+
+
+// draw digits
+//
+void COnScreen__DrawDigits(Gfx **ppDLP,
+									int nNumber,
+									int nX,
+									int nY)
+{
+	// declare vars
+	int	num1000,
+			num100,
+		   num10,
+			num1,
+			num,
+			negative ;
+
+	int	cnt,
+		   maxcnt;
+
+
+	// make sure correct sign
+	negative = FALSE ;
+	if (nNumber < 0)
+	{
+		nNumber = -nNumber ;
+		negative = TRUE ;
+	}
+
+	// valid number count ?
+	if (nNumber >= 0)
+	{
+		// calculate digits for number
+		num1000 =  nNumber * 0.001;
+		num100  = (nNumber - (num1000*1000)) * 0.01;
+		num10   = (nNumber - (num1000*1000) - (num100*100)) * 0.1;
+		num1    =  nNumber - (num1000*1000) - (num100*100) - (num10*10);
+
+		// how many digits to draw (remove leading zeros)
+// made left justified by carl, on the basis of it looking nicer!
+// I just took out all this nx +- stuff here...
+//		nX -= (4-nDigits) * (nNumWidth+nNumSpacer);
+		maxcnt = 4-1;
+		if (num1000==0)
+		{
+			maxcnt--;
+//			nX += (nNumWidth+nNumSpacer);
+			if (num100==0)
+			{
+				maxcnt--;
+//				nX += (nNumWidth+nNumSpacer);
+				if (num10==0)
+				{
+					maxcnt--;
+//					nX += (nNumWidth+nNumSpacer);
+				}
+			}
+		}
+
+		// draw negative sign if needed
+		if (negative)
+	  	{
+	  		COnScreen__DrawGridGraphic(ppDLP, (CGridGraphic *)FontMinus, nX, nY) ;
+	  		nX += (ONSCRN_ALIGNEDWIDTH+ONSCRN_NUMERAL_SPACER);
+	  	}
+		// draw number digits
+		for (cnt=maxcnt; cnt>=0; cnt--)
+		{
+			switch (cnt)
+			{
+				case 3:
+					num = num1000;
+					break;
+
+				case 2:
+					num = num100;
+					break;
+
+				case 1:
+					num = num10;
+					break;
+
+				case 0:
+					num = num1;
+					break;
+			}
+
+			if (num>=0 && num<=9)
+				COnScreen__DrawGridGraphic(ppDLP, (CGridGraphic *)pNumbers[num], nX, nY) ;
+
+	  		nX += (ONSCRN_ALIGNEDWIDTH+ONSCRN_NUMERAL_SPACER);
+		}
+	}
+}
+
+
+// Prepare for a font draw
+//
+void COnScreen__InitFontDraw(Gfx **ppDLP)
+{
+#define G_CC_MULTIBIT_ALPHA  \
+	ENVIRONMENT, PRIMITIVE, TEXEL1, PRIMITIVE,				\
+	TEXEL0, 0, ENVIRONMENT, 0
+
+
+	gDPSetCombineMode((*ppDLP)++, G_CC_MULTIBIT_ALPHA, G_CC_PASS2);
+
+	_gDPLoadTextureBlock_4b((*ppDLP)++,
+									RDP_ADDRESS(FontRamp), 256, G_IM_FMT_I,
+									16, 16, 0,
+									G_TX_WRAP, G_TX_WRAP,
+									4, 4,
+									G_TX_NOLOD, G_TX_NOLOD);
+
+	gDPSetTile((*ppDLP)++,
+				  G_IM_FMT_I, G_IM_SIZ_4b, 1, 256, 1,
+				  0,
+				  0, 0, 0,
+				  0, 0, 0);
+	gDPSetTileSize((*ppDLP)++,
+						1, 0, 0,
+						15 << 2, 15 << 2);
+
+
+	gDPSetCycleType((*ppDLP)++, G_CYC_2CYCLE);
+}
+
+void COnScreen__WriteText(Gfx **ppDLP, char *String, float nX, float nY, float XScale, float YScale)
+{
+	int	c ;
+	while (*String)
+	{
+		c = *String ;
+
+		if (c>=0x30 && c<=0x39)
+			COnScreen__DrawFontTexture(ppDLP, (CGridGraphic *)pNumbers4Bit[c-0x30], nX, nY, XScale, YScale) ;
+		else
+		{
+			c &= 0x1f ;
+			if (c)
+				COnScreen__DrawFontTexture(ppDLP, (CGridGraphic *)pFont[c-1], nX, nY, XScale, YScale) ;
+		}
+  		nX += (12 *XScale);
+
+		String++ ;
+	}
+}
+
+
+// draw text
+//
+void COnScreen__DoDrawText(Gfx **ppDLP,
+								 char *String,
+								 int nX, int nY,
+								 float XScale, float YScale,
+								 int Opacity, BOOL centre,
+								 int topr, int topg, int topb,
+								 int botr, int botg, int botb)
+{
+	float	x, y ;
+	float	len ;
+	char	*Source ;
+
+	if (centre)
+	{
+		len = strlen(String) *(12*XScale) ;
+		nX -= len /2 ;
+	}
+
+	x = nX ;
+	y = nY ;
+	Source = String ;
+
+	// ---------------------- draw shadow
+	// top color
+	gDPSetEnvColor((*ppDLP)++,
+						0, 0, 8,		// rgb
+						Opacity);	// a
+
+	// bottom
+	gDPSetPrimColor((*ppDLP)++,
+						 0, 0,
+						 0, 0, 0,	// rgb
+						 255);		// unused a
+
+	nX += 2;
+	nY += 2;
+	COnScreen__WriteText(ppDLP, String, nX, nY, XScale, YScale) ;
+
+	// ---------------------- draw normal text
+	// top color
+	gDPSetEnvColor((*ppDLP)++,
+						topr, topg, topb,	// rgb
+						Opacity);	  	// a
+
+	// bottom
+	gDPSetPrimColor((*ppDLP)++,
+						 0, 0,
+						 botr, botg, botb,  	// rgb
+						 255);			// unused a
+
+	String = Source ;
+	nX = x ;
+	nY = y ;
+	COnScreen__WriteText(ppDLP, String, nX, nY, XScale, YScale) ;
+}
+
+void COnScreen__DrawText(Gfx **ppDLP,
+								 char *String,
+								 int nX, int nY,
+								 float XScale, float YScale,
+								 int Opacity, BOOL centre)
+{
+	COnScreen__DoDrawText(ppDLP,
+								String,
+								nX, nY, XScale, YScale,
+								Opacity, centre,
+								200, 200, 138,
+								86, 71, 47) ;
+}
+
+void COnScreen__DrawColoredText(Gfx **ppDLP,
+								 char *String,
+								 int nX, int nY,
+								 float XScale, float YScale,
+								 int Opacity, BOOL centre,
+								 int topr, int topg, int topb,
+								 int botr, int botg, int botb)
+{
+	COnScreen__DoDrawText(ppDLP,
+								String,
+								nX, nY, XScale, YScale,
+								Opacity, centre,
+								topr, topg, topb,
+								botr, botg, botb) ;
+}
+
+
+/*
+#define CLIP_LEFT		0
+#define CLIP_RIGHT 	319
+#define CLIP_TOP		0
+#define CLIP_BOTTOM	239
+// draw a line into the frame buffer
+void COnScreen__DrawFrameBufferLine(UINT16 *pBuffer, INT16 x1, INT16 y1, INT16 x2, INT16 y2, UINT16 Color)
+{
+	INT32	yadd ;					// add for line bias
+	INT32	dx, dy ;					// signed delta x and y
+	INT32	i ;						// temporary var
+	INT32	error_term ;			// bresnham decision var
+
+
+	//---	Swap endpoints if necessary to make line go left to right
+	if (x2 < x1)
+	{
+		i = x1 ;
+		x1 = x2 ;
+		x2 = i ;
+		i = y1 ;
+		y1 = y2 ;
+		y2 = i ;
+	}
+
+	//---	Do a Trivial rejection clip test
+	if ((x1 > CLIP_RIGHT) || (x2 < CLIP_LEFT))
+		return ;
+	if (y1 < y2)
+	{
+		if ((y1 > CLIP_BOTTOM) || (y2 < CLIP_TOP))
+			return ;
+	}
+	else
+	{
+		if ((y2 > CLIP_BOTTOM) || (y1 < CLIP_TOP))
+			return ;
+	}
+
+	//---	Get DeltaX & DeltaY for line in current orientation
+	dx = x2 - x1 ;
+	dy = y2 - y1 ;
+
+	//---	Clip the line against each edge of the screen in turn
+	if (x1 < CLIP_LEFT)
+	{
+		y1 += dy * (CLIP_LEFT - x1) / dx ;
+		x1 = CLIP_LEFT ;
+	}
+	if (y1 < CLIP_TOP)
+	{
+		x1 += dx * (CLIP_TOP - y1) / dy ;
+		y1 = CLIP_TOP ;
+	}
+	if (y1 > CLIP_BOTTOM)
+	{
+		x1 += dx * (CLIP_BOTTOM - y1) / dy ;
+		y1 = CLIP_BOTTOM ;
+	}
+	if (x2 > CLIP_RIGHT)
+	{
+		y2 += dy * (CLIP_RIGHT - x2) / dx ;
+		x2 = CLIP_RIGHT ;
+	}
+	if (y2 < CLIP_TOP)
+	{
+		x2 += dx * (CLIP_TOP - y2) / dy ;
+		y2 = CLIP_TOP ;
+	}
+	if (y2 > CLIP_BOTTOM)
+	{
+		x2 += dx * (CLIP_BOTTOM - y2) / dy ;
+		y2 = CLIP_BOTTOM ;
+	}
+
+	//---	Get new DeltaX & DeltaY for clipped line
+	dx = x2 - x1 ;
+	dy = y2 - y1 ;
+
+	if ( ((dx <  0) && ((x1 > CLIP_RIGHT) || (x2 < CLIP_LEFT))) ||
+		 ((dx >= 0) && ((x2 > CLIP_RIGHT) || (x1 < CLIP_LEFT))) ||
+		 ((dy <  0) && ((y1 > CLIP_BOTTOM) || (y2 < CLIP_TOP))) ||
+		 ((dy >= 0) && ((y2 > CLIP_BOTTOM) || (y1 < CLIP_TOP))))
+		 return ;
+
+	//---	Get modulos & pointers to the first pixels
+	pBuffer +=	(y1 * 320) + x1 ;
+
+	if (dy < 0)
+	{
+		dy = -dy ;
+		yadd = -320 ;
+	}
+	else
+		yadd = 320 ;
+
+	if (dx < dy)
+	{
+		error_term = -dy / 2 ;
+		for (i = dy ; i >= 0 ; i--)
+		{
+			*pBuffer = Color ;
+			pBuffer += yadd ;
+
+			error_term += dx ;
+
+			if (error_term > 0)
+			{
+				error_term -= dy ;
+				pBuffer++ ;
+			}
+		}
+	}
+	else
+	{
+		error_term = -dx / 2 ;
+		for (i = dx ; i >= 0 ; i--)
+		{
+			*pBuffer++ = Color ;
+
+			error_term += dy ;
+
+			if (error_term > 0)
+			{
+				error_term -= dx ;
+				pBuffer += yadd ;
+			}
+		}
+	}
+}
+
+
+void COnScreen__DrawCompass(UINT16 *pBuffer, COnScreen *pThis)
+{
+	INT16			x1, y1 ;
+	INT16			x2, y2 ;
+	INT16			ax1, ay1 ;
+
+	CGameObjectInstance	*pTurok ;
+	FLOAT						yrot ;
+
+  	//pFBuffer = CEngineApp__GetFrameData(GetApp())->m_pFrameBuffer ;
+
+	// get a pointer to the player and extract the view direction
+	pTurok = CEngineApp__GetPlayer(GetApp());
+	yrot = pTurok->m_RotY ;
+	x1 = pThis->m_CompassOverlay.m_X+8 ;
+	y1 = pThis->m_CompassOverlay.m_Y+8 ;
+	x2 = x1 - (20 * sin(yrot)) ;
+	y2 = y1 + (20 * cos(yrot)) ;
+	COnScreen__DrawFrameBufferLine(pBuffer, x1, y1, x2, y2, (31<<11)|31) ;
+
+	ax1 = x1 - (16 * sin(yrot-.2)) ;
+	ay1 = y1 + (16 * cos(yrot-.2)) ;
+	COnScreen__DrawFrameBufferLine(pBuffer, ax1, ay1, x2, y2, (31<<11)|31) ;
+	ax1 = x1 - (16 * sin(yrot+.2)) ;
+	ay1 = y1 + (16 * cos(yrot+.2)) ;
+	COnScreen__DrawFrameBufferLine(pBuffer, ax1, ay1, x2, y2, (31<<11)|31) ;
+}
+*/
+
+
+
+//-------------------------------------------------------------------------------
+//
+// ONSCREEN TEXT DISPLAY
+// featuring 'Carl Slam (tm)'
+//
+//-------------------------------------------------------------------------------
+
+#define MAX_GAMETEXT		8
+
+int			GameTextIndex ;
+t_GameText	GameTextArray[MAX_GAMETEXT] ;
+
+// setup array to be clear
+void COnScreen__InitializeGameText(void)
+{
+	int	i ;
+
+	GameTextIndex = 0;
+	for (i=0; i<MAX_GAMETEXT; i++)
+		GameTextArray[i].Mode = GAMETEXT_NULL ;
+}
+
+
+// put entry in next position
+void COnScreen__AddGameText(char *String)
+{
+	t_GameText	*active ;
+
+	active = &GameTextArray[GameTextIndex++] ;
+	GameTextIndex &= (MAX_GAMETEXT-1) ;
+
+	active->Mode = GAMETEXT_FADEUP ;
+	active->String = String ;
+	active->Alpha = 0 ;
+	active->Scale = 1.0 ;
+}
+
+
+void COnScreen__UpdateGameText(Gfx **ppDLP)
+{
+	int	i, index ;
+	int	y ;
+	t_GameText	*active ;
+
+	y = 200 - (MAX_GAMETEXT*15);
+
+	index = GameTextIndex ;
+
+	// using billinear interpolation for scaled bitmaps
+	gDPSetTextureFilter((*ppDLP)++, G_TF_BILERP);
+
+	gDPSetRenderMode((*ppDLP)++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+	
+	for (i=0; i<MAX_GAMETEXT; i++)
+	{
+		active = &GameTextArray[index] ;
+		if (active->Mode != GAMETEXT_NULL)
+		{
+			switch (active->Mode)
+			{
+				case GAMETEXT_FADEUP:
+					//active->Scale += (1.0/5) ;
+					active->Alpha += (255/8) ;
+					if (active->Alpha >=255)
+					{
+						active->Alpha = 255 ;
+						active->Mode = GAMETEXT_DISPLAY ;
+						//active->Scale = 2.0 ; 
+						active->Time = 16 ;
+					}
+					active->Scale = sin(active->Alpha * (M_PI/2)/255) ;
+					break ;
+
+				case GAMETEXT_DISPLAY:
+					//active->Scale -= .3 ;
+				  	//if (active->Scale < 1.0)
+					active->Scale = 1.0 ;
+
+					if (active->Time-- <0)
+						active->Mode = GAMETEXT_FADEDOWN ;
+					break ;
+
+				case GAMETEXT_FADEDOWN:
+					active->Scale -= sin(255-(active->Alpha * M_PI/255))/3 ;
+					//active->Scale -= .1 ;
+					if (active->Scale <0)
+						active->Scale = 0 ;
+					active->Alpha -= 24 ;
+					if (active->Alpha <0)
+					{
+						active->Alpha = 0 ;
+						active->Mode = GAMETEXT_NULL ;
+						//active->Mode = GAMETEXT_FADEUP ;
+					}
+					break ;
+
+			}
+			COnScreen__InitFontDraw(ppDLP) ;
+			//COnScreen__DrawText(ppDLP, active->String, 320/2, y, 1.0, 0.8, active->Alpha, TRUE) ;
+			COnScreen__DrawText(ppDLP, active->String, 320/2, y, active->Scale, active->Scale, active->Alpha, TRUE) ;
+		}
+
+		index++ ;
+		index &= (MAX_GAMETEXT-1) ;
+		y += 15 ;
+
+	}
+}
+
+

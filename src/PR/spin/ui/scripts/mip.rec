@@ -1,0 +1,290 @@
+set rspCycleType 1
+CrspCycleType
+set ccCycle0ColorA 31
+CccCycle0ColorA
+set ccCycle0ColorB 31
+CccCycle0ColorB
+set ccCycle0ColorC 31
+CccCycle0ColorC
+set ccCycle0ColorD 4
+CccCycle0ColorD
+set ccCycle0AlphaA 7
+CccCycle0AlphaA
+set ccCycle0AlphaB 7
+CccCycle0AlphaB
+set ccCycle0AlphaC 7
+CccCycle0AlphaC
+set ccCycle0AlphaD 4
+CccCycle0AlphaD
+set blAaEn 1
+CblAaEn
+set blZcmpEn 1
+CblZcmpEn
+set blZupdEn 1
+CblZupdEn
+set blImRdEn 1
+CblImRdEn
+set blCvgDest 0
+CblCvgDest
+set blColOnCvg 0
+CblColOnCvg
+set blCvgXalpha 0
+CblCvgXalpha
+set blAlphaCvgSel 1
+CblAlphaCvgSel
+set blForceBlend 0
+CblForceBlend
+set blZmode 0
+CblZmode
+set blTexEdgeMode 0
+CblTexEdgeMode
+set blAlphaCompEn 0
+CblAlphaCompEn
+set blDithAlphaEn 0
+CblDithAlphaEn
+set blZsrcSel 0
+CblZsrcSel
+set blCycle0ColorA 0
+CblCycle0ColorA
+set blCycle0ColorB 3
+CblCycle0ColorB
+set blCycle0ColorC 0
+CblCycle0ColorC
+set blCycle0ColorD 2
+CblCycle0ColorD
+set blCycle0preset 38
+set LblCycle0preset PASS
+set ccCycle0ColorA 2
+CccCycle0ColorA
+set ccCycle0AlphaA 2
+CccCycle0AlphaA
+set ccCycle0ColorB 1
+CccCycle0ColorB
+set ccCycle0AlphaB 1
+CccCycle0AlphaB
+set ccCycle0ColorC 13
+CccCycle0ColorC
+set ccCycle0AlphaC 0
+CccCycle0AlphaC
+set ccCycle0ColorD 1
+CccCycle0ColorD
+set ccCycle0AlphaD 1
+CccCycle0AlphaD
+set ccCycle0preset 31
+set LccCycle0preset TRILERP
+set ccCycle1ColorA 31
+CccCycle1ColorA
+set ccCycle1AlphaA 7
+CccCycle1AlphaA
+set ccCycle1ColorB 31
+CccCycle1ColorB
+set ccCycle1AlphaB 7
+CccCycle1AlphaB
+set ccCycle1ColorC 31
+CccCycle1ColorC
+set ccCycle1AlphaC 7
+CccCycle1AlphaC
+set ccCycle1ColorD 0
+CccCycle1ColorD
+set ccCycle1AlphaD 0
+CccCycle1AlphaD
+set ccCycle1preset 0
+set LccCycle1preset PASS2
+set setTileFormat0 0
+CsetTileFormat
+set setTileTexelSize0 2
+CsetTileTexelSize
+set setTileLine0 8
+set setTileAddrs0 0
+set setTileWrapMirs0 0
+CsetTileWrapMirs
+set setTileClamps0 0
+set setTileMaskS0 5
+set setTileShiftS0 0
+set setTileWrapMirt0 0
+CsetTileWrapMirt
+set setTileClampt0 0
+set setTileMaskT0 5
+set setTileShiftT0 0
+set setTilePalette0 0
+set setTileSizeSl0 0
+set setTileSizeSh0 124
+set setTileSizeTl0 0
+set setTileSizeTh0 124
+set setTileFormat1 0
+CsetTileFormat
+set setTileTexelSize1 2
+CsetTileTexelSize
+set setTileLine1 8
+set setTileAddrs1 0
+set setTileWrapMirs1 0
+CsetTileWrapMirs
+set setTileClamps1 0
+set setTileMaskS1 5
+set setTileShiftS1 0
+set setTileWrapMirt1 0
+CsetTileWrapMirt
+set setTileClampt1 0
+set setTileMaskT1 5
+set setTileShiftT1 0
+set setTilePalette1 0
+set setTileSizeSl1 0
+set setTileSizeSh1 124
+set setTileSizeTl1 0
+set setTileSizeTh1 124
+set setTileFormat2 0
+CsetTileFormat
+set setTileTexelSize2 0
+CsetTileTexelSize
+set setTileLine2 0
+set setTileAddrs2 0
+set setTileWrapMirs2 0
+CsetTileWrapMirs
+set setTileClamps2 0
+set setTileMaskS2 0
+set setTileShiftS2 0
+set setTileWrapMirt2 0
+CsetTileWrapMirt
+set setTileClampt2 0
+set setTileMaskT2 0
+set setTileShiftT2 0
+set setTilePalette2 0
+set setTileSizeSl2 0
+set setTileSizeSh2 0
+set setTileSizeTl2 0
+set setTileSizeTh2 0
+set setTileFormat3 0
+CsetTileFormat
+set setTileTexelSize3 0
+CsetTileTexelSize
+set setTileLine3 0
+set setTileAddrs3 0
+set setTileWrapMirs3 0
+CsetTileWrapMirs
+set setTileClamps3 0
+set setTileMaskS3 0
+set setTileShiftS3 0
+set setTileWrapMirt3 0
+CsetTileWrapMirt
+set setTileClampt3 0
+set setTileMaskT3 0
+set setTileShiftT3 0
+set setTilePalette3 0
+set setTileSizeSl3 0
+set setTileSizeSh3 0
+set setTileSizeTl3 0
+set setTileSizeTh3 0
+set setTileFormat4 0
+CsetTileFormat
+set setTileTexelSize4 0
+CsetTileTexelSize
+set setTileLine4 0
+set setTileAddrs4 0
+set setTileWrapMirs4 0
+CsetTileWrapMirs
+set setTileClamps4 0
+set setTileMaskS4 0
+set setTileShiftS4 0
+set setTileWrapMirt4 0
+CsetTileWrapMirt
+set setTileClampt4 0
+set setTileMaskT4 0
+set setTileShiftT4 0
+set setTilePalette4 0
+set setTileSizeSl4 0
+set setTileSizeSh4 0
+set setTileSizeTl4 0
+set setTileSizeTh4 0
+set setTileFormat5 0
+CsetTileFormat
+set setTileTexelSize5 0
+CsetTileTexelSize
+set setTileLine5 0
+set setTileAddrs5 0
+set setTileWrapMirs5 0
+CsetTileWrapMirs
+set setTileClamps5 0
+set setTileMaskS5 0
+set setTileShiftS5 0
+set setTileWrapMirt5 0
+CsetTileWrapMirt
+set setTileClampt5 0
+set setTileMaskT5 0
+set setTileShiftT5 0
+set setTilePalette5 0
+set setTileSizeSl5 0
+set setTileSizeSh5 0
+set setTileSizeTl5 0
+set setTileSizeTh5 0
+set setTileFormat6 0
+CsetTileFormat
+set setTileTexelSize6 0
+CsetTileTexelSize
+set setTileLine6 0
+set setTileAddrs6 0
+set setTileWrapMirs6 0
+CsetTileWrapMirs
+set setTileClamps6 0
+set setTileMaskS6 0
+set setTileShiftS6 0
+set setTileWrapMirt6 0
+CsetTileWrapMirt
+set setTileClampt6 0
+set setTileMaskT6 0
+set setTileShiftT6 0
+set setTilePalette6 0
+set setTileSizeSl6 0
+set setTileSizeSh6 0
+set setTileSizeTl6 0
+set setTileSizeTh6 0
+set setTileFormat7 0
+CsetTileFormat
+set setTileTexelSize7 2
+CsetTileTexelSize
+set setTileLine7 0
+set setTileAddrs7 0
+set setTileWrapMirs7 0
+CsetTileWrapMirs
+set setTileClamps7 0
+set setTileMaskS7 5
+set setTileShiftS7 0
+set setTileWrapMirt7 0
+CsetTileWrapMirt
+set setTileClampt7 0
+set setTileMaskT7 5
+set setTileShiftT7 0
+set setTilePalette7 0
+set setTileSizeSl7 0
+set setTileSizeSh7 124
+set setTileSizeTl7 0
+set setTileSizeTh7 124
+set spTexEnable 1
+set spTexScaleS 0xffff
+set spTexScaleT 0xffff
+set spTexPrimTile 1
+set spTexMaxLevel 5
+set setTimgFmt 0
+CsetTimgFmt
+set setTimgSize 2
+CsetTimgSize
+set setTimgwidth 32
+set setTimgDramAddr 0
+set setTotherTexFilt 2
+CsetTotherTexFilt
+set setTotherPersp 1
+set setTotherDetail 0
+CsetTotherDetail
+set setTotherLOD 1
+set setTotherTlut 0
+CsetTotherTlut
+set setTotherConvert 6
+CsetTotherConvert
+set loadTexFile 13
+CloadTexFile
+CloadTex
+set rspModels 2
+CrspModels
+set mouseX 236
+set mouseY 239
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons

@@ -1,0 +1,3 @@
+setcause.o: /usr/include/sys/fpregdef.h /usr/include/sys/asm.h /usr/include/sgidefs.h /usr/include/asm.h /usr/include/PR/ultratypes.h /usr/include/regdef.h /usr/include/sys/regdef.h /usr/include/PR/R4300.h #:cfe
+syscalls.o: /usr/include/sys/fpregdef.h /usr/include/sys/asm.h /usr/include/sgidefs.h /usr/include/asm.h /usr/include/PR/ultratypes.h ./syscall.h /usr/include/regdef.h /usr/include/sys/regdef.h /usr/include/PR/R4300.h #:cfe
+user.o: ../cpu.h /usr/include/sgidefs.h ../../testDriver/gng.h /usr/include/PR/ultratypes.h ./nos.h /usr/include/limits.h ../../testDriver/zaru.h /usr/include/PR/R4300.h #:cfe

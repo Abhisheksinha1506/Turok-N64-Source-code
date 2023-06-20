@@ -1,0 +1,56 @@
+22050
+207
+hit3dsp.aif
+hit2dsp.aif
+hit4dsp.aif
+hit7dsp.aif
+hrnwet2p.aif
+line1dsp.aif
+line2dsp.aif
+line3dsp.aif
+whistle.aif
+catch.aif
+punt.aif
+bonebrk1.aif
+reactb2f.aif
+reactb3f.aif
+reactg2f.aif
+reactg3f.aif
+crowd1p.aif l
+crowd2p.aif l
+defense.aif
+rockuwet.aif
+swish2dp.aif
+button1.aif
+mtlatk1.aif
+cursor1.aif
+hdown.aif
+hblk55.aif
+hgold15.aif
+hgrn18.aif
+hred30.aif
+hset.aif
+hhut1.aif
+hhuthut.aif
+vdown.aif
+vblk88.aif
+vgrn49.aif
+vred37.aif
+vwht18.aif
+vset.aif
+vhut2.aif
+vhuthut.aif
+hum1pp.aif l
+barlp2pp.aif l
+badinput.aif
+warning.aif
+trade1d.aif
+oooof2.aif
+break2.aif
+rain1p.aif l
+hit1ng.aif
+hit2ng.aif
+hit3ng.aif
+buzzloop.aif l
+mine1.aif
+end

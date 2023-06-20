@@ -1,0 +1,8 @@
+ic testbank.inst
+cp tst.ctl testbank.ctl
+cp tst.tbl testbank.tbl
+cd ..
+touch spec
+make
+cd simple
+gload -a -9

@@ -1,0 +1,358 @@
+
+Nov 20 release RELEASE NOTES
+============================
+
+SUMMARY:
+--------
+
+	This release of Ultra 64 (version 2.0B for RCP 2.0 and version 1.0F for 
+	RCP 1.0) contains various bug fixes and enhancements. Please note 
+	that some applications (such as bumpmap, print, and spbench) can only 
+	run on RCP 2.0.
+
+NEW FEATURES:
+-------------
+
+	1) IMPORTANT: Flexible support for boot address
+           ---------
+	The memory map has changed. The final machine will have 4 MB
+	of 9-bit RDRAM memory. The color and z framebuffers can reside 
+	anywhere in memory. The default boot address is 0x80000400 and can be 
+	changed by adding the statement "address 0x80XXXXXX" to the BOOT 
+	segment in the spec file. See the spec files in simple and onetri for 
+	more info.
+
+	2) 3D Turbo graphics ucode
+	This new microcode version is feature-limited, precision-
+	reduced, but faster. It is intended for "characters"
+	that remain in the center of the viewing area.
+
+	There is documentation about the turbo graphics in the
+	man pages, the "Performance Tuning" guide, and elsewhere
+	in the developer documentation.	
+
+	Here are the new, turbo-related man pages:
+
+		gspTurbo3D.3p
+		gDPClearOtherMode.3p
+		gDPEndDisplayList.3p
+		gtStateSetOthermode.3p
+		guMtxCatF.3p
+		guMtxCatL.3p
+		guMtxF2L.3p
+		guMtxIdent.3p
+		guMtxL2F.3p
+		guMtxXFMF.3p
+		guMtxXFML.3p
+
+	plus changes to all other guMtx* man pages
+
+	3) gspFast3D_fifo microcode. (Performance improvement)
+	This new microcode is very similar to gspFast3D and gspFast3D_dram
+	microcode.  It uses the DRAM to buffer data flowing from the RSP to
+	the RDP (like the gspFast3D_dram microcode), but it allows the DP to 
+	read the data as it is being generated (like the gspFast3D microcode).
+	The data buffer (which the developer must supply in DRAM) is used as
+	a circular buffer for RSP output (RDP input).  The microcode sets up
+	all neccessary DMA's so that you do not need to call osDpSetNextBuffer
+	(which is neccessary with the gspFast3D_dram code).  You can use it
+	exactly the way you use gspFast3D code except that you must supply the
+	pointer and length of the buffer in the task header.  Make
+	task->output_buff point to the beginning of the buffer and make
+	task->output_buff_size be the size of the buffer in bytes. 
+	IMPORTANT NOTE: In gspFast3D_dram the output_buff_size is a POINTER
+	to a u64 where the microcode will store the length of the buffer.  In
+	gspFast3D_fifo the output_buff_size is a u32 which has been cast to
+	to a (u64 *), and represents the length og the buffer, NOT a pointer.
+	The length of the buffer must be at least 0x100 bytes long.  However
+	the advantage of the gspFast3D_fifo microcode is that you can use a
+	larger buffer than the gspFast3D microcode uses and therefore gain
+	performance through better parallelism.  The gspFast3D buffer is 1024
+	bytes long, so the buffer you use with gspFast3D_fifo should be
+	significantly larger (several times larger or more reccommended).
+	See the man page for osSpTaskLoad.
+
+
+NEW DEMO APPLICATIONS:
+----------------------
+
+	1) autofill - performance benchmark, see README_DEMOS file.
+	2) ci8fb    - performance benchmark, see README_DEMOS file.
+	3) gtdemo   - turbo ucode demo, see README_DEMOS file.
+	4) hostio   - U64-Indy interface demo, see README_DEMOS file.
+	5) spbench  - sprite benchmark, see README_DEMOS file.
+	6) turbomonkey - turbo performance tool, see README_DEMOS file.
+
+BUG FIXES:
+----------
+
+	1) Due to bug fixes for floating point exception handling, the
+	thread structure has been changed. You need to "make clobber" your
+	application before using this new release.
+
+	2) There are bug fixes in the boot code to correct the power-up hang 
+	problem and the DMA size from ROM.
+
+	3) The thread initialization bug is fixed. There is no need to 
+	initialize the next and queue fields of a thread structure before
+	calling osCreateThread.
+
+	4) There are bug fixes in the VI manager to set the display to black
+	upon the calling of osCreateViManager. To resolve the problem of
+	having uninitialized frame buffer displayed on the TV screen,
+	osViBlack (i.e. osViBlack(TRUE)) can be called immediately after 
+	osViSetMode to set the display to black. And, when frame buffer is 
+	ready for display, osViBlack can be called again (i.e. osViBlack(FALSE))
+	to turn off the black mode so that VI manager can display the real 
+	frame buffer. Please see the man page on osViBlack for more info.
+
+	5) Applications using audio must make several small but important 
+	changes to operate successfully. These changes, implemented with 
+	releases from 10/16/95 forward are listed below in the audio section.
+
+	6) There was a bug with the gsSPFogPosition and gsSPFogFactor macros.
+	They used to take 3 parameters (n, min, max) (n was ignored).  They
+	now take only 2 parameters (min, max).  Note that gSPFogPosition and
+	gSPFogFactor are unchanged; it is only gsSPFogPosition and
+	gsSPFogFactor which had the extra unneccessary parameter.
+
+	7) A bug in the scheduler that caused the RDP to hang (not complete)
+	in rare situations has been fixed.
+
+FEATURES ENHANCED:
+------------------
+
+	1) The application blockmonkey has been enhanced to allow the VI mode
+	(Lpn1) to dynamically change the width (or x-resolution); this feature
+	can be used to assess the best video resolution for a game with a 
+	given performance requirement. Global transformations, flat shading,
+	lighting and mip-mapped textures have also been added. Some performance
+	improvements have been added.
+
+	2) A new gbi macro: gSPLightColor has been added for changing light
+	colors.  The advantage of this macro over using gSPLight or
+	gSPSetLights is speed and memory savings.  This command allows you to
+	specify an immediate color in the display list so no separate light
+	structure is needed to store various different colors for different 
+	objects.  It is also fast because the lights do not need to be
+	recalculated in the RSP the way they are when you change the direction 
+	with gSPLight or gSPSetLights.
+
+FEATURES NO LONGER SUPPORT:
+---------------------------
+
+	1) There is no longer any support for osAsyncPrintf. Please use 
+	osSyncPrintf to write to the debug port.
+
+
+THINGS TO WATCH OUT FOR:
+------------------------
+
+	1) ROM images sent to Nintendo don't work
+	Symptom: ROM images sent to Nintendo don't work on the real hardware
+	while images run on the development board do.
+
+	Fix: Compile with the non-debug library (libultra.a), remove all
+	printfs and argument parsing code from your game.
+
+	2) RDP hangs
+	Symptom: The scheduler hangs waiting for an RDP interrupt which never
+	occurs. Audio still runs.
+
+	Workaround: If you are running audio, the first thing to try is to set
+	the flags field for *audio* tasks as follows
+
+	    t->list.t.flags  = OS_TASK_DP_WAIT; /* do not set this to 0 */
+
+	Note: The RDP will also hang if the display list is corrupted, if the
+	RDP message queue is too small (and the RDP message is dropped), or if
+	code overwrites the exception table.
+
+	3) Clicks in the audio
+	Symptom: Audio occasionally clicks or crashes.
+
+	Fix: Make sure that the sound bank data is cache aligned. The easiest
+	way to do this is to allocate from the audio heap with alHeapAlloc().
+
+	4) Initialization of Bss in each segment
+	Symptom: Variables in Bss segments contain garbage.
+
+	Fix: Make sure that Bss of each segment is initialized to zero. See the
+	app overlay to see how this can be accomplished by using bzero().
+	The system only initializes the Bss of the boot segment.
+
+CAVEATS---------------------------------------------------------------------
+
+Graphics
+
+	---------------------------------------------------------------------
+
+Audio
+	Fixed bug in alSynRemovePlayer that would cause players to not be 
+	successfully removed.
+
+	Fixed bug in osScRemoveClient that would cause corruption of the client
+	list.
+
+	A bug in the synthesizer that would occasionally hang the system
+	for about 30 seconds when both the Sound Player and Sequence Player
+	were in use has been fixed.
+
+	Changes effective 11/12/95
+
+	AL_MAX_PRIORITY has been changed from 16 to 127.
+	
+	midiDmon has a couple of bug fixes, and now uses the sample rate given
+	in the bank.inst file, instead of a default of 44100.
+
+	A sound player bug which caused sounds which were stopped and restarted
+	to play incorrectly has been fixed.
+
+	A bug in the synthesizer which caused noise when playing sounds at very 
+	low pitch values has been fixed. There is still a potential problem with
+   	pitch values below 0.01 which we are investigating.
+
+	Changes needed after 10/16/95:
+	Both the compact sequence player and the regular sequence player now 
+	implement a method of vibrato and tremelo, using callbacks to routines
+	provided by the application. This new system of handling tremelo and
+	vibrato is demonstrated in the playseq example. If the application 
+	chooses not to use this feature it must set the callback pointers to 
+	zero in the ALSeqpConfig structure, before calling alSeqpNew or 
+	alCSPNew.
+
+	The following code demonstrates how you would init the config struct to
+	not use vibrato or tremelo: 
+   
+	    seqc.maxVoices      = MAX_VOICES;
+	    seqc.maxEvents      = EVT_COUNT;
+	    seqc.maxChannels    = 16;
+	    seqc.heap           = &hp;
+	    seqc.initOsc        = 0;
+	    seqc.updateOsc      = 0;
+	    seqc.stopOsc        = 0;
+
+	Failure to set initOsc, updateOsc and stopOsc to zero when not 
+	implementing vibrato and tremelo will cause the CPU to jump to garbage 
+	addresses. (If you implement the vibrato and tremelo then set these 
+	pointers to your routines. See playseq.c for an example.)
+
+	The above change, adds eight bytes to every instrument structure in 
+	a bank .ctl file. For this reason, you must be sure you are using the
+	new version of ic, and that you remake any banks you have. If you are 
+	using your own tools to build banks, you should be aware of the changes
+	in the ALInstrument structure, (listed in libaudio.h) and adjust your 
+	tools accordingly.
+
+	AL_MAX_PRIORITY has been changed to 127 to allow for a greater range
+	of priorities. If you have hardwired priority values you should adjust
+	them to reflect the new max.
+
+	The following routines have been implemented.
+	
+	ALMicroTime  alSeqpGetTime(ALSeqPlayer *seqp);
+	void         alSeqpSetTime(ALSeqPlayer *seqp, ALMicroTime time);
+	u8           alSeqpGetChannelPriority(ALSeqPlayer *seqp, u8 chan);
+	void         alSeqpSetChannelPriority(ALSeqPlayer *seqp, u8 chan, 
+			u8 priority);
+
+	ALMicroTime  alCSPGetTime(ALCSPlayer *seqp);
+	void         alCSPSetTime(ALCSPlayer *seqp, ALMicroTime time);
+	u8           alCSPGetChannelPriority(ALCSPlayer *seqp, u8 chan);
+	void         alCSPSetChannelPriority(ALCSPlayer *seqp, u8 chan, 
+			u8 priority);
+
+	void         alCSeqNewMarker(ALCSeq *seq, ALCSeqMarker *m, u32 ticks);
+	void         alCSeqSetLoc(ALCSeq *seq, ALCSeqMarker *marker);
+	void         alCSeqGetLoc(ALCSeq *seq, ALCSeqMarker *marker); 
+
+
+	Changes prior to 10/16/95:
+	A new application called midiDmon allows you to download your audio
+	banks and playback on the Ultra64 with midi from keyboard or sequencer.
+	To use this application, the ultra inst image depends on installation
+	of the dmedia_eoe (version 5.5) image. The 5.5 dmedia_eoe is included
+	on the inst tape sent to you.
+
+	---------------------------------------------------------------------
+
+	audio performance has dramatically improved on this release. We have
+	rearranged code to minimize the ICache misses. The cost for audio
+	is 1% per channel at 30Hz update for 22KHz output.
+
+	---------------------------------------------------------------------
+
+Operating System
+
+	---------------------------------------------------------------------
+
+Demos
+	To build applications for RCP 1.0, make sure that the environment
+	variable HW_FLAGS is set to "-D_HW_VERSION_1".
+
+	---------------------------------------------------------------------
+
+Tools
+
+	---------------------------------------------------------------------
+
+Debugger
+
+	gvd sometimes can't find the source because it gets confused on the
+	path to the source. A definite occurance is when you login the graphics
+	console as root. If you login as guest and su - root, everything seems
+	to work.
+
+	---------------------------------------------------------------------
+
+	There has been a bug fix for the multi-thread window in gvd.
+	After user has switched to a specific thread, he can then invoke
+	the multi-thread window to obtain a complete list of all active threads
+	running on the target machine. There is still a bug in showing the
+	actual state of the threads in this window; that is, a stopped thread 
+	can still be listed as running on the window. Therefore, user should 
+	use the threadstatus utility to obtain accurate state information of 
+	a specific thread.
+	
+	---------------------------------------------------------------------
+
+	Currently, the debugger cannot support background mode debugging.
+	That is, if a breakpoint is encountered, all user threads are stopped.
+	gvd does not support private breakpoints per thread; all breakpoints
+	are shared globally. Furthermore, the Continue button on the main gvd
+	window only resumes execution of the thread being debugged. To resume
+	or stop execution of all threads, user should use the Continue or Stop
+	button in the multi-thread window.
+
+	---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

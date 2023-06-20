@@ -1,0 +1,6 @@
+#! /bin/csh -f
+if ($#argv == 2) then
+        tabledesign $1 > $2
+else
+       echo 'usage:  tableAIF <inputfile> <outputfile>'
+endif

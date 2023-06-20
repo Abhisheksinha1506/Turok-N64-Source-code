@@ -1,0 +1,56 @@
+		LINK EDITOR MEMORY MAP
+
+
+output		input		virtual
+section		section		address		size
+
+.text   			      00	    1ec0
+		.text   	      00	     260 boot.o
+		.text   	     260	      40 /usr/lib/libultra_rom.a(parameters.o)
+		.text   	     2a0	      10 /usr/lib/libultra_rom.a(spsetstat.o)
+		.text   	     2b0	      60 /usr/lib/libultra_rom.a(setintmask.o)
+		.text   	     310	      80 /usr/lib/libultra_rom.a(invalicache.o)
+		.text   	     390	      b0 /usr/lib/libultra_rom.a(invaldcache.o)
+		.text   	     440	     230 /usr/lib/libultra_rom.a(initialize.o)
+		.text   	     670	      e0 /usr/lib/libultra_rom.a(pirawdma.o)
+		.text   	     750	      10 /usr/lib/libultra_rom.a(pigetstat.o)
+		.text   	     760	      a0 /usr/lib/libultra_rom.a(bzero.o)
+		.text   	     800	      10 /usr/lib/libultra_rom.a(setsr.o)
+		.text   	     810	      10 /usr/lib/libultra_rom.a(getsr.o)
+		.text   	     820	      10 /usr/lib/libultra_rom.a(setfpccsr.o)
+		.text   	     830	      50 /usr/lib/libultra_rom.a(sirawread.o)
+		.text   	     880	      50 /usr/lib/libultra_rom.a(sirawwrite.o)
+		.text   	     8d0	     870 /usr/lib/libultra_rom.a(exceptasm.o)
+		.text   	    1140	      80 /usr/lib/libultra_rom.a(writebackdcache.o)
+		.text   	    11c0	      60 /usr/lib/libultra_rom.a(maptlbrdb.o)
+		.text   	    1220	      60 /usr/lib/libultra_rom.a(pirawread.o)
+		.text   	    1280	     2c0 /usr/lib/libultra_rom.a(ll.o)
+		.text   	    1540	      80 /usr/lib/libultra_rom.a(virtualtophysical.o)
+		.text   	    15c0	      30 /usr/lib/libultra_rom.a(si.o)
+		.text   	    15f0	     480 /usr/lib/libultra_rom.a(kdebugserver.o)
+		.text   	    1a70	      40 /usr/lib/libultra_rom.a(thread.o)
+		.text   	    1ab0	     130 /usr/lib/libultra_rom.a(syncputchars.o)
+		.text   	    1be0	      70 /usr/lib/libultra_rom.a(seteventmesg.o)
+		.text   	    1c50	     100 /usr/lib/libultra_rom.a(destroythread.o)
+		.text   	    1d50	      c0 /usr/lib/libultra_rom.a(probetlb.o)
+		.text   	    1e10	      10 /usr/lib/libultra_rom.a(getcause.o)
+		.text   	    1e20	      60 /usr/lib/libultra_rom.a(atomic.o)
+		.text   	    1e80	      40 /usr/lib/libultra_rom.a(interrupt.o)
+
+.rdata  			    1ec0	      d0
+		.rodata 	    1ec0	      80 /usr/lib/libultra_rom.a(setintmask.o)
+		.rodata 	    1f40	      50 /usr/lib/libultra_rom.a(exceptasm.o)
+
+.data   			    1f90	     c70
+		.data   	    1f90	     c00 boot.o
+		.data   	    2b90	      10 /usr/lib/libultra_rom.a(initialize.o)
+		.data   	    2ba0	      20 /usr/lib/libultra_rom.a(exceptasm.o)
+		.data   	    2bc0	      10 /usr/lib/libultra_rom.a(kdebugserver.o)
+		.data   	    2bd0	      20 /usr/lib/libultra_rom.a(thread.o)
+		.data   	    2bf0	      10 /usr/lib/libultra_rom.a(syncputchars.o)
+
+.bss    			    2c00	    2340
+		.bss    	    2c00	    2000 boot.o
+		.bss    	    4c00	      10 /usr/lib/libultra_rom.a(initialize.o)
+		.bss    	    4c10	     2b0 /usr/lib/libultra_rom.a(kdebugserver.o)
+		.bss    	    4ec0	      80 /usr/lib/libultra_rom.a(seteventmesg.o)

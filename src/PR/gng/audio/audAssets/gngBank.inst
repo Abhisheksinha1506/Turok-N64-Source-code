@@ -1,0 +1,191 @@
+envelope sqrwv_env
+{
+    attackTime		= 0;
+    attackVolume	= 127;
+    decayTime		= 5000;
+    decayVolume		= 127;
+    releaseTime		= 2000;
+    releaseVolume	= 0;
+}
+
+keymap sqrwv_key1
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 48; 
+    detune      = 71;
+}
+
+
+keymap sqrwv_key2
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 54;
+    detune      = 26;
+}
+
+keymap sqrwv_key3
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 60;
+    detune      = 71;
+}
+
+keymap sqrwv_key4
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 48;
+    detune      = 71;
+}
+
+keymap sqrwv_key5
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 54;
+    detune      = 26;
+}
+
+keymap sqrwv_key6
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 0;
+    keyMax      = 127;
+    keyBase     = 60;
+    detune      = 71;
+}
+
+sound sqrwv_snd1
+{
+    use ("triwave22k.aiff");
+    pan    = 64;
+    volume = 100;
+    keymap = sqrwv_key1;
+    envelope = sqrwv_env;
+}
+
+
+sound sqrwv_snd2
+{
+    use ("triwave22k.aiff");
+    pan    = 64;
+    volume = 100;
+    keymap = sqrwv_key2;
+    envelope = sqrwv_env;
+}
+
+sound sqrwv_snd3
+{
+    use ("triwave22k.aiff");
+    pan    = 64;
+    volume = 100;
+    keymap = sqrwv_key3;
+    envelope = sqrwv_env;
+}
+
+sound sqrwv_snd4
+{
+    use ("sinwave22k.aiff");
+    pan    = 64;
+    volume = 100;
+    keymap = sqrwv_key4;
+    envelope = sqrwv_env;
+}
+sound sqrwv_snd5
+{
+    use ("sinwave22k.aiff");
+    pan    = 64;
+    volume = 100;
+    keymap = sqrwv_key5;
+    envelope = sqrwv_env;
+}
+sound sqrwv_snd6
+{
+    use ("sinwave22k.aiff");
+    pan    = 64;
+    volume = 100;
+    keymap = sqrwv_key6;
+    envelope = sqrwv_env;
+}
+
+instrument sqrwv_inst1
+{
+    volume = 100;
+    pan    = 64;
+    bendRange = 1200;
+
+    sound = sqrwv_snd1;
+}
+
+instrument sqrwv_inst2
+{
+    volume = 100;
+    pan    = 64;
+    bendRange = 1200;
+
+    sound = sqrwv_snd2;
+}
+
+instrument sqrwv_inst3
+{
+    volume = 100;
+    pan    = 64;
+    bendRange = 1200;
+
+    sound = sqrwv_snd3;
+}
+
+instrument sqrwv_inst4
+{
+    volume = 100;
+    pan    = 64;
+    bendRange = 1200;
+
+    sound = sqrwv_snd4;
+}
+
+instrument sqrwv_inst5
+{
+    volume = 100;
+    pan    = 64;
+    bendRange = 1200;
+
+    sound = sqrwv_snd5;
+}
+
+instrument sqrwv_inst6
+{
+    volume = 100;
+    pan    = 64;
+    bendRange = 1200;
+
+    sound = sqrwv_snd6;
+}
+
+
+
+bank gonogoBank
+{
+    sampleRate = 44100;
+
+    instrument[0] = sqrwv_inst1;
+    instrument[1] = sqrwv_inst2;
+    instrument[2] = sqrwv_inst3;
+    instrument[3] = sqrwv_inst4;
+    instrument[4] = sqrwv_inst5;
+    instrument[5] = sqrwv_inst6;
+}

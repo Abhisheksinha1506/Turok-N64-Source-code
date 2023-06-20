@@ -1,0 +1,14 @@
+#
+# Local build specific definitions for Go-no-go CPU test
+#
+OPTIMIZER =     -g 
+
+LCINCS =        -I. -I.. -I$(ROOT)/PR/apps/gng/testDriver \
+			-I$(ROOT)/usr/include/PR -I $(ROOT)/usr/include
+LCOPTS +=       -woff 835
+
+LASINCS =       $(LCINCS)
+LASOPTS =       -non_shared -G 0 -DR4000
+
+LDFLAGS =       $(MKDEPOPT) -nostdlib
+

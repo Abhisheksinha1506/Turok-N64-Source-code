@@ -1,0 +1,67 @@
+	07/30/96: 
+    Release 0.8 (beta 1)
+	* Supports g[s]SPL2Triangle() and g[s]SPL1Triangle()
+	* Vtx cache size becomes 16->32.
+	* Mtx stack level becomes un-limited.
+
+08/01/96:
+    Release 0.81 (beta 2)
+        * Change ucode's file name to gspF3D.LP_NOCLIP.o
+        * Change gbi.h to use same header file of Fast3D.
+
+08/08/96:
+    Release 0.9  (beta 3)
+        * Supports extended Fast3D with 32 vtx, (gspF3D32.fifo.o).
+        * Changes  g[s]SPL1Triangle to g[s]SP1Triangle.
+	* Supports g[s]SP2Triangles and g[s]SP1Quadrangle.
+        * F3DLP_GBI, F3DHP_GBI can be used in your code to switch gbi.h.
+             (Release 0.91 or later  F3DHP_GBI -> F3DEX_GBI)
+
+08/12/96:
+    Release 0.91 (beta 4)
+        * Supports gspF3DEX.NoN.fifo.o (No Near Clipping F3DEX)
+        * Change ucodes' names.
+	  + gspF3D.LP_NOCLIP.o -> gspF3DLP.NoC.fifo.o
+	  + gspF3D32.fifo.o    -> gspF3DEX.fifo.o
+        * Change #define keyword (F3DHP_GBI -> F3DEX_GBI)
+
+08/27/96:
+    Release 0.92 (beta 5)
+	* Supports CULL_FRONT in F3DEX.
+	* Optimize F3DEX.
+	* Bug fixed in Quadrangle. (Bug: In clipping, some polygons disappear)
+	* Unsupports CullDisplayList in F3DLP.
+
+08/30/96:
+    Release 0.93 (beta 6)
+        * Quadrangle clipping bug fixed.
+	* Get binary level compatibility of some GBI macros between F3DEX
+	  and F3DLP.
+	  (g*SPVertex, g*SP1Triangle, g*SP2Triangles, and g*SP1Quadrangle)
+
+09/03/96:
+    Release 0.94 (beta 7)
+        * Supports F3DLX ucode which is no sub-pixel calculation version
+	  of F3DEX but faster.
+	* Some bug fixed.
+
+09/18/96:
+    Release 0.95 (beta 8)
+        * Add header files for Ultra 64 Development Environment release 2.0f.
+	* Set the status flag "G_CLIPPING" for default to have
+	  compatibility between F3DEX and F3DLX.
+
+10/07/96:
+    Release 0.96 (beta 9)
+        * Supports F3DLP.Rej and F3DLX.Rej ucodes which have no clipping
+	  but triangle rejecting and more faster.
+        * Stop supporting F3DLP.NoC.
+	* Change gbi.h to get more compatibility for gSPCullDisplaylist(),
+	  gSPModifyVertex().
+	* No support dynamic division of gSP1Quadrangle any more, and
+	  gSP1Quadrangle is emulated by gSP2Triangle.
+
+10/15/96:
+    Release 1.00
+        * Add header files for Ultra 64 Development Environment release 2.0g.
+        * Supports L3DEX ucode which can accept 32 vertices cache.

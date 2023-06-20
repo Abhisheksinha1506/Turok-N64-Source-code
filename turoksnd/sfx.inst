@@ -1,0 +1,143 @@
+
+envelope env1
+{
+    attackTime		= 5000;
+    attackVolume	= 127;
+    decayTime		= 364920;
+    decayVolume		= 127;
+    releaseTime		= 5000;
+    releaseVolume	= 0;
+}
+
+keymap key1
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 41;
+    keyMax      = 41;
+    keyBase     = 41;
+    detune      = 0;
+}
+
+sound sound1
+{
+    use ("../sounds/Atmosphere_C5.22k.aiff");
+    
+    keymap = key1;
+    pan    = 64;
+    volume = 127;
+    envelope = env1;
+}
+
+
+
+
+envelope env2
+{
+    attackTime		= 5000;
+    attackVolume	= 127;
+    decayTime		= 364920;
+    decayVolume		= 127;
+    releaseTime		= 5000;
+    releaseVolume	= 0;
+}
+
+keymap key2
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 41;
+    keyMax      = 41;
+    keyBase     = 41;
+    detune      = 0;
+}
+
+sound sound2
+{
+    use ("../sounds/DistGtr_A5.aiff");
+    
+    keymap = key2;
+    pan    = 64;
+    volume = 127;
+    envelope = env2;
+}
+
+
+envelope env3
+{
+    attackTime		= 5000;
+    attackVolume	= 127;
+    decayTime		= 364920;
+    decayVolume		= 127;
+    releaseTime		= 5000;
+    releaseVolume	= 0;
+}
+
+keymap key3
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 41;
+    keyMax      = 41;
+    keyBase     = 41;
+    detune      = 0;
+}
+
+sound sound3
+{
+    use ("../sounds/PipeOrgan_E4.22k.aiff");
+    
+    keymap = key3;
+    pan    = 64;
+    volume = 127;
+    envelope = env3;
+}
+
+envelope env4
+{
+    attackTime		= 5000;
+    attackVolume	= 127;
+    decayTime		= 364920;
+    decayVolume		= 127;
+    releaseTime		= 5000;
+    releaseVolume	= 0;
+}
+
+keymap key4
+{
+    velocityMin = 0;
+    velocityMax = 127;
+    keyMin      = 41;
+    keyMax      = 41;
+    keyBase     = 41;
+    detune      = 0;
+}
+
+sound sound4
+{
+    use ("../sounds/ChoirAhhs_F5.22k.aiff");
+    
+    keymap = key4;
+    pan    = 64;
+    volume = 127;
+    envelope = env4;
+}
+
+
+instrument inst1
+{
+    volume = 127;
+    pan    = 64;
+
+    sound  = sound1;
+    sound  = sound2;
+    sound  = sound3;
+    sound  = sound4;
+  
+}
+
+bank Wave1
+{
+    instrument [0] = inst1;
+}
+

@@ -1,0 +1,531 @@
+set ccCycle0ColorA 31
+CccCycle0ColorA
+set ccCycle1ColorA 31
+CccCycle1ColorA
+set ccCycle0AlphaA 7
+CccCycle0AlphaA
+set ccCycle1AlphaA 7
+CccCycle1AlphaA
+set ccCycle0ColorB 31
+CccCycle0ColorB
+set ccCycle1ColorB 31
+CccCycle1ColorB
+set ccCycle0AlphaB 7
+CccCycle0AlphaB
+set ccCycle1AlphaB 7
+CccCycle1AlphaB
+set ccCycle0ColorC 31
+CccCycle0ColorC
+set ccCycle1ColorC 31
+CccCycle1ColorC
+set ccCycle0AlphaC 7
+CccCycle0AlphaC
+set ccCycle1AlphaC 7
+CccCycle1AlphaC
+set ccCycle0ColorD 1
+CccCycle0ColorD
+set ccCycle1ColorD 1
+CccCycle1ColorD
+set ccCycle0AlphaD 1
+CccCycle0AlphaD
+set ccCycle1AlphaD 1
+CccCycle1AlphaD
+set ccCycle0preset 15
+set LccCycle0preset DEC_RGBA
+set ccCycle1preset 15
+set LccCycle1preset DEC_RGBA
+set mouseX 79
+set mouseY 96
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 129
+set mouseY 156
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 175
+set mouseY 208
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 197
+set mouseY 228
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set rspModels 7
+CrspModels
+set mouseX 16
+set mouseY 148
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 35
+set mouseY 229
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set loadTexFile 6
+CloadTexFile
+CloadTex
+set loadTexFile 3
+CloadTexFile
+CloadTex
+set ccCycle0ColorC 1
+CccCycle0ColorC
+set ccCycle1ColorC 1
+CccCycle1ColorC
+set ccCycle0ColorD 5
+CccCycle0ColorD
+set ccCycle1ColorD 5
+CccCycle1ColorD
+set ccCycle0ColorA 3
+CccCycle0ColorA
+set ccCycle1ColorA 3
+CccCycle1ColorA
+set ccCycle0ColorB 5
+CccCycle0ColorB
+set ccCycle1ColorB 5
+CccCycle1ColorB
+.cc.primColorBlueS set 117
+.cc.primColorBlueS set 121
+.cc.primColorBlueS set 131
+.cc.primColorBlueS set 141
+.cc.primColorBlueS set 164
+.cc.primColorBlueS set 181
+.cc.primColorBlueS set 198
+.cc.primColorBlueS set 208
+.cc.primColorBlueS set 218
+.cc.primColorBlueS set 232
+.cc.primColorBlueS set 245
+.cc.primColorBlueS set 255
+.cc.envColorGreenS set 124
+.cc.envColorGreenS set 121
+.cc.envColorGreenS set 111
+.cc.envColorGreenS set 97
+.cc.envColorGreenS set 81
+.cc.envColorGreenS set 64
+.cc.envColorGreenS set 50
+.cc.envColorGreenS set 44
+.cc.envColorGreenS set 40
+.cc.envColorGreenS set 27
+.cc.envColorRedS set 81
+.cc.envColorRedS set 74
+.cc.envColorRedS set 67
+.cc.envColorRedS set 57
+.cc.envColorRedS set 44
+.cc.envColorRedS set 34
+.cc.envColorRedS set 23
+.cc.envColorRedS set 17
+.cc.envColorRedS set 7
+.cc.envColorRedS set 0
+set blAaEn 1
+CblAaEn
+set blZcmpEn 1
+CblZcmpEn
+set blZupdEn 0
+CblZupdEn
+set blImRdEn 1
+CblImRdEn
+set blCvgDest 1
+CblCvgDest
+set blColOnCvg 1
+CblColOnCvg
+set blCvgXalpha 0
+CblCvgXalpha
+set blAlphaCvgSel 0
+CblAlphaCvgSel
+set blForceBlend 1
+CblForceBlend
+set blZmode 2
+CblZmode
+set blTexEdgeMode 0
+CblTexEdgeMode
+set blAlphaCompEn 0
+CblAlphaCompEn
+set blDithAlphaEn 0
+CblDithAlphaEn
+set blZsrcSel 0
+CblZsrcSel
+set blCycle1ColorA 0
+CblCycle1ColorA
+set blCycle1ColorB 0
+CblCycle1ColorB
+set blCycle1ColorC 1
+CblCycle1ColorC
+set blCycle1ColorD 0
+CblCycle1ColorD
+set blCycle1preset 1
+set LblCycle1preset AA_ZB_XLU_SURF2
+set blAaEn 1
+CblAaEn
+set blZcmpEn 1
+CblZcmpEn
+set blZupdEn 0
+CblZupdEn
+set blImRdEn 1
+CblImRdEn
+set blCvgDest 1
+CblCvgDest
+set blColOnCvg 1
+CblColOnCvg
+set blCvgXalpha 0
+CblCvgXalpha
+set blAlphaCvgSel 0
+CblAlphaCvgSel
+set blForceBlend 1
+CblForceBlend
+set blZmode 2
+CblZmode
+set blTexEdgeMode 0
+CblTexEdgeMode
+set blAlphaCompEn 0
+CblAlphaCompEn
+set blDithAlphaEn 0
+CblDithAlphaEn
+set blZsrcSel 0
+CblZsrcSel
+set blCycle0ColorA 0
+CblCycle0ColorA
+set blCycle1ColorA 0
+CblCycle1ColorA
+set blCycle0ColorB 0
+CblCycle0ColorB
+set blCycle1ColorB 0
+CblCycle1ColorB
+set blCycle0ColorC 1
+CblCycle0ColorC
+set blCycle1ColorC 1
+CblCycle1ColorC
+set blCycle0ColorD 0
+CblCycle0ColorD
+set blCycle1ColorD 0
+CblCycle1ColorD
+set blCycle0preset 1
+set LblCycle0preset AA_ZB_XLU_SURF
+set mouseX 78
+set mouseY 228
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set rspGeomCullBack 0
+CrspGeomCullBack
+set mouseX 267
+set mouseY 239
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 267
+set mouseY 237
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 267
+set mouseY 235
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 267
+set mouseY 230
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 265
+set mouseY 223
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 260
+set mouseY 211
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 253
+set mouseY 199
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 246
+set mouseY 185
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 238
+set mouseY 171
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 231
+set mouseY 161
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 227
+set mouseY 153
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 226
+set mouseY 149
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 226
+set mouseY 147
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 225
+set mouseY 147
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 225
+set mouseY 147
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 224
+set mouseY 147
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 224
+set mouseY 148
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 223
+set mouseY 148
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 222
+set mouseY 148
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 221
+set mouseY 148
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 220
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 218
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 217
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 215
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 214
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 212
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 211
+set mouseY 149
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 211
+set mouseY 149
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 210
+set mouseY 149
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 210
+set mouseY 150
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 210
+set mouseY 150
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 209
+set mouseY 150
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 208
+set mouseY 150
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 207
+set mouseY 150
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 206
+set mouseY 150
+set buttons 5
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 206
+set mouseY 150
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 205
+set mouseY 150
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 204
+set mouseY 150
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 203
+set mouseY 150
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 202
+set mouseY 150
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 202
+set mouseY 151
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 202
+set mouseY 152
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 202
+set mouseY 154
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 202
+set mouseY 156
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 203
+set mouseY 158
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 203
+set mouseY 163
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 203
+set mouseY 167
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 205
+set mouseY 175
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 206
+set mouseY 187
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 208
+set mouseY 197
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 210
+set mouseY 211
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+set mouseX 212
+set mouseY 239
+set buttons 1
+$spindso call SpinTclMouse $mouseX $mouseY $buttons
+.cc.envColorBlueS set 94
+.cc.envColorBlueS set 101
+.cc.envColorBlueS set 107
+.cc.envColorBlueS set 117
+.cc.envColorBlueS set 124
+.cc.envColorBlueS set 134
+.cc.envColorBlueS set 141
+.cc.envColorBlueS set 144
+.cc.envColorBlueS set 148
+.cc.envColorBlueS set 151
+.cc.envColorBlueS set 158
+.cc.envColorBlueS set 164
+.cc.envColorBlueS set 168
+.cc.envColorBlueS set 171
+.cc.envColorBlueS set 174
+.cc.envColorBlueS set 178
+.cc.envColorBlueS set 181
+.cc.envColorBlueS set 188
+.cc.envColorBlueS set 191
+.cc.envColorBlueS set 195
+.cc.envColorGreenS set 30
+.cc.envColorGreenS set 34
+.cc.envColorGreenS set 47
+.cc.envColorGreenS set 64
+.cc.envColorGreenS set 81
+.cc.envColorGreenS set 94
+.cc.envColorGreenS set 104
+.cc.envColorGreenS set 111
+.cc.envColorGreenS set 121
+.cc.envColorGreenS set 131
+.cc.envColorGreenS set 144
+.cc.envColorGreenS set 154
+.cc.envColorGreenS set 164
+.cc.envColorGreenS set 171
+.cc.envColorGreenS set 174
+.cc.envColorGreenS set 178
+.cc.envColorGreenS set 171
+.cc.envColorGreenS set 161
+.cc.envColorGreenS set 151
+.cc.envColorGreenS set 141
+.cc.envColorGreenS set 128
+.cc.envColorGreenS set 114
+.cc.envColorGreenS set 101
+.cc.envColorGreenS set 87
+.cc.envColorGreenS set 84
+.cc.envColorGreenS set 77
+.cc.envColorGreenS set 70
+.cc.envColorGreenS set 57
+.cc.envColorGreenS set 50
+.cc.envColorGreenS set 44
+.cc.envColorGreenS set 30
+.cc.envColorGreenS set 17
+.cc.envColorGreenS set 7
+.cc.envColorGreenS set 3
+.cc.envColorGreenS set 0
+.cc.envColorRedS set 3
+.cc.envColorRedS set 17
+.cc.envColorRedS set 34
+.cc.envColorRedS set 54
+.cc.envColorRedS set 74
+.cc.envColorRedS set 91
+.cc.envColorRedS set 101
+.cc.envColorRedS set 107
+.cc.envColorRedS set 117
+.cc.envColorRedS set 121
+.cc.envColorRedS set 128
+.cc.envColorRedS set 131
+.cc.envColorRedS set 134
+.cc.envColorRedS set 128
+.cc.envColorRedS set 114
+.cc.envColorRedS set 101
+.cc.envColorRedS set 87
+.cc.envColorRedS set 77
+.cc.envColorRedS set 67
+.cc.envColorRedS set 64
+.cc.envColorRedS set 60
+.cc.envColorRedS set 57
+.cc.envColorRedS set 54
+.cc.primColorRedS set 114
+.cc.primColorRedS set 117
+.cc.primColorRedS set 124
+.cc.primColorRedS set 131
+.cc.primColorRedS set 144
+.cc.primColorRedS set 161
+.cc.primColorRedS set 174
+.cc.primColorRedS set 181
+.cc.primColorRedS set 185
+.cc.primColorRedS set 191
+.cc.primColorRedS set 205
+.cc.primColorRedS set 218
+.cc.primColorRedS set 232
+.cc.primColorRedS set 245
+.cc.primColorRedS set 255
+.cc.primColorRedS set 228
+.cc.primColorRedS set 195
+.cc.primColorRedS set 171
+.cc.primColorRedS set 151
+.cc.primColorRedS set 114
+.cc.primColorRedS set 77
+.cc.primColorRedS set 60
+.cc.primColorRedS set 40
+.cc.primColorRedS set 20
+.cc.primColorRedS set 17
+.cc.primColorRedS set 13
+.cc.primColorRedS set 23
+.cc.primColorRedS set 37
+.cc.primColorRedS set 50
+.cc.primColorRedS set 60
+.cc.primColorRedS set 67
+.cc.primColorRedS set 74
+.cc.primColorRedS set 84
+.cc.primColorRedS set 87
+.cc.primColorRedS set 77
+.cc.primColorRedS set 64
+.cc.primColorRedS set 47
+.cc.primColorRedS set 37
+.cc.primColorRedS set 34

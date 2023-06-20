@@ -1,0 +1,18 @@
+#include "print.h"
+
+/*
+ * ROM spec file
+ */
+beginseg
+	name "code"
+	flags BOOT OBJECT
+	entry boot
+	stack bootStack + STACKSIZE
+	include "codesegment.o"
+	include "$(ROOT)/usr/lib/PR/rspboot.o"
+endseg
+
+beginwave
+	name "print"
+	include "code"
+endwave

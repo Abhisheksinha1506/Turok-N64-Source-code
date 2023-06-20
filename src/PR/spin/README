@@ -1,0 +1,208 @@
+------------------------------------------------------------------------------------
+Spin is a sample application, not a supported product. There may or may not be
+upgrades and bug fixes. Or there might.
+------------------------------------------------------------------------------------
+
+Spin is run by executing the script 'spinit'
+
+Spin is an interactive application that uses the ramrom interface to the ultra64
+hardware to allow transfer of RCP commands through a user interface (UI) built on 
+top of tcl/tk and simultaneously view the effects on the TV monitor. Different 
+models can be chosen, various textures loaded and many Color Combiner and Rendering
+modes tried out. Most classes of gbi commands are available here though not all 
+flavours of each command.
+
+Spin was originally written as a tool for verifying the ultra64 hardware 
+and software. It is not a general programming interface and should not be used
+as such.  More than anything else, spin is a docuumentation of the RDP hardware. 
+For anyone starting to learn the graphics commands, messing around with spin is 
+an ideal starting point.
+
+Each relevant UI event (button press, menu select etc) sends one or more set of
+RCP commands that are then interpereted by the application running on the 
+ultra64. Not all UI changes will cause a display list to be sent to the app.
+Some just set the UI state and have a 'done' button assigned to them that
+will send down all the accumulated state to the application.
+
+The user interface is split into 4 windows roughly corresponding to the 
+logical divisions of the RCP functionality although there is some blurring
+of the boundaries:
+
+
+1. RSP
+2. Texture Unit
+3. Color Combiner
+4. Blender 
+
+Within each window buttons are grouped together based on the particular
+gbi command they correspond to. Here's a brief description of the less
+obvous buttons in each window.
+
+RSP window
+----------
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	The centerpiece of this window is a trackball/fly interface for 
+manipulating objects using the mouse. Mouse buttons are mapped as follows:
+
+RIGHT_BUTTON: 
+	toggle between trackball/fly modes
+	You can also do this using the TRACKBALL button below
+	the central frame.
+
+LEFT_BUTTON:
+	trackball control in trackball mode
+	Inactive in fly mode
+
+MIDDLE_BUTTON:
+	grab and move left,right,up,down in trackball mode
+	Inactive in fly mode
+
+LEFT_BUTTON & MIDDLE_BUTTON:
+	Move forward and backward in trackball mode
+
+In fly mode the cursor location controls flight forwards and backwards.
+No roll pitch or yaw controls are provided in fly mode.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Sliders marked "lef"t,"right","top","bottom" control the RDP scissor box
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+The "init state" button resets the RSP and RDP states to some 'reasonable'
+default value.
+
+The "init model pos" button resets the model position
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+The "record" and "play" buttons allow recording and playing back of UI widget
+operations. Widget changes are recorded into the specified file and can
+be played back.
+
+NOTE: 	SINCE ONLY UI ~CHANGES~ ARE RECORDED, IN ORDER TO GET CONSISTENT
+  	RESULTS, RECORDING MUST BE DONE AFTER SETTING THE RCP TO THE 
+	DEFAULT INITIAL STATE AND SO MUST PLAYBACK.
+
+The scripts directory under spin/ui contains some pre-recorded sample
+tests and can be played back by specifying the files:
+
+	scripts/mip.rec 	- mipmap example
+	scripts/det.rec		- detail texture example
+	scripts/xlu.rec		- xlucency example
+	scripts/xlu1.rec	- xlucency example
+	scripts/tex_edge.rec	- texture_edge mode example
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Texture window
+--------------
+	This is probably the most confusing of all the sets of controls
+so pay attention!
+
+The texture controls are broadly grouped into 'texture actions' and
+'texture state'. The actions buttons are those related to selecting
+and loading textures and texture lookup tables. The state buttons
+set Tile descriptor parameters and some of the other texture parameters.
+
+Texture Actions
+---------------
+	"selectTextureMap": This menu button selects the texture in preparation to
+loading. The menu button also causes setting of "setTile", "setTextureImage"
+"loadBlock", "loadTile" and "loadTLUT" parameters in anticipation of a texture
+load occuring. The "Done" button actually causes the load to occur by 
+executing the "spTex", "setTimg", "setTile", "setTileSize", "loadBlock"
+and "setTother" commands. Note that this is an example of a UI action that
+causes a complex sequence of RCP commands to be sent to the application.
+Many other buttons are simpler and send only a single command to be sent.
+
+This two-step process of selecting then loading a texture allows the user to
+select a texture but load it using not the "Done" button of the "selectTexture
+Map" menu but the "loadBlock" or "loadTile" buttons with user chosen parameters.
+It is also possible to change  "setTile" parameters before executing one of the
+load methods.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+"loadBlock" executes only a loadBlock command and so does "loadTile" which means
+that to succesfully load a texture using these commands the other necessary RDP
+state must be setup previously by executing "setTile", "setTimg" etc. commands.
+This can be done through the texture state buttons below.
+
+"loadTLUT" is a special case since it needs the textureImage to be setup to point
+to the TLUT before a load occurs. This is done automatically for the user:
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Texture State
+-------------
+	The centerpiece of the texture state commands is the "setTile" array.
+This array of widgets sets all the parameters for all the 8 tile descriptors.
+These settings do not take effect immediately but only after the "Done" button
+is pressed. This long "Done" button sends down all the texture state commands
+including the following:
+
+"spTex":
+	 scaleS and scaleT:
+	 	Sets up the texture coordinate scale parameters in the RSP.
+	 primTile:
+	 	Sets up the index of the tile descriptor used which in this case is
+	 	defaults to Tile 1 (Tile 0 is reserved for detail texture purposes)
+	 maxLevel:
+	 	Sets up the number of mipmap levels to use for mipmapping beyond
+	 	which the tile number will be clamped
+	 spTexEnable:
+		Enables and disables texturing in the RDP
+
+"setTother":
+	 sets up a bunch of miscellaneous texture parameters
+
+NOTE: All the parameters in the texture state group take effect only when the
+      long "Done" button at the bottom of the window is pressed.
+	
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Color Combiner
+--------------
+	This window is pretty simple. It sets a bunch of registers and 
+the color combiner equation itself. The muxes in the equation can be
+either indivisually set or set by selecting one of the preset values
+through the two long menu buttons at the bottom of the window. All widgets
+in this window take effect instantaneously (No "Done" button presses
+required)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Blender
+-------
+	This window is similar to the color combiner window except that it
+is wiser to use the preset blender modes that try setting the muxes and
+the buttons individually since much of the functionality of the blender is
+obscure to say the least.
+
+A note though about the "rgbDither", "alphaDither", "vidAAFilt", "vidDithFilt"
+and the "cfbSize32" buttons. There is a dependency here. Since there rgbDither
+is only needed in 16-bit frame buffer mode, both the rgbDither and the back-end
+dither filter are automatically turned off when 32-bit frame buffer is chosen.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+NOTES
+-----
+	o A pulldown menu can be 'torn' off and placed to one side so that the
+	  menu items can be chosen with a single button click.
+
+KNOWN BUGS
+-----------
+
+o Switching between trackball and fly modes messes up the trackball controls
+  at times
+
+o Record and playback of mouse position is not always precise. 
+
+UNKNOWN BUGS
+------------
+o
+o
+o ...

@@ -1,0 +1,8 @@
+#!/bin/csh -f
+
+# Save old version, copy new one.
+cp -p /usr/sbin/mkisprite /usr/sbin/mkisprite.orig
+cp -p mkisprite /usr/sbin/mkisprite
+
+#
+

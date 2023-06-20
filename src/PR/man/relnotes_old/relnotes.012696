@@ -1,0 +1,451 @@
+
+Jan 24 release RELEASE NOTES
+============================
+
+SUMMARY:
+--------
+
+	This release of Ultra 64 (version 2.0C for RCP 2.0 and version 
+	1.0G for RCP 1.0) contains various bug fixes and enhancements. 
+
+	Please note that some fixes apply only to RCP 2.0.
+
+	Please note that some applications (such as bumpmap, print, and 
+	spbench) can only run on RCP 2.0.
+
+	Please note R4300 multiply bug. You MUST install the
+	IRIX 5.3 patch provided.
+
+	Please note the RCP audio interface bug. The work around is
+	detailed in the audio section.
+
+	Please note RCP speed change. You MUST provide the correct
+	options to makerom for the version of RCP board you have.
+
+	A new scheduler.
+
+	New demos and changes to old ones.
+
+	Improvements to documentation; more details and new chapters.
+
+NEW FEATURES:
+-------------
+
+	Render Modes (parameters to the g*DPSetRenderMode() macro):
+		G_RM_ADD - adds memory color to pixel color (not clamped)
+		G_RM_NOOP - should be used when in copy or fill mode, puts
+					rdp in a safe state.
+		G_RM_VISCVG - test mode, displays coverage as gray scale, 
+				see Blender doc.
+		G_RM_OPA_CI - mode that passes pixel data without modification.
+			Used for 8-bit CI framebuffer as described in new 
+			TexRect doc.
+
+	Combiner Modes (parameters to the g*DPSetCombinerMode() macro):
+		G_CC_BLENDPE - this mode can be used with intensity (I) 
+					textures to blend to the environment 
+					color when the intensity is 0 and to 
+					the primitive color when the intensity
+					is 1.0.
+		G_CC_BLENDPEDECALA - same as above but uses texture as 
+					alpha source.
+
+	LIBULTRA:
+	There are now three versions of the libultra library.  They are
+	libultra_d.a, libultra.a, and libultra_rom.a.  Libultra_d.a is
+	the debugging version of the library.  It is compiled without 
+	optimization (-g), has internal asserts enabled, and some extra
+	internal error checking.  Libultra.a has the same entry points
+	as libultra_d.a.  It is compiled with optimization (-O3 for .c files, 
+	-O2 for .s files), and the extra debugging information has been 
+	removed.  Libultra_rom.a is the version of the library to use
+	when creating the final rom image.  It is compiled with optimization
+	(-O3 for .c files, -O2 for .s files), and all of the routines
+	that require the Indy GIO development board have been removed.
+	There are no entry points for rmon, logging, hostio, printf, or 
+	error reporting routines. By linking with libultra_rom.a, you
+	can guarantee that the game is not making calls that require the
+	development board.
+
+NEW DEMO APPLICATIONS:
+----------------------
+	ground:
+	shows a large ground plane (with texture) and allows you to
+	scale it.  When the plane becomes so big that the RSP cannot
+	handle it, a message appears on the screen showing you why 
+ 	(What coordinates have gotten to huge and in what way).
+	If you continue to increase the size you will soon
+	thereafter notice bad effects: textur crawling and jitter,
+	clipping problems, etc.  This demonstrates what you have
+	to do to avoid these problems.
+
+	mipmap:
+	an app that demonstrates mipmapping, comparing it to other
+	texture types and controlling mipmapping parameters.
+	show 4 ways of drawing textures simultaneously in 4 views on
+	the screen:  point sampled, bilinearly sampled, mip mapped, 
+	and hand generated mip map.  This demo allows you to visually
+	compare the effects of these different modes while controlling
+	certain parameters.
+
+	spin:
+	an RDP exploration tool. see it's README for more info.
+	You must install 'sgitcl', also included in the release
+	in order to use this program.
+
+	tile_rect2d:
+    	A simple demo of how to break up a large texture into smaller
+    	texture tiles that fit into Tmem.  Generates 2-D texture rectangle
+    	primitives.
+
+	texlight:
+	Demonstrates geometry with any combination of texture mapping
+	(mip mapped or not), diffuse lights (up to 7) and specular
+	highlights (up to 7) all at once.  Interactive and menu driven.
+
+
+
+MODIFIED DEMO APPLICATIONS:
+----------------------
+	blockmonkey:
+	The ability to change the horizontal and vertical centering of an image
+	by reprogramming the video interface unit has been incorporated. 
+        The number of tasks used to render the scene has been improved and
+	the ability to alter which microcode is used has been improved.  You
+	can now use Blockmonkey to compare the performance of .fifo and
+	.dram microcode to standard microcode.  Fifo microcode has been
+	improved and can be more efficient than the other microcodes.
+
+	simple:
+	Was greatly cleaned up and refined.  Three versions of simple
+	are created.  One version for each version of libultra.  The rom
+	images are in simple/simple/rom, simple/simple_d/rom, and
+	simple/simple_rom/rom.
+
+BUG FIXES:
+----------
+	AUDIO 
+
+	A bug in the RCP has been discovered that causes audio data to be
+	DMAed from the incorrect memory location under certain circumstances.
+	It manifests itself in the application code as follows:
+	
+	For consecutive calls to osAiSetNextBuffer(void *vaddr, u32 nbytes)
+
+	-  let vaddr1 be the vaddr parameter for the first call 
+	-  let nbytes1 be the nbytes parameter for the first call
+	-  let vaddr2 be the vaddr parameter for the second call
+	-  let X be the memory address where the audio data for the
+	   second call is actually read.
+
+	if ( ( (vaddr1 + nbytes1) & 0x00003fff ) == 0x00002000 ) {
+	  X = vaddr2 + 0x00002000 ;		// incorrect address
+	} else {
+	  X = vaddr2 ;			// correct address
+	}
+
+	Depending on the data at vaddr2 + 0x2000, This may cause clicking in
+	the audio.  
+
+	To assure that the correct address is always read, make sure that
+	((vaddr + nbytes) & 0x00003fff) != 0x00002000. You can accomplish this
+	by moving the buffers.
+
+	Currently, the debug library (libultra_d) warns when this condition is
+	met.  We are investigating the possibility of modifying vaddr2 in
+	osAiSetNextBuffer() to make the problem transparent to the
+	application.
+
+
+	Both sequence players (ALSeqPlayer and ALCSPlayer) have been
+	enhanced to make the API more robust.  This means that certain
+	calling restrictions have been removed and illegal calls are
+	fully reported. Some notable effects of these changes are as follows:
+
+		Stopping and playing a sequence player in the same frame
+		now works as expected.  Previously, the play command would
+		not be processed.
+
+		Stopping an already stopped sequence player no longer causes
+		a subsequent play command to become lost.
+
+		The rare case of playing past the end of a sequence is now
+		safely handled.  Previously, this would cause a crash.
+
+		See THINGS TO WATCH OUT FOR for a side-effect of these
+		changes.
+
+	A bug in the ADPCM Tabledesign tool which resulted in a "There
+	was overflow - check the table" message has been fixed.
+
+	A bug in the voice stealing logic that caused stolen voices to
+	click has been fixed. Voice stealing now works with that caveat
+	that a previously stolen voice can not be stolen again until it
+	has been freed with alSynFreeVoice(). The Sequence Player and
+	Sound Player both call alSynFreeVoice() after the release phase 
+	of a note has completed.
+
+	A bug that caused a recirculating click to develop after a sequence
+	was stopped for about 20 minutes has been fixed.
+
+	GRAPHICS
+	The render mode G_RM_TEX_EDGE had a bug such that a texture would
+	always be opaque.  This mode has been fixed.
+
+	A bug in the turbo ucode prevented textured rectangles from
+	working correctly. This has been fixed.
+
+	guDumpGbiDL and guParseGbiDL had minor bug fixes.
+
+	Lighting an odd number of vertices, or an even number with
+	an odd v0 didn't work right. This has been fixed.
+
+	SCHEDULER
+	The RCP scheduler included in libultra was rewritten.  Tasks
+	that only use the RDP are now supported.  See 
+	/usr/src/PR/libultra/sched/sched.c for the new code.
+
+	A bug in osScRemoveClient that caused the system to crash has been 
+	fixed.
+
+	R4300
+	An important R4300 bug was found, and a fix is being provided.
+	The bug is a hardware problem with certain R4300
+	multiplies. This release includes a patch to the C compiler to
+	avoid the situation, but if you use a different compiler or
+	program in assembly you need to be aware of the details. See
+	the R4300 errata sheet below for more information.
+
+	This release includes a patch (patchSG0001118) to the C
+	compiler and Assembler which reorders multiply code to avoid
+	this bug. You must recompile your code with the
+	"-Wab,-r4300_mul" flag to the compiler in order to get the
+	workaround.
+
+	We are also including a "checker" program (r4300_check) called
+	by 'makerom' to ensure that programs are compiled with the
+	proper compiler options to avoid this bug. Since the
+	occurences of the bug are data dependent, 'makerom' is strict
+	about not allowing potentially bad code into the rom image.
+
+	There are also SGI IRIX release notes for this patch,
+	patch1118/relnotes/patchSG0001118/ch1.z with detailed
+	instructions.
+
+FEATURES ENHANCED:
+------------------
+
+	AUDIO
+	A new sequence player routine was added, alSeqpGetState, which
+	returns the current state of the sequence player.  Use this
+	routine to access the state instead of peeking at it directly.
+	A similar routine was added to the compact sequence player.
+	
+	Two new sequence player routines were added, alSeqpSetChlVol
+	and alSeqpGetChlVol, which support setting and getting the
+	volume of a MIDI channel.  Similar routines were added to the
+	compact sequence player.
+
+	Note that routines already existed for setting and getting
+	the master volume of a sequence, so there are now two sets
+	of volume routines for each sequence player (alSeqpSetVol
+	and alSeqpSetChlVol).
+
+	Note also that the sequence player routines for setting and
+	getting MIDI parameters have been renamed to be more consistent.
+	Aliases exist for previous routine names to maintain backward
+	compatibility.
+
+	The tools for converting and compressing midifiles, midicvt and 
+	midicomp, now have an option that order the midi events that occur 
+	on the same tick. This is particularly important when using the
+	compact sequence player with loops.
+
+	midiDmon now supports midi system reset messages.
+
+
+	GRAPHICS
+	Turbo ucode now supports z-buffering. The z-coordinate
+	calculation is of limited precision, so it's not as good
+	as gspFast3D. Also, for fill-rate limited polys, turbo
+	z is not useful. But for occasional needs, turbo z can
+	be used (like non-convex objects, ...)
+
+	Turbo ucode now supports a .dram version.
+
+	Turbo ucode now supports yielding.
+
+	VIDEO
+	The 14 supported NTSC video modes have had their horizontal
+	and vertical centering modified in the OS vi manager tables. 
+	All images will be shifted up by 6 pixels and left by 8. See the
+	blockmonkey app for example code which allows you to recenter the
+	image manually.
+
+	MICROCODE
+	The fifo microcode (gspFast3D.fifo as opposed to gspFast3D) has
+	been improved.  You can now run multiple tasks in a row during
+	a single frame and they will be efficiently pipelined if they all use
+	the fifo microcode.  If you do render more than one task per frame 
+	with fifo microcode Don't insert a gDPFullSync except at the
+	end of the last task's display list.
+
+FEATURES NO LONGER SUPPORT:
+---------------------------
+
+	AUDIO
+	The routines alSeqpGetTime/alSeqpSetTime and alCSPGetTime/
+	alCSPSetTime have been removed.  Previously the routines
+	accessed an internal variable that had no useful meaning
+	outside the context of the sequence players.  Applications
+	that require timing services should create their own timers.
+
+	PRINTF
+	The PRINTF macro has been removed from libaudio.h. If you were
+	relying on that macro, you will need to define it in your
+	code.
+
+THINGS TO WATCH OUT FOR:
+------------------------
+
+	AUDIO
+	There is one case in which the above changes to the sequence
+	players might affect the behavior of an application.  The case
+	occurs because, as of this version, alSeqpPlay is "asynchronous"
+	which means that it does NOT affect the sequence player's state
+	until the next alAudioFrame call.  So code that calls alSeqpPlay
+	and then checks the state will not work the same as before.
+	For example:
+	
+		/* Start playing the sequence (during the next alAudioFrame) */
+		alSeqpPlay(seqp);	
+					   
+		/* Loop as long as we are playing. */
+		while (seqp->state != AL_STOPPED)
+		{
+			alAudioFrame(...);
+		}
+
+	This code will work in the previous release but will skip over the
+	while loop in this release.  A simple fix is to rewrite the loop
+	as a do-while loop so that alAudioFrame has a chance to update
+	the state before it is accessed.  Another fix is to keep track
+	of the application's sequence state yourself.
+
+	Note that most sequence player API calls are asynchronous and
+	behaves similarly to alSeqpPlay as described above.  Note also
+	that you should now be using alSeqpGetState instead of
+	seqp->state directly. 
+
+	Also, the API for alSynAllocVoice() has been changed. The calling
+	code must now pass in an ALVoice reference, rather than having one
+	returned from the routine. This will only affect you if you have
+	written your own player.
+
+DOCUMENTATION:
+-------------
+
+	Documentation now has revision bars, so to find changed or updated
+	areas in the documentation, look for a black bar on the right margin.
+	Images and diagrams DO NOT get flagged with change bars.
+
+	Old release notes are now installed in /usr/src/PR/man/relnotes.old.
+
+	Antialiasing/Blender chapter added to developer document.  This
+	chapter describes the Z-buffer, blending, alpha compare, and other
+	related hardware.
+
+	Texture Rectangle chapter added to developer document.  This chapter
+	describes the features and limitations of the rectangle primitive,
+	which is a useful primitive in sprite applications.
+
+----------------------------------------------------------------------------
+CAVEATS
+----------------------------------------------------------------------------
+
+Graphics:
+--------
+
+Audio:
+-----
+
+Operating System:
+----------------
+
+	RCP SPEED:
+	We now have 4 different speed systems out there
+
+	   a. HW1			50 Mhz
+	   b. HW2 (NTSC)		60.85 Mhz
+	   c. HW2 (PAL)			62.07 Mhz
+	   d. Real game machines	62.5  Mhz
+	      (Both NTSC and PAL)
+
+        To have the correct timing for all the systems, makerom has
+	been changed to set the right value for different systems. The
+	default value is set to 62.5 Mhz. For case b, developers need
+	to pass "-C 0" or "-C 60850000 "to makerom.  For those
+	developers who still have HW1, they need to do "makerom -C
+	50000000"
+
+
+Demos:
+------
+
+Tools:
+------
+
+Debugger:
+--------
+
+----------------------------------------------------------------------------
+APPENDIX
+----------------------------------------------------------------------------
+
+R4300 Errata
+
+    Nintendo-64 CPU Multiply Errata          Preliminary release 1/10/96
+    ====================================================================
+    Description
+
+       The following back-to-back multiply code sequence in the processor
+       pipeline has the potential of producing an incorrect result in the
+       second multiply:
+
+	    mul.[s,d] fd,fs,ft
+	    mul.[s,d] fd,fs,ft  or  [D]MULT[U] rs,rt
+
+       The error happens only when the first multiply is single- or 
+       double-precision floating-point operation and when one
+       or both of its source operands are:
+
+	    Signalling Not-a-Number (sNaN), 0 (Zero), or infinity (Inf).
+
+       The second multiply instruction may produce an incorrect result
+       depending on the operands of the 1st multiply and the operands of
+       the 2nd multiply.  The second multiply can be a multiply of any
+       data type:  floating-point or integer, single- or double-precision, 
+       sign or unsign integer.
+
+       This code sequence can occur in the pipeline in two ways:
+
+	    1) The multiplies are back-to-back in the source code.
+
+	    2) The first multiply is in a branch delay slot and the
+	       second multiply is the target instruction of the branch.
+
+
+    Software Workaround
+
+       When an instruction of any kind (e.g. NOP) is executed between
+       the two multiply instructions, the problem is eliminated.
+
+       That is to aviod any back-to-back multiply instructions.
+
+
+    Affected Versions
+
+       This problem happens on versions 1.x, 2.0 and 2.1 of the CPU.
+
+
+

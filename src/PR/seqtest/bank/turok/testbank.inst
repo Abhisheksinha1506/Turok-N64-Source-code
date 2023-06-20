@@ -1,0 +1,819 @@
+envelope env1
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 653061;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key1
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound1
+{
+	use ("clave.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env1;
+}
+instrument inst1
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound1;
+}
+
+envelope env2
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 536961;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key2
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound2
+{
+	use ("how.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env2;
+}
+instrument inst2
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound2;
+}
+
+envelope env3
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 399092;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key3
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound3
+{
+	use ("loghit1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env3;
+}
+instrument inst3
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound3;
+}
+
+envelope env4
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1018775;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key4
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound4
+{
+	use ("perchit.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env4;
+}
+instrument inst4
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound4;
+}
+
+envelope env5
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 682811;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key5
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound5
+{
+	use ("rnstick.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env5;
+}
+instrument inst5
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound5;
+}
+
+envelope env6
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1059410;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key6
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound6
+{
+	use ("roar.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env6;
+}
+instrument inst6
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound6;
+}
+
+envelope env7
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 972335;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key7
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound7
+{
+	use ("toms2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env7;
+}
+instrument inst7
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound7;
+}
+
+envelope env8
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 891065;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key8
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound8
+{
+	use ("toms1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env8;
+}
+instrument inst8
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound8;
+}
+
+envelope env9
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1033287;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key9
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound9
+{
+	use ("udupot.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env9;
+}
+instrument inst9
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound9;
+}
+
+envelope env10
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 457142;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key10
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound10
+{
+	use ("shaker.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env10;
+}
+instrument inst10
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound10;
+}
+
+envelope env11
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 743038;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key11
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound11
+{
+	use ("taiko.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env11;
+}
+instrument inst11
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound11;
+}
+
+envelope env12
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1242267;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key12
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound12
+{
+	use ("watrdrop.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env12;
+}
+instrument inst12
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound12;
+}
+
+envelope env13
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 827210;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key13
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound13
+{
+	use ("slaybell.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env13;
+}
+instrument inst13
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound13;
+}
+
+envelope env14
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 329297;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key14
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound14
+{
+	use ("loghit2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env14;
+}
+instrument inst14
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound14;
+}
+
+envelope env15
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 348299;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key15
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound15
+{
+	use ("tablahit.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env15;
+}
+instrument inst15
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound15;
+}
+
+envelope env16
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1502766;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key16
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound16
+{
+	use ("piano.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env16;
+}
+instrument inst16
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound16;
+}
+
+envelope env17
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1743673;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key17
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound17
+{
+	use ("sndscape.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env17;
+}
+instrument inst17
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound17;
+}
+
+envelope env18
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1512199;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key18
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound18
+{
+	use ("wrphone.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env18;
+}
+instrument inst18
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound18;
+}
+
+envelope env19
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 434829;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key19
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound19
+{
+	use ("basskick.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env19;
+}
+instrument inst19
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound19;
+}
+
+envelope env20
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1010793;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key20
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound20
+{
+	use ("camploop.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env20;
+}
+instrument inst20
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound20;
+}
+
+envelope env21
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 439274;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key21
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound21
+{
+	use ("syncwave.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env21;
+}
+instrument inst21
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound21;
+}
+
+envelope env22
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 995555;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key22
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound22
+{
+	use ("tomspark.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env22;
+}
+instrument inst22
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound22;
+}
+
+envelope env23
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1282902;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key23
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound23
+{
+	use ("pipeclk2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env23;
+}
+instrument inst23
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound23;
+}
+
+envelope env24
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 658866;
+	decayVolume     = 127;
+	releaseTime     = 750;
+	releaseVolume   = 127;
+}
+keymap key24
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound24
+{
+	use ("steamrel.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env24;
+}
+instrument inst24
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound24;
+}
+
+bank SeqBank1
+{
+	instrument [0] = inst1;
+	instrument [1] = inst2;
+	instrument [2] = inst3;
+	instrument [3] = inst4;
+	instrument [4] = inst5;
+	instrument [5] = inst6;
+	instrument [6] = inst7;
+	instrument [7] = inst8;
+	instrument [8] = inst9;
+	instrument [9] = inst10;
+	instrument [10] = inst11;
+	instrument [11] = inst12;
+	instrument [12] = inst13;
+	instrument [13] = inst14;
+	instrument [14] = inst15;
+	instrument [15] = inst16;
+	instrument [16] = inst17;
+	instrument [17] = inst18;
+	instrument [18] = inst19;
+	instrument [19] = inst20;
+	instrument [20] = inst21;
+	instrument [21] = inst22;
+	instrument [22] = inst23;
+	instrument [23] = inst24;
+}

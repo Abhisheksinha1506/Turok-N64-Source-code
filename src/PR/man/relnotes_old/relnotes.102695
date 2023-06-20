@@ -1,0 +1,360 @@
+
+Oct 26 release RELEASE NOTES
+============================
+
+Summary
+
+	This release, Ultra 64 3.5, is only for RCP 2.0 and contains the 
+	following changes since the last release:
+
+	1) Due to bug fixes for floating point exception handling, the
+	thread structure has been changed. You need to "make clobber" your
+	application before using this new release.
+
+	2) There are bug fixes in the boot code to correct the power-up hang 
+	problem and the DMA size from ROM.
+
+	3) There are bug fixes in the VI manager to set the display to black
+	upon the calling of osCreateViManager. To resolve the problem of
+	having uninitialized frame buffer displayed on the TV screen,
+	osViBlack (i.e. osViBlack(TRUE)) can be called immediately after 
+	osViSetMode to set the display to black. And, when frame buffer is 
+	ready for display, osViBlack can be called again (i.e. osViBlack(FALSE))
+	to turn off the black mode so that VI manager can display the real 
+	frame buffer. Please see the man page on osViBlack for more info.
+
+	4) There is no longer any support for osAsyncPrintf. Please use 
+	osSyncPrintf to write to the debug port.
+
+	5) Applications using audio must make several small but important 
+	changes to operate successfully. These changes, implemented with 
+	releases from 10/16/95 forward are listed below in the audio section.
+
+	6) The application blockmonkey has been enhanced to allow the VI mode
+	(Lpn1) to dynamically change the width (or x-resolution); this feature
+	can be used to assess the best video resolution for a game with a 
+	given performance requirement.
+
+
+KNOWN BUGS and CAVEATS ======================================================
+
+Graphics
+
+	---------------------------------------------------------------------
+
+	HW 2.0 bug
+	When zooming in on a texture-edge mode object, such as a tree that is
+	very close to the viewpoint, and dithering is enabled, the filtering
+	of the dither pattern around the edges does not work.  Workarounds:
+
+	1.  Disable dithering when rendering texture edge mode objects.
+	2.  Don't use texture-edge mode (the edges defined by the texture
+		will not be as sharp as in texture-edge mode).
+	3.  Use sharpen instead of texture edge mode. 
+
+	---------------------------------------------------------------------
+
+>	The HW 2.0 system has improved performance.
+
+	---------------------------------------------------------------------
+
+>	Dither hardware has been greatly improved in HW 2.0. The API has
+	changed to allow several choices of dither. See the man pages
+	and demos for examples.
+
+	---------------------------------------------------------------------
+
+>       Fog is now working.  See the man page: gSPFogPosition
+
+	---------------------------------------------------------------------
+
+>       There is a new requirement for light directions:  the magnitude of the
+        light vector must be less than 120.  That is, sqrt(x*x + y*y + z*z)<120.        
+	This requirement is repeated in the gSPLight and gdSPDefLights man
+        pages.
+
+	---------------------------------------------------------------------
+
+	decal polygon bug
+
+	Z-buffered decal polygons use the delta Z value for a pixel,
+	defined as:
+
+		delta_z = log2 (| dz_x | + | dz_y |)
+
+	to determine whether two surface should be considered co-planar.
+	A 'fuzzy' compare of the current pixel's Z and the previously
+	stored Z is made.  A surface is coplanar if your have set the Z
+	compare mode bits to decal and:
+
+		(pix_z + delta_z >= memory_z) && (pix_z - delta_z <= mem_z)
+
+	If this condition is met, the color is written and the mem_z is
+	not updated.
+
+	Unfortunately, when the two surfaces are perpendicular or nearly
+	perpendicular to the eyepoint, the delta_z goes to zero and the
+	Z comparison is not fuzzy anymore, but exact.  Because of differences
+	in accumulated error in the rasterization of two planes that don't
+	share the same vertices, the comparison will sometimes indicate the
+	decal poly is in front and sometimes behind.  This will show up as
+	random flashing in the decal as you move the eyepoint when the
+	decal is approaching perpendicular.
+
+	One hardware solution is to use the max of delta_z and some 
+	hardware register value to ensure that a fuzzy Z compare is
+	always possible.  Unfortunately, this bug was not found in time
+	to fix in the second silicon.
+
+	Other workarounds are to always make the decal and the underlying
+	polygon share the same vertices.  This has the disadvantage of 
+	wasting pixel visits.
+
+	It may be possible to use texture decals rather than geometric
+	decals.  This technique is discussed in the Texture document
+	shipped to  developers.
+
+	Always a possibility is to simply not use geometric decals.  Instead,
+	break up the surface to use more polygons around the decal and
+	remove the part of the polygon underneath the decal.  This increases
+	the number of polygons but is more efficient in terms of pixel visits
+	(fill rate).
+
+>	A microcode fix has been implemented that clamps the dZy term
+	during setup.  This workaround is still being investigated, but
+	is available for use in the released microcode. To use it,
+	you must use the un-documented macro gSPTextureL(), which works
+	just like the gSPTexture() macro, except it has an additional
+	parameter. This parameter is normally zero, but in the decal
+	case, if you increase it to 2 or 4, etc., you can clamp the
+	dZy term.
+
+	Note that this bug only applies to Z-buffered decals.  Some
+	applications may be able to use non zbuffered decals.
+
+	---------------------------------------------------------------------
+
+	gDPLoadTextureBlock has a bug that some of the sizes results in
+		incorrect texture loads.
+
+> 	A table of the maximum number of rows that can be correctly loaded
+	given a certain number of columns in the texture has been added as
+	an Appendix to the Texture Mapping chapter of the NU64 Programming 
+	Manual.
+
+	---------------------------------------------------------------------
+
+	alpha X coverage in parallel with alpha dither bug
+
+>   This is a HW 1.0/2.0 system limitation.
+
+	---------------------------------------------------------------------
+
+	In HW 1.0, alpha x coverage did not handle 1.0 (totally opaque)
+	values correctly, causing edges to be incorrectly anti-aliased
+	behind objects such as texture-edge mode trees.
+
+>   This problem has been corrected in HW 2.0.
+
+	---------------------------------------------------------------------
+
+	In HW 1.0, the RDP performance counters did not work correctly.
+
+>   This problem has been corrected in HW 2.0. See the osDpGetCounters
+	man page.
+
+	---------------------------------------------------------------------
+
+	To get better texture accuracy, we scale the texture coordinates using
+	perspective normalization gSPPerspNormalize() to retain more useful
+	bits in the RSP fixed point transformation. We then rely on perspective
+	correction hardware in the RDP to divide and regain the correct (s,t)
+	value. Basically, this is a fixed point trick to scale up the number
+	prior to divide in hope of retaining maximum significant bits.
+
+	This means that you need to turn on perspective correction.
+	gDPSetTexturePersp(G_TP_PERSP) whenever you draw textured triangles.
+	Even in orthographic projection. However, when doing texture rectangles
+	where you specify (s,t) directly without any geometry transformation.
+	You need to turn off perspective correction.
+	
+	---------------------------------------------------------------------
+
+>	The RDP bug which small thin triangles caused the RDP pipeline
+	to hang, has been fixed with HW 2.0. Any graphics that cause the RDP
+	to hang is a new bug, and should be reported ASAP!
+
+	---------------------------------------------------------------------
+
+>	The RDP bug that caused gDPLoadTextureTile* to not work for
+	certain alignements has been fixed with HW 2.0. The work-around 
+	macros from pervious releases should NOT be used.
+
+	---------------------------------------------------------------------
+
+>	The RDP bug that caused gDPLoadTLUT to not work correctly, has
+	been fixed with HW 2.0. The work-around macros from previous
+	releases should NOT be used.  It is no longer necessary to
+	quadricate TLUTs in DRAM, e.g. don't use rgb2c -Q.
+
+	---------------------------------------------------------------------
+
+>	The HW 2.0 system now calculates texture LOD per-pixel rather then
+	per-vertex.  The quality of mip-mapped textures is greatly improved, 
+	and the software pipeline is faster. Please use this feature and 
+	provide feedback.
+
+	---------------------------------------------------------------------
+
+>	gSPCullDisplayList() has been implemented, see the man page.
+	
+	---------------------------------------------------------------------
+
+	gSPMatrixState() is not implemented.
+	
+	---------------------------------------------------------------------
+
+>	The video glitches in LAN2 and LAF2 video modes should not appear
+	on HW 2.0 systems, using the final system frequency.
+
+	---------------------------------------------------------------------
+
+ 	The Video output pipeline which performs scaling on frame buffer data
+	has a pipeline delay bug which causes 2 pixel wide artifacts to be seen
+	on scaled pixel data whenever a scale factor other than .5 or 1.0 is 
+	used.
+
+>	This has been fixed on HW 2.0 systems.
+
+	The video scaling hardware was not designed to support scale factors 
+	less than .25, and doing so results in undesirable image breakup; the
+	os calls osViSetXScale(), osViSetXScale() now have assertion checking
+	for a minimum scale factor of .25 (formerly they asserted for a 
+	minimum scale factor of 0.0).
+
+	---------------------------------------------------------------------
+
+Audio
+
+	Changes needed after 10/16/95:
+	Both the compact sequence player and the regular sequence player now 
+	implement a method of vibrato and tremelo, using callbacks to routines
+	provided by the application. This new system of handling tremelo and
+	vibrato is demonstrated in the playseq example. If the application 
+	chooses not to use this feature it must set the callback pointers to 
+	zero in the ALSeqpConfig structure, before calling alSeqpNew or 
+	alCSPNew.
+
+	The following code demonstrates how you would init the config struct to
+	not use vibrato or tremelo: 
+   
+	    seqc.maxVoices      = MAX_VOICES;
+	    seqc.maxEvents      = EVT_COUNT;
+	    seqc.maxChannels    = 16;
+	    seqc.heap           = &hp;
+	    seqc.initOsc        = 0;
+	    seqc.updateOsc      = 0;
+	    seqc.stopOsc        = 0;
+
+	Failure to set initOsc, updateOsc and stopOsc to zero when not 
+	implementing vibrato and tremelo will cause the CPU to jump to garbage 
+	addresses. (If you implement the vibrato and tremelo then set these 
+	pointers to your routines. See playseq.c for an example.)
+
+	The above change, adds eight bytes to every instrument structure in 
+	a bank .ctl file. For this reason, you must be sure you are using the
+	new version of ic, and that you remake any banks you have. If you are 
+	using your own tools to build banks, you should be aware of the changes
+	in the ALInstrument structure, (listed in libaudio.h) and adjust your 
+	tools accordingly.
+
+	AL_MAX_PRIORITY has been changed to 127 to allow for a greater range
+	of priorities. If you have hardwired priority values you should adjust
+	them to reflect the new max.
+
+	The following routines have been implemented.
+	
+	ALMicroTime  alSeqpGetTime(ALSeqPlayer *seqp);
+	void         alSeqpSetTime(ALSeqPlayer *seqp, ALMicroTime time);
+	u8           alSeqpGetChannelPriority(ALSeqPlayer *seqp, u8 chan);
+	void         alSeqpSetChannelPriority(ALSeqPlayer *seqp, u8 chan, 
+			u8 priority);
+
+	ALMicroTime  alCSPGetTime(ALCSPlayer *seqp);
+	void         alCSPSetTime(ALCSPlayer *seqp, ALMicroTime time);
+	u8           alCSPGetChannelPriority(ALCSPlayer *seqp, u8 chan);
+	void         alCSPSetChannelPriority(ALCSPlayer *seqp, u8 chan, 
+			u8 priority);
+
+	void         alCSeqNewMarker(ALCSeq *seq, ALCSeqMarker *m, u32 ticks);
+	void         alCSeqSetLoc(ALCSeq *seq, ALCSeqMarker *marker);
+	void         alCSeqGetLoc(ALCSeq *seq, ALCSeqMarker *marker); 
+
+
+	Changes prior to 10/16/95:
+	A new application called midiDmon allows you to download your audio
+	banks and playback on the Ultra64 with midi from keyboard or sequencer.
+	To use this application, the ultra inst image depends on installation
+	of the dmedia_eoe (version 5.5) image. The 5.5 dmedia_eoe is included
+	on the inst tape sent to you.
+
+	---------------------------------------------------------------------
+
+	audio performance has dramatically improved on this release. We have
+	rearranged code to minimize the ICache misses. The cost for audio
+	is 1% per channel at 30Hz update for 22KHz output.
+
+	---------------------------------------------------------------------
+
+Operating System
+
+	IMPORTANT: The memory map has changed. The final machine will have 3 MB
+	of memory.  The color and z framebuffer can only reside in the
+	first 2 MB of memory.  The boot code must reside in the 3rd MB of
+	memory. Therefore, if you DMA data into the 3rd MB, you can potentially
+	wipe out the code/data that was loaded duing boot time.
+
+	---------------------------------------------------------------------
+
+Tools
+
+	---------------------------------------------------------------------
+
+Demos
+
+	ginv - prints version information about RCP, and R4300 speed.
+	If you have both RCP 1.0 and RCP 2.0 systems at your site, 
+	you will find this app useful.
+
+	---------------------------------------------------------------------
+
+Debugger
+
+	gvd sometimes can't find the source because it gets confused on the
+	path to the source. A definite occurance is when you login the graphics
+	console as root. If you login as guest and su - root, everything seems
+	to work.
+
+	---------------------------------------------------------------------
+
+	There has been a bug fix for the multi-thread window in gvd.
+	After user has switched to a specific thread, he can then invoke
+	the multi-thread window to obtain a complete list of all active threads
+	running on the target machine. There is still a bug in showing the
+	actual state of the threads in this window; that is, a stopped thread 
+	can still be listed as running on the window. Therefore, user should 
+	use the threadstatus utility to obtain accurate state information of 
+	a specific thread.
+	
+	---------------------------------------------------------------------
+
+	Currently, the debugger cannot support background mode debugging.
+	That is, if a breakpoint is encountered, all user threads are stopped.
+	gvd does not support private breakpoints per thread; all breakpoints
+	are shared globally. Furthermore, the Continue button on the main gvd
+	window only resumes execution of the thread being debugged. To resume
+	or stop execution of all threads, user should use the Continue or Stop
+	button in the multi-thread window.
+
+	---------------------------------------------------------------------
+

@@ -1,0 +1,38 @@
+envelope env1
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 772063;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 127;
+}
+keymap key1
+{ 
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 0;
+	keyMax      = 127;
+	keyBase     = 72;
+	detune      = 0;
+}
+sound sound1
+{
+	use ("VoxC4.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env1;
+}
+instrument inst1
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound1;
+}
+
+
+bank SeqBank1
+{
+	instrument [0] = inst1;
+}

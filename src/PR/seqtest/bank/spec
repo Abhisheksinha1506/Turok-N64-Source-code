@@ -1,0 +1,7108 @@
+#include "simple.h" 
+   
+   /*
+    * ROM spec file
+    */
+   
+   /* 
+      Main Memory map for simple:
+  
+     0x000000	exception vectors, ...
+   
+     0x000400	code segment
+   		code, data, bss (includes audio heap, and
+   		gfx dynamic area)
+   
+   
+     0x00????	gfxdlists segment
+    (after code	space for static gfx display lists
+     segment)
+   
+   
+   		empty
+   
+   
+     0x1da800	zbuffer segment
+   		The Z buffer
+   
+     0x200000	cfb segment
+   		The two color framebuffers
+   
+     0x24b000	empty
+   
+   
+   */
+beginseg
+   	name "code" 
+   	flags BOOT OBJECT
+   	entry boot
+   	stack bootStack + STACKSIZEBYTES
+   	include "codesegment.o" 
+   	include "$(ROOT)/usr/lib/PR/rspboot.o" 
+   	include "$(ROOT)/usr/lib/PR/gspFast3D.o" 
+   	include "$(ROOT)/usr/lib/PR/gspFast3D.dram.o" 
+   	include "$(ROOT)/usr/lib/PR/aspMain.o" 
+endseg
+   
+   /* area for static gfx display lists */
+beginseg
+   	name "gfxdlists" 
+   	flags OBJECT
+   	after code
+   	include "gfxdlists.o" 
+endseg
+   
+beginseg
+   	name "zbuffer" 
+   	flags OBJECT
+   	address 0x801da800
+   	include "gfxzbuffer.o" 
+endseg
+   
+beginseg
+   	name "cfb" 
+   	flags OBJECT
+   	address 0x80200000
+   	include "gfxcfb.o" 
+endseg
+   
+beginseg
+   	name "static" 
+   	flags OBJECT
+   	number STATIC_SEGMENT
+   	include "gfxinit.o"
+   	include "gfxstatic.o"
+endseg
+   
+beginseg
+   	name "dynamic"
+   	flags OBJECT
+   	number DYNAMIC_SEGMENT
+   	include "gfxdynamic.o"
+endseg
+   
+   
+beginseg
+   	name "seqbank"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/testbank.ctl" 
+endseg
+   
+beginseg
+   	name "seqtable"
+   	flags RAW
+    include "$(ROOT)/usr/src/PR/seqtest/bank/testbank.tbl" 
+endseg
+   
+beginseg
+   	name "seq0"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/menu.cmp"
+endseg
+   
+beginseg
+   	name "seq1"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/chrgtrmp.cmp"
+endseg
+   
+beginseg
+   	name "seq2"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/dfence1.cmp"
+endseg
+   
+beginseg
+   	name "seq3"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/dfence2.cmp"
+endseg
+   
+beginseg
+   	name "seq4"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/dfence3.cmp"
+endseg
+   
+beginseg
+   	name "seq5"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/dfence4.cmp"
+endseg
+   
+beginseg
+   	name "seq6"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/herwego1.cmp"
+endseg
+   
+beginseg
+   	name "seq7"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/letsgo1.cmp"
+endseg
+   
+beginseg
+   	name "seq8"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/lineup2.cmp"
+endseg
+   
+beginseg
+   	name "seq9"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/mexicro2.cmp"
+endseg
+   
+beginseg
+   	name "seq10"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/girls.cmp"
+endseg
+   
+beginseg
+   	name "seq11"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/mexidid1.cmp"
+endseg
+   
+beginseg
+   	name "seq12"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/mexidid2.cmp"
+endseg
+   
+beginseg
+   	name "seq13"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/mexichro.cmp"
+endseg
+   
+beginseg
+   	name "seq14"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/barrell.cmp"
+endseg
+   
+beginseg
+   	name "seq15"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/havah.cmp"
+endseg
+   
+beginseg
+   	name "seq16"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/nyorig.cmp"
+endseg
+   
+beginseg
+   	name "seq17"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/clap1.cmp"
+endseg
+   
+beginseg
+   	name "seq18"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/clap2.cmp"
+endseg
+   
+beginseg
+   	name "seq19"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/lrl1.cmp"
+endseg
+   
+beginseg
+   	name "seq20"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/lrl2.cmp"
+endseg
+   
+beginseg
+   	name "seq21"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/lrl3.cmp"
+endseg
+   
+beginseg
+   	name "seq22"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/orgchrg1.cmp"
+endseg
+   
+beginseg
+   	name "seq23"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/orgdoodl.cmp"
+endseg
+   
+beginseg
+   	name "seq24"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/scalorg1.cmp"
+endseg
+   
+beginseg
+   	name "seq25"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq26"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq27"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq28"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq29"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq30"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq31"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq32"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq33"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq34"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq35"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq36"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq37"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq38"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq39"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq40"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq41"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq42"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq43"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq44"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq45"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq46"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq47"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq48"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq49"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq50"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq51"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq52"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq53"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq54"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq55"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq56"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq57"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq58"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq59"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq60"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq61"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq62"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq63"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq64"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq65"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq66"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq67"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq68"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq69"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq70"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq71"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq72"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq73"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq74"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq75"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq76"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq77"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq78"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq79"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq80"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq81"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq82"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq83"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq84"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq85"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq86"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq87"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq88"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq89"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq90"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq91"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq92"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq93"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq94"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq95"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq96"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq97"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq98"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq99"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq100"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq101"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq102"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq103"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq104"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq105"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq106"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq107"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq108"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq109"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq110"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq111"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq112"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq113"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq114"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq115"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq116"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq117"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq118"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq119"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq120"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq121"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq122"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq123"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq124"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq125"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq126"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq127"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq128"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq129"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq130"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq131"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq132"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq133"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq134"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq135"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq136"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq137"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq138"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq139"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq140"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq141"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq142"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq143"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq144"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq145"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq146"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq147"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq148"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq149"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq150"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq151"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq152"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq153"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq154"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq155"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq156"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq157"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq158"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq159"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq160"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq161"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq162"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq163"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq164"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq165"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq166"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq167"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq168"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq169"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq170"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq171"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq172"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq173"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq174"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq175"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq176"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq177"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq178"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq179"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq180"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq181"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq182"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq183"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq184"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq185"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq186"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq187"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq188"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq189"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq190"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq191"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq192"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq193"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq194"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq195"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq196"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq197"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq198"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq199"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq200"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq201"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq202"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq203"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq204"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq205"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq206"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq207"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq208"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq209"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq210"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq211"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq212"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq213"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq214"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq215"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq216"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq217"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq218"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq219"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq220"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq221"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq222"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq223"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq224"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq225"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq226"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq227"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq228"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq229"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq230"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq231"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq232"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq233"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq234"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq235"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq236"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq237"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq238"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq239"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq240"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq241"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq242"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq243"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq244"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq245"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq246"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq247"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq248"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq249"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq250"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq251"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq252"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq253"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq254"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq255"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq256"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq257"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq258"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq259"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq260"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq261"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq262"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq263"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq264"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq265"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq266"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq267"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq268"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq269"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq270"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq271"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq272"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq273"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq274"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq275"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq276"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq277"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq278"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq279"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq280"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq281"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq282"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq283"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq284"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq285"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq286"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq287"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq288"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq289"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq290"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq291"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq292"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq293"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq294"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq295"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq296"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq297"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq298"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq299"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq300"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq301"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq302"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq303"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq304"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq305"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq306"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq307"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq308"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq309"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq310"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq311"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq312"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq313"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq314"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq315"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq316"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq317"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq318"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq319"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq320"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq321"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq322"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq323"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq324"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq325"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq326"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq327"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq328"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq329"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq330"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq331"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq332"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq333"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq334"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq335"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq336"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq337"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq338"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq339"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq340"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq341"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq342"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq343"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq344"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq345"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq346"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq347"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq348"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq349"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq350"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq351"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq352"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq353"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq354"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq355"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq356"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq357"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq358"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq359"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq360"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq361"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq362"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq363"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq364"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq365"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq366"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq367"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq368"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq369"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq370"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq371"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq372"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq373"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq374"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq375"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq376"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq377"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq378"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq379"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq380"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq381"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq382"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq383"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq384"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq385"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq386"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq387"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq388"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq389"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq390"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq391"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq392"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq393"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq394"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq395"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq396"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq397"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq398"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq399"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq400"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq401"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq402"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq403"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq404"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq405"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq406"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq407"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq408"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq409"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq410"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq411"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq412"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq413"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq414"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq415"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq416"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq417"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq418"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq419"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq420"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq421"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq422"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq423"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq424"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq425"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq426"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq427"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq428"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq429"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq430"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq431"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq432"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq433"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq434"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq435"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq436"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq437"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq438"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq439"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq440"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq441"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq442"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq443"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq444"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq445"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq446"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq447"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq448"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq449"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq450"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq451"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq452"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq453"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq454"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq455"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq456"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq457"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq458"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq459"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq460"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq461"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq462"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq463"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq464"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq465"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq466"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq467"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq468"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq469"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq470"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq471"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq472"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq473"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq474"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq475"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq476"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq477"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq478"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq479"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq480"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq481"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq482"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq483"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq484"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq485"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq486"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq487"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq488"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq489"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq490"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq491"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq492"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq493"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq494"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq495"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq496"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq497"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq498"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq499"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq500"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq501"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq502"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq503"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq504"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq505"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq506"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq507"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq508"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq509"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq510"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq511"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq512"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq513"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq514"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq515"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq516"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq517"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq518"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq519"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq520"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq521"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq522"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq523"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq524"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq525"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq526"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq527"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq528"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq529"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq530"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq531"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq532"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq533"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq534"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq535"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq536"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq537"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq538"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq539"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq540"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq541"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq542"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq543"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq544"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq545"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq546"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq547"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq548"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq549"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq550"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq551"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq552"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq553"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq554"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq555"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq556"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq557"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq558"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq559"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq560"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq561"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq562"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq563"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq564"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq565"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq566"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq567"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq568"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq569"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq570"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq571"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq572"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq573"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq574"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq575"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq576"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq577"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq578"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq579"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq580"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq581"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq582"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq583"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq584"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq585"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq586"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq587"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq588"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq589"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq590"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq591"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq592"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq593"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq594"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq595"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq596"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq597"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq598"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq599"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq600"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq601"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq602"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq603"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq604"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq605"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq606"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq607"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq608"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq609"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq610"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq611"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq612"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq613"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq614"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq615"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq616"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq617"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq618"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq619"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq620"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq621"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq622"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq623"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq624"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq625"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq626"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq627"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq628"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq629"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq630"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq631"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq632"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq633"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq634"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq635"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq636"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq637"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq638"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq639"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq640"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq641"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq642"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq643"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq644"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq645"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq646"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq647"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq648"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq649"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq650"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq651"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq652"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq653"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq654"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq655"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq656"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq657"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq658"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq659"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq660"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq661"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq662"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq663"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq664"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq665"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq666"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq667"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq668"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq669"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq670"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq671"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq672"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq673"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq674"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq675"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq676"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq677"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq678"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq679"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq680"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq681"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq682"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq683"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq684"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq685"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq686"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq687"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq688"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq689"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq690"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq691"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq692"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq693"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq694"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq695"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq696"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq697"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq698"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq699"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq700"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq701"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq702"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq703"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq704"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq705"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq706"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq707"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq708"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq709"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq710"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq711"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq712"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq713"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq714"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq715"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq716"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq717"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq718"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq719"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq720"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq721"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq722"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq723"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq724"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq725"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq726"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq727"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq728"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq729"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq730"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq731"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq732"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq733"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq734"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq735"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq736"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq737"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq738"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq739"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq740"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq741"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq742"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq743"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq744"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq745"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq746"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq747"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq748"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq749"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq750"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq751"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq752"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq753"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq754"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq755"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq756"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq757"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq758"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq759"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq760"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq761"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq762"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq763"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq764"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq765"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq766"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq767"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq768"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq769"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq770"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq771"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq772"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq773"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq774"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq775"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq776"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq777"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq778"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq779"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq780"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq781"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq782"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq783"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq784"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq785"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq786"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq787"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq788"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq789"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq790"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq791"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq792"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq793"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq794"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq795"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq796"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq797"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq798"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq799"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq800"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq801"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq802"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq803"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq804"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq805"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq806"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq807"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq808"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq809"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq810"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq811"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq812"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq813"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq814"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq815"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq816"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq817"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq818"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq819"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq820"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq821"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq822"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq823"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq824"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq825"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq826"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq827"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq828"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq829"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq830"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq831"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq832"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq833"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq834"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq835"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq836"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq837"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq838"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq839"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq840"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq841"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq842"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq843"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq844"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq845"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq846"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq847"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq848"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq849"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq850"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq851"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq852"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq853"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq854"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq855"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq856"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq857"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq858"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq859"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq860"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq861"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq862"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq863"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq864"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq865"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq866"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq867"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq868"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq869"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq870"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq871"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq872"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq873"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq874"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq875"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq876"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq877"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq878"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq879"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq880"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq881"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq882"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq883"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq884"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq885"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq886"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq887"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq888"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq889"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq890"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq891"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq892"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq893"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq894"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq895"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq896"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq897"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq898"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq899"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq900"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq901"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq902"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq903"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq904"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq905"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq906"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq907"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq908"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq909"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq910"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq911"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq912"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq913"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq914"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq915"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq916"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq917"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq918"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq919"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq920"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq921"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq922"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq923"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq924"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq925"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq926"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq927"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq928"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq929"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq930"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq931"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq932"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq933"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq934"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq935"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq936"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq937"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq938"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq939"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq940"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq941"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq942"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq943"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq944"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq945"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq946"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq947"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq948"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq949"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq950"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq951"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq952"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq953"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq954"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq955"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq956"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq957"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq958"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq959"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq960"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq961"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq962"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq963"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq964"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq965"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq966"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq967"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq968"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq969"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq970"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq971"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq972"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq973"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq974"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq975"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq976"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq977"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq978"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq979"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq980"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq981"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq982"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq983"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq984"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq985"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq986"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq987"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq988"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq989"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq990"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq991"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq992"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq993"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq994"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq995"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq996"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq997"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq998"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+beginseg
+   	name "seq999"
+   	flags RAW
+   	include "$(ROOT)/usr/src/PR/seqtest/bank/stmpclap.cmp"
+endseg
+   
+   
+beginwave
+   	name "simple"
+   	include "code"
+   	include "gfxdlists"
+   	include "static"
+   	include "dynamic"
+   	include "cfb"
+   	include "zbuffer"
+   	include "seqtable"
+   	include "seqbank"
+   	include "seq0
+   	include "seq1
+   	include "seq2
+   	include "seq3
+   	include "seq4
+   	include "seq5
+   	include "seq6
+   	include "seq7
+   	include "seq8
+   	include "seq9
+   	include "seq10
+   	include "seq11
+   	include "seq12
+   	include "seq13
+   	include "seq14
+   	include "seq15
+   	include "seq16
+   	include "seq17
+   	include "seq18
+   	include "seq19
+   	include "seq20
+   	include "seq21
+   	include "seq22
+   	include "seq23
+   	include "seq24
+   	include "seq25
+   	include "seq26
+   	include "seq27
+   	include "seq28
+   	include "seq29
+   	include "seq30
+   	include "seq31
+   	include "seq32
+   	include "seq33
+   	include "seq34
+   	include "seq35
+   	include "seq36
+   	include "seq37
+   	include "seq38
+   	include "seq39
+   	include "seq40
+   	include "seq41
+   	include "seq42
+   	include "seq43
+   	include "seq44
+   	include "seq45
+   	include "seq46
+   	include "seq47
+   	include "seq48
+   	include "seq49
+   	include "seq50
+   	include "seq51
+   	include "seq52
+   	include "seq53
+   	include "seq54
+   	include "seq55
+   	include "seq56
+   	include "seq57
+   	include "seq58
+   	include "seq59
+   	include "seq60
+   	include "seq61
+   	include "seq62
+   	include "seq63
+   	include "seq64
+   	include "seq65
+   	include "seq66
+   	include "seq67
+   	include "seq68
+   	include "seq69
+   	include "seq70
+   	include "seq71
+   	include "seq72
+   	include "seq73
+   	include "seq74
+   	include "seq75
+   	include "seq76
+   	include "seq77
+   	include "seq78
+   	include "seq79
+   	include "seq80
+   	include "seq81
+   	include "seq82
+   	include "seq83
+   	include "seq84
+   	include "seq85
+   	include "seq86
+   	include "seq87
+   	include "seq88
+   	include "seq89
+   	include "seq90
+   	include "seq91
+   	include "seq92
+   	include "seq93
+   	include "seq94
+   	include "seq95
+   	include "seq96
+   	include "seq97
+   	include "seq98
+   	include "seq99
+   	include "seq100
+   	include "seq101
+   	include "seq102
+   	include "seq103
+   	include "seq104
+   	include "seq105
+   	include "seq106
+   	include "seq107
+   	include "seq108
+   	include "seq109
+   	include "seq110
+   	include "seq111
+   	include "seq112
+   	include "seq113
+   	include "seq114
+   	include "seq115
+   	include "seq116
+   	include "seq117
+   	include "seq118
+   	include "seq119
+   	include "seq120
+   	include "seq121
+   	include "seq122
+   	include "seq123
+   	include "seq124
+   	include "seq125
+   	include "seq126
+   	include "seq127
+   	include "seq128
+   	include "seq129
+   	include "seq130
+   	include "seq131
+   	include "seq132
+   	include "seq133
+   	include "seq134
+   	include "seq135
+   	include "seq136
+   	include "seq137
+   	include "seq138
+   	include "seq139
+   	include "seq140
+   	include "seq141
+   	include "seq142
+   	include "seq143
+   	include "seq144
+   	include "seq145
+   	include "seq146
+   	include "seq147
+   	include "seq148
+   	include "seq149
+   	include "seq150
+   	include "seq151
+   	include "seq152
+   	include "seq153
+   	include "seq154
+   	include "seq155
+   	include "seq156
+   	include "seq157
+   	include "seq158
+   	include "seq159
+   	include "seq160
+   	include "seq161
+   	include "seq162
+   	include "seq163
+   	include "seq164
+   	include "seq165
+   	include "seq166
+   	include "seq167
+   	include "seq168
+   	include "seq169
+   	include "seq170
+   	include "seq171
+   	include "seq172
+   	include "seq173
+   	include "seq174
+   	include "seq175
+   	include "seq176
+   	include "seq177
+   	include "seq178
+   	include "seq179
+   	include "seq180
+   	include "seq181
+   	include "seq182
+   	include "seq183
+   	include "seq184
+   	include "seq185
+   	include "seq186
+   	include "seq187
+   	include "seq188
+   	include "seq189
+   	include "seq190
+   	include "seq191
+   	include "seq192
+   	include "seq193
+   	include "seq194
+   	include "seq195
+   	include "seq196
+   	include "seq197
+   	include "seq198
+   	include "seq199
+   	include "seq200
+   	include "seq201
+   	include "seq202
+   	include "seq203
+   	include "seq204
+   	include "seq205
+   	include "seq206
+   	include "seq207
+   	include "seq208
+   	include "seq209
+   	include "seq210
+   	include "seq211
+   	include "seq212
+   	include "seq213
+   	include "seq214
+   	include "seq215
+   	include "seq216
+   	include "seq217
+   	include "seq218
+   	include "seq219
+   	include "seq220
+   	include "seq221
+   	include "seq222
+   	include "seq223
+   	include "seq224
+   	include "seq225
+   	include "seq226
+   	include "seq227
+   	include "seq228
+   	include "seq229
+   	include "seq230
+   	include "seq231
+   	include "seq232
+   	include "seq233
+   	include "seq234
+   	include "seq235
+   	include "seq236
+   	include "seq237
+   	include "seq238
+   	include "seq239
+   	include "seq240
+   	include "seq241
+   	include "seq242
+   	include "seq243
+   	include "seq244
+   	include "seq245
+   	include "seq246
+   	include "seq247
+   	include "seq248
+   	include "seq249
+   	include "seq250
+   	include "seq251
+   	include "seq252
+   	include "seq253
+   	include "seq254
+   	include "seq255
+   	include "seq256
+   	include "seq257
+   	include "seq258
+   	include "seq259
+   	include "seq260
+   	include "seq261
+   	include "seq262
+   	include "seq263
+   	include "seq264
+   	include "seq265
+   	include "seq266
+   	include "seq267
+   	include "seq268
+   	include "seq269
+   	include "seq270
+   	include "seq271
+   	include "seq272
+   	include "seq273
+   	include "seq274
+   	include "seq275
+   	include "seq276
+   	include "seq277
+   	include "seq278
+   	include "seq279
+   	include "seq280
+   	include "seq281
+   	include "seq282
+   	include "seq283
+   	include "seq284
+   	include "seq285
+   	include "seq286
+   	include "seq287
+   	include "seq288
+   	include "seq289
+   	include "seq290
+   	include "seq291
+   	include "seq292
+   	include "seq293
+   	include "seq294
+   	include "seq295
+   	include "seq296
+   	include "seq297
+   	include "seq298
+   	include "seq299
+   	include "seq300
+   	include "seq301
+   	include "seq302
+   	include "seq303
+   	include "seq304
+   	include "seq305
+   	include "seq306
+   	include "seq307
+   	include "seq308
+   	include "seq309
+   	include "seq310
+   	include "seq311
+   	include "seq312
+   	include "seq313
+   	include "seq314
+   	include "seq315
+   	include "seq316
+   	include "seq317
+   	include "seq318
+   	include "seq319
+   	include "seq320
+   	include "seq321
+   	include "seq322
+   	include "seq323
+   	include "seq324
+   	include "seq325
+   	include "seq326
+   	include "seq327
+   	include "seq328
+   	include "seq329
+   	include "seq330
+   	include "seq331
+   	include "seq332
+   	include "seq333
+   	include "seq334
+   	include "seq335
+   	include "seq336
+   	include "seq337
+   	include "seq338
+   	include "seq339
+   	include "seq340
+   	include "seq341
+   	include "seq342
+   	include "seq343
+   	include "seq344
+   	include "seq345
+   	include "seq346
+   	include "seq347
+   	include "seq348
+   	include "seq349
+   	include "seq350
+   	include "seq351
+   	include "seq352
+   	include "seq353
+   	include "seq354
+   	include "seq355
+   	include "seq356
+   	include "seq357
+   	include "seq358
+   	include "seq359
+   	include "seq360
+   	include "seq361
+   	include "seq362
+   	include "seq363
+   	include "seq364
+   	include "seq365
+   	include "seq366
+   	include "seq367
+   	include "seq368
+   	include "seq369
+   	include "seq370
+   	include "seq371
+   	include "seq372
+   	include "seq373
+   	include "seq374
+   	include "seq375
+   	include "seq376
+   	include "seq377
+   	include "seq378
+   	include "seq379
+   	include "seq380
+   	include "seq381
+   	include "seq382
+   	include "seq383
+   	include "seq384
+   	include "seq385
+   	include "seq386
+   	include "seq387
+   	include "seq388
+   	include "seq389
+   	include "seq390
+   	include "seq391
+   	include "seq392
+   	include "seq393
+   	include "seq394
+   	include "seq395
+   	include "seq396
+   	include "seq397
+   	include "seq398
+   	include "seq399
+   	include "seq400
+   	include "seq401
+   	include "seq402
+   	include "seq403
+   	include "seq404
+   	include "seq405
+   	include "seq406
+   	include "seq407
+   	include "seq408
+   	include "seq409
+   	include "seq410
+   	include "seq411
+   	include "seq412
+   	include "seq413
+   	include "seq414
+   	include "seq415
+   	include "seq416
+   	include "seq417
+   	include "seq418
+   	include "seq419
+   	include "seq420
+   	include "seq421
+   	include "seq422
+   	include "seq423
+   	include "seq424
+   	include "seq425
+   	include "seq426
+   	include "seq427
+   	include "seq428
+   	include "seq429
+   	include "seq430
+   	include "seq431
+   	include "seq432
+   	include "seq433
+   	include "seq434
+   	include "seq435
+   	include "seq436
+   	include "seq437
+   	include "seq438
+   	include "seq439
+   	include "seq440
+   	include "seq441
+   	include "seq442
+   	include "seq443
+   	include "seq444
+   	include "seq445
+   	include "seq446
+   	include "seq447
+   	include "seq448
+   	include "seq449
+   	include "seq450
+   	include "seq451
+   	include "seq452
+   	include "seq453
+   	include "seq454
+   	include "seq455
+   	include "seq456
+   	include "seq457
+   	include "seq458
+   	include "seq459
+   	include "seq460
+   	include "seq461
+   	include "seq462
+   	include "seq463
+   	include "seq464
+   	include "seq465
+   	include "seq466
+   	include "seq467
+   	include "seq468
+   	include "seq469
+   	include "seq470
+   	include "seq471
+   	include "seq472
+   	include "seq473
+   	include "seq474
+   	include "seq475
+   	include "seq476
+   	include "seq477
+   	include "seq478
+   	include "seq479
+   	include "seq480
+   	include "seq481
+   	include "seq482
+   	include "seq483
+   	include "seq484
+   	include "seq485
+   	include "seq486
+   	include "seq487
+   	include "seq488
+   	include "seq489
+   	include "seq490
+   	include "seq491
+   	include "seq492
+   	include "seq493
+   	include "seq494
+   	include "seq495
+   	include "seq496
+   	include "seq497
+   	include "seq498
+   	include "seq499
+   	include "seq500
+   	include "seq501
+   	include "seq502
+   	include "seq503
+   	include "seq504
+   	include "seq505
+   	include "seq506
+   	include "seq507
+   	include "seq508
+   	include "seq509
+   	include "seq510
+   	include "seq511
+   	include "seq512
+   	include "seq513
+   	include "seq514
+   	include "seq515
+   	include "seq516
+   	include "seq517
+   	include "seq518
+   	include "seq519
+   	include "seq520
+   	include "seq521
+   	include "seq522
+   	include "seq523
+   	include "seq524
+   	include "seq525
+   	include "seq526
+   	include "seq527
+   	include "seq528
+   	include "seq529
+   	include "seq530
+   	include "seq531
+   	include "seq532
+   	include "seq533
+   	include "seq534
+   	include "seq535
+   	include "seq536
+   	include "seq537
+   	include "seq538
+   	include "seq539
+   	include "seq540
+   	include "seq541
+   	include "seq542
+   	include "seq543
+   	include "seq544
+   	include "seq545
+   	include "seq546
+   	include "seq547
+   	include "seq548
+   	include "seq549
+   	include "seq550
+   	include "seq551
+   	include "seq552
+   	include "seq553
+   	include "seq554
+   	include "seq555
+   	include "seq556
+   	include "seq557
+   	include "seq558
+   	include "seq559
+   	include "seq560
+   	include "seq561
+   	include "seq562
+   	include "seq563
+   	include "seq564
+   	include "seq565
+   	include "seq566
+   	include "seq567
+   	include "seq568
+   	include "seq569
+   	include "seq570
+   	include "seq571
+   	include "seq572
+   	include "seq573
+   	include "seq574
+   	include "seq575
+   	include "seq576
+   	include "seq577
+   	include "seq578
+   	include "seq579
+   	include "seq580
+   	include "seq581
+   	include "seq582
+   	include "seq583
+   	include "seq584
+   	include "seq585
+   	include "seq586
+   	include "seq587
+   	include "seq588
+   	include "seq589
+   	include "seq590
+   	include "seq591
+   	include "seq592
+   	include "seq593
+   	include "seq594
+   	include "seq595
+   	include "seq596
+   	include "seq597
+   	include "seq598
+   	include "seq599
+   	include "seq600
+   	include "seq601
+   	include "seq602
+   	include "seq603
+   	include "seq604
+   	include "seq605
+   	include "seq606
+   	include "seq607
+   	include "seq608
+   	include "seq609
+   	include "seq610
+   	include "seq611
+   	include "seq612
+   	include "seq613
+   	include "seq614
+   	include "seq615
+   	include "seq616
+   	include "seq617
+   	include "seq618
+   	include "seq619
+   	include "seq620
+   	include "seq621
+   	include "seq622
+   	include "seq623
+   	include "seq624
+   	include "seq625
+   	include "seq626
+   	include "seq627
+   	include "seq628
+   	include "seq629
+   	include "seq630
+   	include "seq631
+   	include "seq632
+   	include "seq633
+   	include "seq634
+   	include "seq635
+   	include "seq636
+   	include "seq637
+   	include "seq638
+   	include "seq639
+   	include "seq640
+   	include "seq641
+   	include "seq642
+   	include "seq643
+   	include "seq644
+   	include "seq645
+   	include "seq646
+   	include "seq647
+   	include "seq648
+   	include "seq649
+   	include "seq650
+   	include "seq651
+   	include "seq652
+   	include "seq653
+   	include "seq654
+   	include "seq655
+   	include "seq656
+   	include "seq657
+   	include "seq658
+   	include "seq659
+   	include "seq660
+   	include "seq661
+   	include "seq662
+   	include "seq663
+   	include "seq664
+   	include "seq665
+   	include "seq666
+   	include "seq667
+   	include "seq668
+   	include "seq669
+   	include "seq670
+   	include "seq671
+   	include "seq672
+   	include "seq673
+   	include "seq674
+   	include "seq675
+   	include "seq676
+   	include "seq677
+   	include "seq678
+   	include "seq679
+   	include "seq680
+   	include "seq681
+   	include "seq682
+   	include "seq683
+   	include "seq684
+   	include "seq685
+   	include "seq686
+   	include "seq687
+   	include "seq688
+   	include "seq689
+   	include "seq690
+   	include "seq691
+   	include "seq692
+   	include "seq693
+   	include "seq694
+   	include "seq695
+   	include "seq696
+   	include "seq697
+   	include "seq698
+   	include "seq699
+   	include "seq700
+   	include "seq701
+   	include "seq702
+   	include "seq703
+   	include "seq704
+   	include "seq705
+   	include "seq706
+   	include "seq707
+   	include "seq708
+   	include "seq709
+   	include "seq710
+   	include "seq711
+   	include "seq712
+   	include "seq713
+   	include "seq714
+   	include "seq715
+   	include "seq716
+   	include "seq717
+   	include "seq718
+   	include "seq719
+   	include "seq720
+   	include "seq721
+   	include "seq722
+   	include "seq723
+   	include "seq724
+   	include "seq725
+   	include "seq726
+   	include "seq727
+   	include "seq728
+   	include "seq729
+   	include "seq730
+   	include "seq731
+   	include "seq732
+   	include "seq733
+   	include "seq734
+   	include "seq735
+   	include "seq736
+   	include "seq737
+   	include "seq738
+   	include "seq739
+   	include "seq740
+   	include "seq741
+   	include "seq742
+   	include "seq743
+   	include "seq744
+   	include "seq745
+   	include "seq746
+   	include "seq747
+   	include "seq748
+   	include "seq749
+   	include "seq750
+   	include "seq751
+   	include "seq752
+   	include "seq753
+   	include "seq754
+   	include "seq755
+   	include "seq756
+   	include "seq757
+   	include "seq758
+   	include "seq759
+   	include "seq760
+   	include "seq761
+   	include "seq762
+   	include "seq763
+   	include "seq764
+   	include "seq765
+   	include "seq766
+   	include "seq767
+   	include "seq768
+   	include "seq769
+   	include "seq770
+   	include "seq771
+   	include "seq772
+   	include "seq773
+   	include "seq774
+   	include "seq775
+   	include "seq776
+   	include "seq777
+   	include "seq778
+   	include "seq779
+   	include "seq780
+   	include "seq781
+   	include "seq782
+   	include "seq783
+   	include "seq784
+   	include "seq785
+   	include "seq786
+   	include "seq787
+   	include "seq788
+   	include "seq789
+   	include "seq790
+   	include "seq791
+   	include "seq792
+   	include "seq793
+   	include "seq794
+   	include "seq795
+   	include "seq796
+   	include "seq797
+   	include "seq798
+   	include "seq799
+   	include "seq800
+   	include "seq801
+   	include "seq802
+   	include "seq803
+   	include "seq804
+   	include "seq805
+   	include "seq806
+   	include "seq807
+   	include "seq808
+   	include "seq809
+   	include "seq810
+   	include "seq811
+   	include "seq812
+   	include "seq813
+   	include "seq814
+   	include "seq815
+   	include "seq816
+   	include "seq817
+   	include "seq818
+   	include "seq819
+   	include "seq820
+   	include "seq821
+   	include "seq822
+   	include "seq823
+   	include "seq824
+   	include "seq825
+   	include "seq826
+   	include "seq827
+   	include "seq828
+   	include "seq829
+   	include "seq830
+   	include "seq831
+   	include "seq832
+   	include "seq833
+   	include "seq834
+   	include "seq835
+   	include "seq836
+   	include "seq837
+   	include "seq838
+   	include "seq839
+   	include "seq840
+   	include "seq841
+   	include "seq842
+   	include "seq843
+   	include "seq844
+   	include "seq845
+   	include "seq846
+   	include "seq847
+   	include "seq848
+   	include "seq849
+   	include "seq850
+   	include "seq851
+   	include "seq852
+   	include "seq853
+   	include "seq854
+   	include "seq855
+   	include "seq856
+   	include "seq857
+   	include "seq858
+   	include "seq859
+   	include "seq860
+   	include "seq861
+   	include "seq862
+   	include "seq863
+   	include "seq864
+   	include "seq865
+   	include "seq866
+   	include "seq867
+   	include "seq868
+   	include "seq869
+   	include "seq870
+   	include "seq871
+   	include "seq872
+   	include "seq873
+   	include "seq874
+   	include "seq875
+   	include "seq876
+   	include "seq877
+   	include "seq878
+   	include "seq879
+   	include "seq880
+   	include "seq881
+   	include "seq882
+   	include "seq883
+   	include "seq884
+   	include "seq885
+   	include "seq886
+   	include "seq887
+   	include "seq888
+   	include "seq889
+   	include "seq890
+   	include "seq891
+   	include "seq892
+   	include "seq893
+   	include "seq894
+   	include "seq895
+   	include "seq896
+   	include "seq897
+   	include "seq898
+   	include "seq899
+   	include "seq900
+   	include "seq901
+   	include "seq902
+   	include "seq903
+   	include "seq904
+   	include "seq905
+   	include "seq906
+   	include "seq907
+   	include "seq908
+   	include "seq909
+   	include "seq910
+   	include "seq911
+   	include "seq912
+   	include "seq913
+   	include "seq914
+   	include "seq915
+   	include "seq916
+   	include "seq917
+   	include "seq918
+   	include "seq919
+   	include "seq920
+   	include "seq921
+   	include "seq922
+   	include "seq923
+   	include "seq924
+   	include "seq925
+   	include "seq926
+   	include "seq927
+   	include "seq928
+   	include "seq929
+   	include "seq930
+   	include "seq931
+   	include "seq932
+   	include "seq933
+   	include "seq934
+   	include "seq935
+   	include "seq936
+   	include "seq937
+   	include "seq938
+   	include "seq939
+   	include "seq940
+   	include "seq941
+   	include "seq942
+   	include "seq943
+   	include "seq944
+   	include "seq945
+   	include "seq946
+   	include "seq947
+   	include "seq948
+   	include "seq949
+   	include "seq950
+   	include "seq951
+   	include "seq952
+   	include "seq953
+   	include "seq954
+   	include "seq955
+   	include "seq956
+   	include "seq957
+   	include "seq958
+   	include "seq959
+   	include "seq960
+   	include "seq961
+   	include "seq962
+   	include "seq963
+   	include "seq964
+   	include "seq965
+   	include "seq966
+   	include "seq967
+   	include "seq968
+   	include "seq969
+   	include "seq970
+   	include "seq971
+   	include "seq972
+   	include "seq973
+   	include "seq974
+   	include "seq975
+   	include "seq976
+   	include "seq977
+   	include "seq978
+   	include "seq979
+   	include "seq980
+   	include "seq981
+   	include "seq982
+   	include "seq983
+   	include "seq984
+   	include "seq985
+   	include "seq986
+   	include "seq987
+   	include "seq988
+   	include "seq989
+   	include "seq990
+   	include "seq991
+   	include "seq992
+   	include "seq993
+   	include "seq994
+   	include "seq995
+   	include "seq996
+   	include "seq997
+   	include "seq998
+   	include "seq999
+endwave

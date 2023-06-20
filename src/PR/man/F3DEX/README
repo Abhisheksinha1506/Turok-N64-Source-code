@@ -1,0 +1,121 @@
+*****************************************************************************
+README / Release 1.00  10/15/96
+
+*****************************************************************************
+The micro codes in this archive.
+
+(1) gspF3DEX.fifo.o/gspF3DEX.NoN.fifo.o:
+
+      They are based on Fast3D ucode. And supports 32 vertices cache,
+    2 triangles' instruction and more DL links (10->18).
+
+      gspF3DEX.fifo.o is with near clipping, gspF3DEX.NoN.fifo.o is
+    without near clipping.
+
+(2) gspF3DLX.fifo.o/gspF3DLX.NoN.fifo.o:
+
+      They have no subpixel calculation of y screen to get more
+    performance. So, some wrinkle may appear on the texture.
+
+      F3DLX supports all F3DEX's gbi. And, F3DLX can control clipping
+    enable/disable. If disable clipping, you can get more performance. 
+    See "NewFunctions".
+
+      gspF3DLX.fifo.o is with near clipping, gspF3DLX.NoN.fifo.o is
+    without near clipping.
+    
+      These ucodes are supported in release 0.94 and later.
+
+(3) gspF3DLX.Rej.fifo.o/gspF3DLP.Rej.fifo.o:
+
+      They don't support clipping but supports triangle rejecting.
+    
+      "Triangle rejecting" works ...
+
+         + Triangles which are entirely inside the rejecting rectangle
+           are drawn. 
+         + Triangles which stretch from inside the rejecting rectangle
+           to outside or entirely outside the rectangle are rejected.
+
+        This rejecting rectangle name is rejecting box.
+      Rejecting box is 2-6 times size of the screen rectangle.
+      By default, rejecting box is 2 times of the screen rectangle.
+        We can change the ratio of rejecting box by g*SPClipRatio().
+      g*SPClipRation() accepts FRUSTRATIO_2 to FRUSTRATIO_6.
+        And triangles are tested by far plane in z direction.
+      Near plane rejecting is not available. 
+
+             -160                        480
+          -120 +--------------------------+
+               |                          | ___Rejecting box
+               |      0           320     |/   (FRUSTRATIO_2)
+               |    0 +------------+      |
+               |      |            |      |
+               |      |            |      |
+               |      | TV screen  |      |
+               |      |            |      |
+               |      |            |      |
+               |   240+------------+      |
+               |                          |
+               |                          |
+           360 +--------------------------+
+
+     A large triangle one vertex are outside are not drawn by rejected.
+   To avoid this, large triangle may be divided to small triangles in
+   modeling stage.
+
+     F3DLX.Rej and F3DLP.Rej are optimized for executing
+   g*SP2Triangle. So you'd better use g*SPTriangle to get more performance.
+
+     Texture perspective correction is available in F3DLX.Rej, otherwise
+   not avialable in F3DLP.Rej. But, F3DLP.Rej is faster than F3DLX.Rej.
+
+     F3DLX.Rej and F3DLP.Rej don't support G_CULL_BOTH.
+
+     These ucodes are supported in release 0.96 and later.
+
+(4) gspL3DEX.fifo.o:
+
+      This is based on Line3D ucode. And supports 32 vertices cache.
+    This may be used to draw wireframe objects specified by 1Triangle,
+    2Triangles and 1Quadrangle.
+     These ucodes are supported in release 1.00 and later.
+
+
+*****************************************************************************
+Header files:
+
+	headers-2.0e/*.h	Header files for U64 Dev 2.0e
+	headers-2.0f/*.h	Header files for U64 Dev 2.0f
+	headers-2.0g/*.h	Header files for U64 Dev 2.0g
+
+        Copy one of them to /usr/include/PR.
+
+About compatibility of GBI.
+
+  These's *not* binary level compatibility of some GBI macros between 
+Fast3D(original) and this released ucode.
+
+  But, we can get source level compatibility by gbi.h. Using compile
+option, gbi.h translates DL to new GBI for F3DEX/LX/LX.Rej/LP.Rej.
+  When you'd like to use this released ucode, you can get new GBI by
+definition the keyword of "F3DEX_GBI" before including ultra64.h.
+
+  When you made DL for new ucode in static_ex.c, you should add
+  "#define F3DEX_GBI" before "#include <ultra64.h>" as:
+
+  static_ex.c:
+
+	|
+	|#define  F3DEX_GBI
+	|#include <ultra64.h>
+	|
+  
+  In release 0.96 or later, all gbi commands held compatibility
+between F3DEX, F3DLX, F3DLX.Rej and F3DLP.Rej. So you can use same gbi
+binary data in each ucode.
+  But, there is a small difference about rejecting between F3DL*.Rej
+and F3DEX/LX. So, it's necessary to be care for the difference.
+
+					Yoshitaka Yasumoto
+					R&D3 Nintendo. Co., Ltd.

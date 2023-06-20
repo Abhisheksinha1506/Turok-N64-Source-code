@@ -1,0 +1,17 @@
+#include "perf.h"
+
+/*
+ * ROM spec file
+ */
+beginseg
+	name "code"
+	flags BOOT OBJECT
+	entry boot
+	stack bootStack + STACKSIZE
+	include "codesegment.o"
+endseg
+
+beginwave
+	name "cptest"
+	include	code
+endwave

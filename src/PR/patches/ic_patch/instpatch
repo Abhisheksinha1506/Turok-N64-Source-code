@@ -1,0 +1,7 @@
+#!/bin/csh -f
+
+# Save old version, copy new one.
+cp -p /usr/sbin/ic /usr/sbin/ic.orig
+cp -p ic /usr/sbin/ic
+
+#

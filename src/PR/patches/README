@@ -1,0 +1,24 @@
+Patches for 2.0E and 1.0I
+Wed Aug 21 15:12:17 PDT 1996
+
+This directory contains six patches to the 2.0E and 1.0I Nintendo64 
+software development environment.
+
+audio_patch/
+contpak_patch/
+ic_patch/
+mkisprite_patch/
+mpal_patch/
+pal_patch/
+
+All of these patches are automatically installed by the "inst" or "swmgr"
+program, so it should not be necessary to install any of these manually.
+However, if for some reason you do need to install an individual patch,
+just run the script "instpatch" from inside the patch subdirectory, as 
+superuser.
+
+---
+Nintendo of America
+Developer Support Team
+Support Line: 206-861-2715
+Email: support@noa.com

@@ -1,0 +1,4769 @@
+envelope env1
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 347392;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key1
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound1
+{
+	use ("hit3dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env1;
+}
+
+envelope env2
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 284807;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key2
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound2
+{
+	use ("hit2dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env2;
+}
+
+envelope env3
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 270385;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key3
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound3
+{
+	use ("hit4dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env3;
+}
+
+envelope env4
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 297777;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key4
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound4
+{
+	use ("hit7dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env4;
+}
+
+envelope env5
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1074285;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key5
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound5
+{
+	use ("hrnwet2p.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env5;
+}
+
+envelope env6
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1192199;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key6
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound6
+{
+	use ("line1dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env6;
+}
+
+envelope env7
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1170340;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key7
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound7
+{
+	use ("line2dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env7;
+}
+
+envelope env8
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1281541;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key8
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound8
+{
+	use ("line3dsp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env8;
+}
+
+envelope env9
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 450793;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key9
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound9
+{
+	use ("whistle.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env9;
+}
+
+envelope env10
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 155011;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key10
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound10
+{
+	use ("catch.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env10;
+}
+
+envelope env11
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 243854;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key11
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound11
+{
+	use ("punt.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env11;
+}
+
+envelope env12
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 563945;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key12
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound12
+{
+	use ("bonebrk1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env12;
+}
+
+envelope env13
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1600090;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key13
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound13
+{
+	use ("reactb2f.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env13;
+}
+
+envelope env14
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1600136;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key14
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound14
+{
+	use ("reactb3f.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env14;
+}
+
+envelope env15
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1600000;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key15
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound15
+{
+	use ("reactg2f.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env15;
+}
+
+envelope env16
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1600000;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key16
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound16
+{
+	use ("reactg3f.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env16;
+}
+
+envelope env17
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = -1;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key17
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound17
+{
+	use ("crowd1p.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env17;
+}
+
+envelope env18
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = -1;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key18
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound18
+{
+	use ("crowd2p.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env18;
+}
+
+envelope env19
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1140861;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key19
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound19
+{
+	use ("defense.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env19;
+}
+
+envelope env20
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 731337;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key20
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound20
+{
+	use ("rockuwet.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env20;
+}
+
+envelope env21
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 395646;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key21
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound21
+{
+	use ("swish2dp.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env21;
+}
+
+envelope env22
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 125759;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key22
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound22
+{
+	use ("button1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env22;
+}
+
+envelope env23
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 74784;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key23
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound23
+{
+	use ("button2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env23;
+}
+
+envelope env24
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 33469;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key24
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound24
+{
+	use ("cursor1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env24;
+}
+
+envelope env25
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 113605;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key25
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound25
+{
+	use ("hdown.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env25;
+}
+
+envelope env26
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 360090;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key26
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound26
+{
+	use ("hblk55.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env26;
+}
+
+envelope env27
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 334331;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key27
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound27
+{
+	use ("hgold15.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env27;
+}
+
+envelope env28
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 354603;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key28
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound28
+{
+	use ("hgrn18.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env28;
+}
+
+envelope env29
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 347936;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key29
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound29
+{
+	use ("hred30.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env29;
+}
+
+envelope env30
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 181768;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key30
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound30
+{
+	use ("hset.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env30;
+}
+
+envelope env31
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 53696;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key31
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound31
+{
+	use ("hhut1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env31;
+}
+
+envelope env32
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 131247;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key32
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound32
+{
+	use ("hhuthut.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env32;
+}
+
+envelope env33
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 136598;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key33
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound33
+{
+	use ("vdown.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env33;
+}
+
+envelope env34
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 258049;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key34
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound34
+{
+	use ("vblk88.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env34;
+}
+
+envelope env35
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 460181;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key35
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound35
+{
+	use ("vgrn49.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env35;
+}
+
+envelope env36
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 439092;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key36
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound36
+{
+	use ("vred37.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env36;
+}
+
+envelope env37
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 360816;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key37
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound37
+{
+	use ("vwht18.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env37;
+}
+
+envelope env38
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 176643;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key38
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound38
+{
+	use ("vset.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env38;
+}
+
+envelope env39
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 66666;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key39
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound39
+{
+	use ("vhut2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env39;
+}
+
+envelope env40
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 89523;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key40
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound40
+{
+	use ("vhuthut.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env40;
+}
+
+envelope env41
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 239138;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key41
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound41
+{
+	use ("1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env41;
+}
+
+envelope env42
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 229841;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key42
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound42
+{
+	use ("10.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env42;
+}
+
+envelope env43
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 321587;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key43
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound43
+{
+	use ("100.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env43;
+}
+
+envelope env44
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 227664;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key44
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound44
+{
+	use ("10yrd.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env44;
+}
+
+envelope env45
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 265850;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key45
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound45
+{
+	use ("11.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env45;
+}
+
+envelope env46
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 293696;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key46
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound46
+{
+	use ("12.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env46;
+}
+
+envelope env47
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 351746;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key47
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound47
+{
+	use ("13.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env47;
+}
+
+envelope env48
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 376145;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key48
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound48
+{
+	use ("14.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env48;
+}
+
+envelope env49
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 356417;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key49
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound49
+{
+	use ("15.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env49;
+}
+
+envelope env50
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 377414;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key50
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound50
+{
+	use ("15yrd.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env50;
+}
+
+envelope env51
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 405170;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key51
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound51
+{
+	use ("16.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env51;
+}
+
+envelope env52
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 429569;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key52
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound52
+{
+	use ("17.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env52;
+}
+
+envelope env53
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 356417;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key53
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound53
+{
+	use ("18.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env53;
+}
+
+envelope env54
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 398185;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key54
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound54
+{
+	use ("19.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env54;
+}
+
+envelope env55
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 216099;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key55
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound55
+{
+	use ("1a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env55;
+}
+
+envelope env56
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 264671;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key56
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound56
+{
+	use ("2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env56;
+}
+
+envelope env57
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 196190;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key57
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound57
+{
+	use ("20.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env57;
+}
+
+envelope env58
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 301859;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key58
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound58
+{
+	use ("200.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env58;
+}
+
+envelope env59
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 184625;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key59
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound59
+{
+	use ("20a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env59;
+}
+
+envelope env60
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 253605;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key60
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound60
+{
+	use ("2a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env60;
+}
+
+envelope env61
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 574693;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key61
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound61
+{
+	use ("2daygame.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env61;
+}
+
+envelope env62
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 290249;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key62
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound62
+{
+	use ("3.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env62;
+}
+
+envelope env63
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 228707;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key63
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound63
+{
+	use ("30.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env63;
+}
+
+envelope env64
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 165986;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key64
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound64
+{
+	use ("30a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env64;
+}
+
+envelope env65
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 272380;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key65
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound65
+{
+	use ("3a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env65;
+}
+
+envelope env66
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 210113;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key66
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound66
+{
+	use ("4.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env66;
+}
+
+envelope env67
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 282086;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key67
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound67
+{
+	use ("40.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env67;
+}
+
+envelope env68
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 164081;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key68
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound68
+{
+	use ("40a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env68;
+}
+
+envelope env69
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 449387;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key69
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound69
+{
+	use ("49ers.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env69;
+}
+
+envelope env70
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 265034;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key70
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound70
+{
+	use ("4a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env70;
+}
+
+envelope env71
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 296054;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key71
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound71
+{
+	use ("5.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env71;
+}
+
+envelope env72
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 273968;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key72
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound72
+{
+	use ("50.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env72;
+}
+
+envelope env73
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 176916;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key73
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound73
+{
+	use ("50a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env73;
+}
+
+envelope env74
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 296417;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key74
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound74
+{
+	use ("5a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env74;
+}
+
+envelope env75
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 255192;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key75
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound75
+{
+	use ("5yrd.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env75;
+}
+
+envelope env76
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 289070;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key76
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound76
+{
+	use ("6.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env76;
+}
+
+envelope env77
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 349433;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key77
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound77
+{
+	use ("60.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env77;
+}
+
+envelope env78
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 233741;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key78
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound78
+{
+	use ("60a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env78;
+}
+
+envelope env79
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 249614;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key79
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound79
+{
+	use ("6a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env79;
+}
+
+envelope env80
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 253061;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key80
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound80
+{
+	use ("7.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env80;
+}
+
+envelope env81
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 304172;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key81
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound81
+{
+	use ("70.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env81;
+}
+
+envelope env82
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 219501;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key82
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound82
+{
+	use ("70a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env82;
+}
+
+envelope env83
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 216507;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key83
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound83
+{
+	use ("7a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env83;
+}
+
+envelope env84
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 128843;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key84
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound84
+{
+	use ("8.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env84;
+}
+
+envelope env85
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 203174;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key85
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound85
+{
+	use ("80.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env85;
+}
+
+envelope env86
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 128934;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key86
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound86
+{
+	use ("80a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env86;
+}
+
+envelope env87
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 125351;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key87
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound87
+{
+	use ("8a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env87;
+}
+
+envelope env88
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 307664;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key88
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound88
+{
+	use ("9.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env88;
+}
+
+envelope env89
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 287891;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key89
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound89
+{
+	use ("90.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env89;
+}
+
+envelope env90
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 233015;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key90
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound90
+{
+	use ("90a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env90;
+}
+
+envelope env91
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 279546;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key91
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound91
+{
+	use ("9a.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env91;
+}
+
+envelope env92
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 257142;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key92
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound92
+{
+	use ("afc.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env92;
+}
+
+envelope env93
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 574875;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key93
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound93
+{
+	use ("agnstdef.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env93;
+}
+
+envelope env94
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 565306;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key94
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound94
+{
+	use ("agnstoff.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env94;
+}
+
+envelope env95
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 438730;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key95
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound95
+{
+	use ("allstars.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env95;
+}
+
+envelope env96
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 155555;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key96
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound96
+{
+	use ("and1.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env96;
+}
+
+envelope env97
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 343945;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key97
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound97
+{
+	use ("back2pnt.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env97;
+}
+
+envelope env98
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 310521;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key98
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound98
+{
+	use ("bears.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env98;
+}
+
+envelope env99
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 317913;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key99
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound99
+{
+	use ("bengals.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env99;
+}
+
+envelope env100
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 299410;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key100
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound100
+{
+	use ("bills.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env100;
+}
+
+envelope env101
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 344399;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key101
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound101
+{
+	use ("broncos.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env101;
+}
+
+envelope env102
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 400544;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key102
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound102
+{
+	use ("buccs.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env102;
+}
+
+envelope env103
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 367346;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key103
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound103
+{
+	use ("cards.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env103;
+}
+
+envelope env104
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 361043;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key104
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound104
+{
+	use ("caughtby.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env104;
+}
+
+envelope env105
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 374285;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key105
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound105
+{
+	use ("chargers.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env105;
+}
+
+envelope env106
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 262630;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key106
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound106
+{
+	use ("chiefs.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env106;
+}
+
+envelope env107
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 226666;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key107
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound107
+{
+	use ("clipping.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env107;
+}
+
+envelope env108
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 263219;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key108
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound108
+{
+	use ("colts.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env108;
+}
+
+envelope env109
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 372970;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key109
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound109
+{
+	use ("cowboys.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env109;
+}
+
+envelope env110
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 249705;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key110
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound110
+{
+	use ("defensiv.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env110;
+}
+
+envelope env111
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 336825;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key111
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound111
+{
+	use ("dolphins.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env111;
+}
+
+envelope env112
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 503582;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key112
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound112
+{
+	use ("drpsback.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env112;
+}
+
+envelope env113
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 343129;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key113
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound113
+{
+	use ("eagles.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env113;
+}
+
+envelope env114
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 629251;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key114
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound114
+{
+	use ("eastgoal.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env114;
+}
+
+envelope env115
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 322222;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key115
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound115
+{
+	use ("facemask.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env115;
+}
+
+envelope env116
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 335646;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key116
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound116
+{
+	use ("facemsk2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env116;
+}
+
+envelope env117
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 352154;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key117
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound117
+{
+	use ("falcons.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env117;
+}
+
+envelope env118
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 380045;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key118
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound118
+{
+	use ("falsstrt.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env118;
+}
+
+envelope env119
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 570022;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key119
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound119
+{
+	use ("flopball.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env119;
+}
+
+envelope env120
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 549115;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key120
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound120
+{
+	use ("fumbles.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env120;
+}
+
+envelope env121
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 340589;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key121
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound121
+{
+	use ("giants.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env121;
+}
+
+envelope env122
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 411247;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key122
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound122
+{
+	use ("handsoff.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env122;
+}
+
+envelope env123
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 535192;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key123
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound123
+{
+	use ("heads.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env123;
+}
+
+envelope env124
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 659501;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key124
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound124
+{
+	use ("holding.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env124;
+}
+
+envelope env125
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 347437;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key125
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound125
+{
+	use ("iguanas.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env125;
+}
+
+envelope env126
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 505623;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key126
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound126
+{
+	use ("illcntct.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env126;
+}
+
+envelope env127
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 505079;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key127
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound127
+{
+	use ("illprcdr.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env127;
+}
+
+envelope env128
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 509070;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key128
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound128
+{
+	use ("incmplet.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env128;
+}
+
+envelope env129
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 484126;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key129
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound129
+{
+	use ("intceptd.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env129;
+}
+
+envelope env130
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 620725;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key130
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound130
+{
+	use ("intgrndg.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env130;
+}
+
+envelope env131
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 487619;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key131
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound131
+{
+	use ("itsgood.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env131;
+}
+
+envelope env132
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 393968;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key132
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound132
+{
+	use ("jaguars.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env132;
+}
+
+envelope env133
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 281179;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key133
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound133
+{
+	use ("jets.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env133;
+}
+
+envelope env134
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 313469;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key134
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound134
+{
+	use ("kickisup.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env134;
+}
+
+envelope env135
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 673106;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key135
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound135
+{
+	use ("latehit.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env135;
+}
+
+envelope env136
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 369115;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key136
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound136
+{
+	use ("lions.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env136;
+}
+
+envelope env137
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 285396;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key137
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound137
+{
+	use ("nfc.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env137;
+}
+
+envelope env138
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 353242;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key138
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound138
+{
+	use ("nogood.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env138;
+}
+
+envelope env139
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 639682;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key139
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound139
+{
+	use ("nrthgoal.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env139;
+}
+
+envelope env140
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 296145;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key140
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound140
+{
+	use ("offensiv.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env140;
+}
+
+envelope env141
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 381451;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key141
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound141
+{
+	use ("offsides.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env141;
+}
+
+envelope env142
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 322539;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key142
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound142
+{
+	use ("oilers.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env142;
+}
+
+envelope env143
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 343356;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key143
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound143
+{
+	use ("packers.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env143;
+}
+
+envelope env144
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 328798;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key144
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound144
+{
+	use ("panthers.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env144;
+}
+
+envelope env145
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 513469;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key145
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound145
+{
+	use ("passint.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env145;
+}
+
+envelope env146
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 343492;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key146
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound146
+{
+	use ("patriots.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env146;
+}
+
+envelope env147
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 420272;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key147
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound147
+{
+	use ("pitchlft.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env147;
+}
+
+envelope env148
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 464943;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key148
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound148
+{
+	use ("ptchrite.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env148;
+}
+
+envelope env149
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 325351;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key149
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound149
+{
+	use ("raiders.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env149;
+}
+
+envelope env150
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 332789;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key150
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound150
+{
+	use ("rams.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env150;
+}
+
+envelope env151
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 326712;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key151
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound151
+{
+	use ("ravens.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env151;
+}
+
+envelope env152
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 827755;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key152
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound152
+{
+	use ("recieve.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env152;
+}
+
+envelope env153
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 403446;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key153
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound153
+{
+	use ("redskins.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env153;
+}
+
+envelope env154
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 297188;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key154
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound154
+{
+	use ("rollsout.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env154;
+}
+
+envelope env155
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 448299;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key155
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound155
+{
+	use ("ruffkick.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env155;
+}
+
+envelope env156
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 1238775;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key156
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound156
+{
+	use ("sacked.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env156;
+}
+
+envelope env157
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 291836;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key157
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound157
+{
+	use ("saints.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env157;
+}
+
+envelope env158
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 697732;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key158
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound158
+{
+	use ("scoopbal.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env158;
+}
+
+envelope env159
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 630385;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key159
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound159
+{
+	use ("scorhalf.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env159;
+}
+
+envelope env160
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 393832;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key160
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound160
+{
+	use ("seahawks.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env160;
+}
+
+envelope env161
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 661768;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key161
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound161
+{
+	use ("sothgoal.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env161;
+}
+
+envelope env162
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 417551;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key162
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound162
+{
+	use ("steelers.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env162;
+}
+
+envelope env163
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 589070;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key163
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound163
+{
+	use ("tails.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env163;
+}
+
+envelope env164
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 51337;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key164
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound164
+{
+	use ("the.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env164;
+}
+
+envelope env165
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 46757;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key165
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound165
+{
+	use ("the2.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env165;
+}
+
+envelope env166
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 70022;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key166
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound166
+{
+	use ("the3.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env166;
+}
+
+envelope env167
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 64897;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key167
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound167
+{
+	use ("the4.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env167;
+}
+
+envelope env168
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 340136;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key168
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound168
+{
+	use ("tuchdown.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env168;
+}
+
+envelope env169
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 346938;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key169
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound169
+{
+	use ("vikings.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env169;
+}
+
+envelope env170
+{
+	attackTime      = 0;
+	attackVolume    = 127;
+	decayTime       = 642585;
+	decayVolume     = 127;
+	releaseTime     = 0;
+	releaseVolume   = 0;
+}
+keymap key170
+{
+	velocityMin = 0;
+	velocityMax = 127;
+	keyMin      = 41;
+	keyMax      = 41;
+	keyBase     = 41;
+	detune      = 0;
+}
+sound sound170
+{
+	use ("westgoal.n64");
+	keymap = key1;
+	pan    = 64;
+	volume = 127;
+	envelope = env170;
+}
+
+instrument inst1
+{
+	volume = 127;
+	pan    = 64;
+	sound  = sound1;
+	sound  = sound2;
+	sound  = sound3;
+	sound  = sound4;
+	sound  = sound5;
+	sound  = sound6;
+	sound  = sound7;
+	sound  = sound8;
+	sound  = sound9;
+	sound  = sound10;
+	sound  = sound11;
+	sound  = sound12;
+	sound  = sound13;
+	sound  = sound14;
+	sound  = sound15;
+	sound  = sound16;
+	sound  = sound17;
+	sound  = sound18;
+	sound  = sound19;
+	sound  = sound20;
+	sound  = sound21;
+	sound  = sound22;
+	sound  = sound23;
+	sound  = sound24;
+	sound  = sound25;
+	sound  = sound26;
+	sound  = sound27;
+	sound  = sound28;
+	sound  = sound29;
+	sound  = sound30;
+	sound  = sound31;
+	sound  = sound32;
+	sound  = sound33;
+	sound  = sound34;
+	sound  = sound35;
+	sound  = sound36;
+	sound  = sound37;
+	sound  = sound38;
+	sound  = sound39;
+	sound  = sound40;
+	sound  = sound41;
+	sound  = sound42;
+	sound  = sound43;
+	sound  = sound44;
+	sound  = sound45;
+	sound  = sound46;
+	sound  = sound47;
+	sound  = sound48;
+	sound  = sound49;
+	sound  = sound50;
+	sound  = sound51;
+	sound  = sound52;
+	sound  = sound53;
+	sound  = sound54;
+	sound  = sound55;
+	sound  = sound56;
+	sound  = sound57;
+	sound  = sound58;
+	sound  = sound59;
+	sound  = sound60;
+	sound  = sound61;
+	sound  = sound62;
+	sound  = sound63;
+	sound  = sound64;
+	sound  = sound65;
+	sound  = sound66;
+	sound  = sound67;
+	sound  = sound68;
+	sound  = sound69;
+	sound  = sound70;
+	sound  = sound71;
+	sound  = sound72;
+	sound  = sound73;
+	sound  = sound74;
+	sound  = sound75;
+	sound  = sound76;
+	sound  = sound77;
+	sound  = sound78;
+	sound  = sound79;
+	sound  = sound80;
+	sound  = sound81;
+	sound  = sound82;
+	sound  = sound83;
+	sound  = sound84;
+	sound  = sound85;
+	sound  = sound86;
+	sound  = sound87;
+	sound  = sound88;
+	sound  = sound89;
+	sound  = sound90;
+	sound  = sound91;
+	sound  = sound92;
+	sound  = sound93;
+	sound  = sound94;
+	sound  = sound95;
+	sound  = sound96;
+	sound  = sound97;
+	sound  = sound98;
+	sound  = sound99;
+	sound  = sound100;
+	sound  = sound101;
+	sound  = sound102;
+	sound  = sound103;
+	sound  = sound104;
+	sound  = sound105;
+	sound  = sound106;
+	sound  = sound107;
+	sound  = sound108;
+	sound  = sound109;
+	sound  = sound110;
+	sound  = sound111;
+	sound  = sound112;
+	sound  = sound113;
+	sound  = sound114;
+	sound  = sound115;
+	sound  = sound116;
+	sound  = sound117;
+	sound  = sound118;
+	sound  = sound119;
+	sound  = sound120;
+	sound  = sound121;
+	sound  = sound122;
+	sound  = sound123;
+	sound  = sound124;
+	sound  = sound125;
+	sound  = sound126;
+	sound  = sound127;
+	sound  = sound128;
+	sound  = sound129;
+	sound  = sound130;
+	sound  = sound131;
+	sound  = sound132;
+	sound  = sound133;
+	sound  = sound134;
+	sound  = sound135;
+	sound  = sound136;
+	sound  = sound137;
+	sound  = sound138;
+	sound  = sound139;
+	sound  = sound140;
+	sound  = sound141;
+	sound  = sound142;
+	sound  = sound143;
+	sound  = sound144;
+	sound  = sound145;
+	sound  = sound146;
+	sound  = sound147;
+	sound  = sound148;
+	sound  = sound149;
+	sound  = sound150;
+	sound  = sound151;
+	sound  = sound152;
+	sound  = sound153;
+	sound  = sound154;
+	sound  = sound155;
+	sound  = sound156;
+	sound  = sound157;
+	sound  = sound158;
+	sound  = sound159;
+	sound  = sound160;
+	sound  = sound161;
+	sound  = sound162;
+	sound  = sound163;
+	sound  = sound164;
+	sound  = sound165;
+	sound  = sound166;
+	sound  = sound167;
+	sound  = sound168;
+	sound  = sound169;
+	sound  = sound170;
+}
+bank Wave1
+{
+	instrument [0] = inst1;
+}

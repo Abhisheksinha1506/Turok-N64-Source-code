@@ -1,0 +1,394 @@
+
+September 30 release RELEASE NOTES
+===============================
+
+SUMMARY:
+--------
+	This release of Ultra 64 (version 2.0G for RCP 2.0) contains
+	various problem fixes and enhancements.
+
+	There is no release for RCP 1.0. RCP 1.0 is no longer
+	supported. If you are still using an RCP 1.0 system, do not
+	install this release on that system.
+
+	Please note the R4300 multiply problem detailed in the 2.0C
+	release.  You MUST install the IRIX 5.3 patch provided. Brief
+	instructions are included below in Appendix A; full patch
+	installation instructions are included in the release notes
+	provided with that patch (also included on this tape).
+
+	Appendix B contains the procedure to install and build the
+	Ultra 64 release on an IRIX 6.2 machine.
+
+NEW FEATURES:
+-------------
+        GLOAD
+        A -n flag was added to the gload application. When started with
+        -n as an option, gload will not attempt to load a rom image. It
+        will sign in for printf data, logging data, and fault data.
+
+NEW DEMO APPLICATIONS:
+----------------------
+
+
+MODIFIED DEMO APPLICATIONS:
+----------------------
+
+
+PROBLEM FIXES:
+--------------
+
+	AUDIO 
+	The instrument editor tool has been made ready for initial
+	release.  This means that some of the problems that existed
+	in the alpha release have been fixed and some of the features
+	have been completed.  See the developer manual for a full
+	discription of the instrument editor and consult the man
+	page for a list of remaining bugs.
+
+	GRAPHICS 
+	The gspSuper3D microcode did not function properly when data
+	was clipped. This has been fixed.
+
+	gSPScisTextureRectangle() did not correctly scissor flipped
+	textures, this has been fixed.
+
+	A clipping problem with the Line Microcode has been fixed
+
+	A fifo version of the Sprite Microcode has been added
+
+	A problem which prevented the DRAM version of the Sprite
+	Microcde from working properly has been fixed.
+
+	OS 
+	Some internal global symbols in libultra did not conform to
+	proper naming conventions, causing some symbols to possibly
+	clash with user-declared symbols. Most of these have been
+	fixed; some newer libraries relating to the disk drive unit
+	have not yet been properly cleaned up. The IRIX program
+	'elfdump' can be used to list the symbols in the libraries;
+	'collide' can be used to check an application's symbols with a
+	library to look for namespace collisions.
+
+
+FEATURES ENHANCED:
+------------------
+
+	AUDIO
+	Several final features were added to the instrument editor
+	for this release.  First, the effects editor now provides
+	the built-in effects and lets you build custom effects
+	and switch between them on the fly.  Second, the profiler
+	now displays maximum values as well as current values and
+	displays level output in dBs for more accurate readings.
+	Finally, audio configuration parameters are now accessible
+	from a dialog and can be changed on the fly.
+
+	GRAPHICS
+	The remaining functionality of the Sprite Microcode has been
+	implemented.
+
+
+	OS
+
+
+FEATURES NO LONGER SUPPORT:
+---------------------------
+
+	midiDmon is no longer supported. It has been replaced by the tool, 
+	AudioEditor.
+
+	RCP Hardware 1.0 is no longer supported. You should *not*
+	install this release on a RCP 1.0 system.
+
+THINGS TO WATCH OUT FOR:
+------------------------
+
+DOCUMENTATION:
+-------------
+
+	The documentation has received another extensive review,
+	adding information and clarifying some sections.
+
+
+----------------------------------------------------------------------------
+CAVEATS
+----------------------------------------------------------------------------
+
+Graphics:
+--------
+
+Audio:
+-----
+
+Operating System:
+----------------
+
+Demos:
+------
+
+Tools:
+------
+
+Debugger:
+--------
+
+----------------------------------------------------------------------------
+APPENDIX A
+----------------------------------------------------------------------------
+
+Important Things from Previous Releases That You Must Know:
+----------------------------------------------------------
+
+	You need 'sgitcl' to run the application 'spin'. This
+	package is included on 5.3 distribution CD's, and is
+	included with this release for convenience. It is
+	*not* installed when you do a default ultra install.
+
+	You *must* install the IRIX patch patchSG0001118 to your
+	system. This patch fixes your C compiler and Assembler
+	in order to work around an R4300 problem. This patch is
+	included with this release for convenience. It is
+	*not* installed when you do a default ultra install.
+	See patch1118/patchSG0001118/relnotes/ch1.z for complete
+	installation instructions. Note: You must select this
+	patch for install. The default behavior for 'inst' is to
+	not install patches. You must request this patch to be
+	installed explicitly. (see man inst for more information)
+
+
+----------------------------------------------------------------------------
+APPENDIX B
+----------------------------------------------------------------------------
+
+Procedure to install and build the ultra environment on IRIX 6.2 machine
+------------------------------------------------------------------------
+
+	The procedure below describes how to install and build the 
+	Nintendo64 (also known as Ultra64) development environment on an 
+	IRIX 6.2 Indy system. The idea is to have a toolroot directory on 
+	this 6.2 machine that contains IRIX 5.3 development tools (ie., 
+	compilers, linkers, etc.). These 5.3 tools require about 300 MB of 
+	disk space for installation. The SGI development environment 
+	makes extensive use of two important environment variables: TOOLROOT 
+	and ROOT. If these variables are not defined, the system uses the
+	root "/" directory as default. For example, you will find many 
+	references to these two variables in the /usr/include/make/commondefs 
+	file. The build environment references these two variables to find 
+	tools (ie., compilers, assemblers, linkers), header files, and 
+	libraries. The steps to create a working 5.3 toolroot tree on a 
+	6.2 machine are described below.
+
+	1)  Login in and become superuser on an IRIX 6.2 Indy workstation.
+
+	    $ login root
+
+	2)  Create a toolroot directory to install all IRIX 5.3 development
+	    tools. For example, let's use "/u64_toolroot" as the 
+	    5.3 toolroot directory.
+
+	    # mkdir /u64_toolroot
+
+	3)  Run the "inst" program to install the complete set of 5.3 
+	    development tools (from CDs) onto this new toolroot directory.
+	    Please see the man page on inst(1M) for more info.
+
+	    # inst -f /CDROM/dist -r /u64_toolroot
+
+	4)  From the "inst" list menu, select the following products for 
+	    installation: c_eoe, c_dev, c++_eoe, c++_dev, compiler_eoe, 
+	    compiler_dev, dev, dmedia_eoe, eoe1, eoe2, gl_dev, and 
+	    compiler patch patchSG0001118.
+
+	    The compiler patch was included in the last Ultra64 release 
+	    tapes. The list below contains all the 5.3 products installed on 
+	    our test 6.2 Indy system.
+	   
+	5)  Now, install the new Ultra64 release onto the toolroot. Please 
+	    note that only release 2.0F and later have the proper IRIX 6.2 
+	    kernel driver for the Ultra64 development board. 
+
+	    # inst -f <source> -r /u64_toolroot
+
+	    where <source> could be a DAT tape or a remote workstation that
+	    contains the Ultra installable images.
+	
+	6)  From the "inst" list menu, select ultra for installation.
+
+	7)  Once the ultra installation is completed, you should see 
+	    messages similar to these displayed on your shell window:
+
+	    ULTRA-64 SYSTEM INSTALLATION PROGRAM
+
+	    IRIX 6.X detected...
+	    Copying /u64_toolroot/usr/lib/PR/install/u64_6.2.o to 
+                /usr/cpu/sysgen/IP22boot/u64.o
+	    Copying /u64_toolroot/var/sysgen/master.d/u64 to 
+	        /var/sysgen/master.d/u64
+	    Copying /u64_toolroot/var/sysgen/system/u64.sm to 
+	        /var/sysgen/system/u64.sm
+	    Installation completed (...)
+
+	    The above messages simply notify you that all the necessary 
+	    kernel driver files have been copied from the toolroot directory 
+	    to the proper locations on the 6.2 system.
+
+	8)  Quit the "inst" program
+
+	9)  Rebuilt the kernel to incorporate the new Ultra64 driver by 
+	    running the "autoconfig" program.
+
+	    # autoconfig
+
+	10) Reboot the system
+
+	    # reboot
+
+	11) When the system is booting up, if it finds the Ultra64 development
+	    board, the following message will be displayed on the console
+	    window.
+
+	    u64 (IRIX 6.2): board found at address 0xbf400000
+
+	12) Now, to build the Ultra64 demo applications, you can log back 
+	    into the system as any user that have write-access to the 
+	    toolroot directory.
+
+	13) Set the TOOLROOT and ROOT environment variables to the toolroot
+	    directory. For example,
+
+	    For C shell:
+		$ setenv TOOLROOT /u64_toolroot
+		$ setenv ROOT /u64_toolroot
+
+	    For Korn shell:
+		$ export TOOLROOT=/u64_toolroot
+		$ export ROOT=/u64_toolroot
+
+	14) Go to the "simple" demo directory and build this application.
+
+	    $ cd $ROOT/usr/src/PR/simple
+	    $ make
+
+	    You should notice (from the make messages) that all the tools 
+	    (ie., cc, ld, makerom), header files, and libraries are
+	    referenced from the toolroot directory. Therefore, if you have 
+	    installed all the necessary 5.3 development tools correctly, 
+	    this make should complete successfully.
+
+	15) Now, to test the modified kernel, run the "simple" application 
+	    by loading the rom image onto the development board
+
+	    $ gload simple/rom
+
+	16) If you see a spinning SGI cube on the TV set, then you've
+	    successfully created an IRIX 5.3 toolroot on a 6.2 machine.
+
+	17) To honor the TOOLROOT and ROOT environment variables, your build
+	    environment should use the common defines and rules as specified 
+	    in the /usr/include/make/commondefs and 
+	    /usr/include/make/commonrules.
+
+The debugger 'gvd' can still be used; it does not need to be installed
+in TOOLROOT. As long as the u64_6.2.o is used, and the dbgif from the
+TOOLROOT is used, gvd should work just fine.
+
+-----------------------------------------------------------------------------
+List of IRIX 5.3 products installed on our test IRIX 6.2 Indy workstation:
+-----------------------------------------------------------------------------
+
+Target: /u64_toolroot/
+I = Installed, R = Removed
+
+   Name                 Version     Description
+
+I  c++_dev              1021572035  C++, 4.0
+I  c++_dev.hdr          1021572035  C++ Headers
+I  c++_dev.hdr.lib      1021572035  C++ Library Headers
+I  c++_dev.sw           1021572035  C++ Software
+I  c++_dev.sw.c++       1021572035  C++ Compiler
+I  c++_dev.sw.lib       1021572035  C++ Libraries
+
+I  c++_eoe              1021572033  Standard Execution Environment (C++, 4.0)
+I  c++_eoe.sw           1021572033  Standard Execution Software
+I  c++_eoe.sw.lib       1021572033  Standard Execution Libraries
+
+I  c_dev                1021572033  C, 3.19
+I  c_dev.hdr            1021572033  C Headers
+I  c_dev.hdr.lib        1021572033  C Library Headers
+I  c_dev.sw             1021572033  C Software
+I  c_dev.sw.c           1021572033  C Compiler
+I  c_dev.sw.copt        1021572033  C Scalar Optimizer
+I  c_dev.sw.lib         1021572033  C Libraries
+I  c_dev.sw.util        1021572033  C Utilities
+
+I  c_eoe                1021572033  Standard Execution Environment (C, 3.19)
+I  c_eoe.sw             1021572033  Standard Execution Software
+I  c_eoe.sw.lib         1021572033  Standard Execution Libraries
+
+I  compiler_dev         1021572033  Base Compiler Development Environment, 5.3
+I  compiler_dev.hdr     1021572033  Base Compiler Headers
+I  compiler_dev.hdr.lib 1021572033  Base Compiler Headers
+I  compiler_dev.sw      1021572033  Base Compiler Software
+I  compiler_dev.sw.base 1021572033  Base Compiler Components
+I  compiler_dev.sw.dbx  1021572033  Base Compiler dbx Debugger
+I  compiler_dev.sw.ld   1021572033  Base Compiler Loader
+I  compiler_dev.sw.lib  1021572033  Base Compiler Libraries
+I  compiler_dev.sw.perf 1021572033  Base Compiler Performance Tools
+I  compiler_dev.sw.util 1021572033  Base Compiler Utilities
+
+I  compiler_eoe         1021572035  IRIX Standard Execution Environment,
+(Compiler, 5.3)
+I  compiler_eoe.sw      1021572035  IRIX Standard Execution Environment
+Software
+I  compiler_eoe.sw.cpp  1021572035  Source Code Preprocessor
+I  compiler_eoe.sw.lboot  1021572035  Kernel lboot Software
+I  compiler_eoe.sw.lib  1021572035  Base Execution Libraries
+I  compiler_eoe.sw.unix 1021572035  IRIX Execution Environment
+
+I  dev                  1021572036  Development System, 5.3
+I  dev.hdr              1021572036  Development Headers, 5.3
+I  dev.hdr.lib          1021572036  Development Environment Headers
+I  dev.sw               1021572036  Development Software, 5.3
+I  dev.sw.lib           1021572036  Development Libraries
+I  dev.sw.make          1021572036  Parallel Make Utilities
+
+I  dmedia_eoe           1022162520  IRIS Digital Media Execution Environment,
+5.5
+I  dmedia_eoe.data      1022162520  IRIS Digital Media EOE Data Files
+I  dmedia_eoe.data.soundscheme  1022162520  SoundScheme Data Files
+I  dmedia_eoe.sw        1022162520  IRIS Digital Media Software
+I  dmedia_eoe.sw.common 1022162520  Common Execution Environment Components
+I  dmedia_eoe.sw.compression  1022162520  Compression Execution Environment
+I  dmedia_eoe.sw.midi   1022162520  MIDI Execution Environment
+
+I  eoe1                 1021572036  IRIX Execution Environment 1, 5.3
+I  eoe1.man             1021572036  IRIX Execution Environment Man Pages
+I  eoe1.man.relnotes    1021572036  IRIX Release Notes
+I  eoe1.man.unix        1021572036  Basic IRIX Man Pages
+I  eoe1.sw              1021572036  IRIX Execution Environment Software
+I  eoe1.sw.gfx_lib      1021572036  Graphics Execution Libraries
+I  eoe1.sw.irix_lib     1021572036  IRIX Execution Libraries
+I  eoe1.sw.unix         1021572036  IRIX Execution Environment
+
+I  eoe2                 1021572036  IRIX Execution Environment 2, 5.3
+I  eoe2.sw              1021572036  IRIX Execution Environment Software
+I  eoe2.sw.imagetools   1021572036  Graphics Library Image Tools
+
+I  gl_dev               1021572036  Graphics Library Development System, 5.3
+I  gl_dev.sw            1021572036  GL Software
+I  gl_dev.sw.gldev      1021572036  GL Development Environment
+
+I  patchSG0001118       1029999901  Patch SG0001118: workaround for R4300
+silicon users (nintendo developers)
+I  patchSG0001118.compiler_dev_sw  1029999901  Base Compiler Software
+I  patchSG0001118.compiler_dev_sw.base  1029999901  Base Compiler Components
+
+I  ultra                1022149600  Ultra 64 Development Environment, 2.0F
+I  ultra.dev            1022149600  Ultra 64 Development Environment Software
+I  ultra.dev.base       1022149600  Ultra 64 Base Development
+I  ultra.dev.demo       1022149600  Ultra 64 Demonstration Software
+I  ultra.man            1022149600  Ultra 64 Development Environment Man Pages
+I  ultra.man.base       1022149600  Ultra 64 Base Development Man Pages
+
+-----------------------------------------------------------------------------
